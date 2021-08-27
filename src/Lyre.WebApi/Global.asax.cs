@@ -17,9 +17,11 @@ namespace Lyre.WebApi
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<DatabaseHandler>().As<IDatabaseHandler>().SingleInstance();
-            //builder.RegisterModule();
+            
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterModule(new Service.DIModule());
+            builder.RegisterModule(new Repository.DIModule());
 
             return builder;
         }

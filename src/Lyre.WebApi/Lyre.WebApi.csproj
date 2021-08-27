@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -135,7 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +143,21 @@
       <Project>{d4454ca9-4db6-47f3-9d7d-6d420fda18f4}</Project>
       <Name>Lyre.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
+      <Project>{3BB966B5-4B47-4A55-8288-95B813AB6BDD}</Project>
+      <Name>Lyre.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lyre.Repository\Lyre.Repository.csproj">
       <Project>{f7db148f-8eaa-414f-b0f2-dbdc6f53b02e}</Project>
       <Name>Lyre.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lyre.Service.Common\Lyre.Service.Common.csproj">
+      <Project>{4c4aab7c-a0dc-4e1f-9e99-2cf55065dccd}</Project>
+      <Name>Lyre.Service.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lyre.Service\Lyre.Service.csproj">
+      <Project>{940a61a6-af6d-4880-95b2-b31adbe7bc8d}</Project>
+      <Name>Lyre.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
