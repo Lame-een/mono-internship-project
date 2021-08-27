@@ -75,11 +75,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAlbumRepository.cs" />
+    <Compile Include="ISongRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
+      <Project>{3BB966B5-4B47-4A55-8288-95B813AB6BDD}</Project>
+      <Name>Lyre.Model.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
