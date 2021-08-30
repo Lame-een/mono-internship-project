@@ -55,6 +55,8 @@ CREATE TABLE lyrics(
 	lyrics_id UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_pk PRIMARY KEY DEFAULT NEWID(),
 	text VARCHAR(MAX) NOT NULL,
+	verified CHAR(1) NOT NULL DEFAULT 'N'
+	CONSTRAINT verified_check CHECK (verified in ('Y', 'N')),
 	user_id UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_fk_user_id REFERENCES serveruser(user_id),
 	song_id UNIQUEIDENTIFIER NOT NULL
