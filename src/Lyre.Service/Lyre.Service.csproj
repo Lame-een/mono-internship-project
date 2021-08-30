@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=6.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.2.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=6.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.6.0.1\lib\net472\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -75,11 +81,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DIModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lyre.Common\Lyre.Common.csproj">
+      <Project>{d4454ca9-4db6-47f3-9d7d-6d420fda18f4}</Project>
+      <Name>Lyre.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
+      <Project>{3BB966B5-4B47-4A55-8288-95B813AB6BDD}</Project>
+      <Name>Lyre.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lyre.Repository.Common\Lyre.Repository.Common.csproj">
+      <Project>{199fc71a-465d-4433-9fc0-960bf3e6b65e}</Project>
+      <Name>Lyre.Repository.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lyre.Service.Common\Lyre.Service.Common.csproj">
+      <Project>{4c4aab7c-a0dc-4e1f-9e99-2cf55065dccd}</Project>
+      <Name>Lyre.Service.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
