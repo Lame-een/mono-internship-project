@@ -1,4 +1,5 @@
-﻿using Lyre.Model;
+﻿using Lyre.Common;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Repository.Common;
 using System;
@@ -13,44 +14,29 @@ namespace Lyre.Repository
 {
     public class ArtistRepository: IArtistRepository
     {
-        public ArtistRepository() { }
-
-        public string ConnectionString { get; set; }
+        public IDatabaseHandler DBHandler { get; set; }
+        public ArtistRepository(IDatabaseHandler dbHandler) 
+        {
+            DBHandler = dbHandler;
+        }
 
         public async Task<int> PostArtistAsync(IArtist newArtist) 
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
                     string queryString = "INSERT INTO artist VALUES (@artistId, @artistName, @artistCreationTime);";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.Add("@artistId", SqlDbType.Int).Value = newArtist.ID;
-                    command.Parameters.Add("@artistName", SqlDbType.VarChar, 50).Value = newArtist.Name;
-                    command.Parameters.Add("@artistId", SqlDbType.Timestamp).Value = newArtist.CreationTime;
+                    command.Parameters.AddWithValue("@artistID", newArtist.ID);
+                    command.Parameters.AddWithValue("@artistName", newArtist.Name);
+                    command.Parameters.AddWithValue("@artistCreationTime", newArtist.CreationTime);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.InsertCommand = command;
-                    await adapter.InsertCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    return await adapter.InsertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch
@@ -60,7 +46,7 @@ namespace Lyre.Repository
         }
         public async Task<List<IArtist>> GetAllArtistsAsync() 
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
                 string queryString = "SELECT * FROM artist;";
@@ -88,11 +74,12 @@ namespace Lyre.Repository
         }
         public async Task<IArtist> GetArtistByIDAsync(Guid id) 
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM artist WHERE artist_id = " + id.ToString() + ";";
+                string queryString = "SELECT * FROM artist WHERE artist_id = @artistID;";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@artistID", id);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -113,31 +100,18 @@ namespace Lyre.Repository
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE artist SET name = " + artist.Name + "WHERE genre_id = " + artist.ID + ";";
+                    string queryString = "UPDATE artist SET name = @artistName WHERE artist_id = @artistID;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@artistName", artist.Name);
+                    command.Parameters.AddWithValue("@artistID", artist.ID);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.UpdateCommand = new SqlCommand(queryString, connection);
-                    await adapter.UpdateCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    adapter.UpdateCommand = command;
+                    return await adapter.UpdateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch
@@ -149,32 +123,17 @@ namespace Lyre.Repository
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "DELETE FROM artist WHERE genre_id = " + id.ToString() + ";";
+                    string queryString = "DELETE FROM artist WHERE artist_id = @artistID;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@artistID", id);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.DeleteCommand = connection.CreateCommand();
-                    adapter.DeleteCommand.CommandText = queryString;
-                    await adapter.DeleteCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
                 }
             }
             catch

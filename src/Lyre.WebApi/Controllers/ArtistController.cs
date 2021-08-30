@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Service.Common;
 using System;
@@ -70,9 +71,37 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
 
+        [HttpPost]
+        [Route("api/Artist/list")]
+        public async Task<HttpResponseMessage> PostArtistsAsync([FromBody] List<string> newArtistNames)
+        {
+            if (newArtistNames.Count == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+            }
+
+            int status = 0;
+            foreach (string artistName in newArtistNames)
+            {
+                try
+                {
+                    status += await Service.PostArtistAsync(artistName);
+                }
+                catch
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                }
+            }
+            if (status < 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+            }
+            return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
+        }
+
         [HttpPut]
         [Route("api/Artist")]
-        public async Task<HttpResponseMessage> PutArtistAsync([FromBody] IArtist artist)
+        public async Task<HttpResponseMessage> PutArtistAsync([FromBody] Artist artist)
         {
             if(artist == null)
             {
@@ -103,20 +132,20 @@ namespace Lyre.WebApi.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
         }
-    }
 
-    public class ArtistREST
-    {
-        public Guid ID { get; set; }
-        public string Name { get; set; }
-        public DateTime CreationTime { get; set; }
-
-        public ArtistREST() { }
-        public ArtistREST(Guid id, string name, DateTime creationTime)
+        public class ArtistREST
         {
-            ID = id;
-            Name = name;
-            CreationTime = creationTime;
+            public Guid ID { get; set; }
+            public string Name { get; set; }
+            public DateTime CreationTime { get; set; }
+
+            public ArtistREST() { }
+            public ArtistREST(Guid id, string name, DateTime creationTime)
+            {
+                ID = id;
+                Name = name;
+                CreationTime = creationTime;
+            }
         }
     }
 }

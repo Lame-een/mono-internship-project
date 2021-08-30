@@ -1,3 +1,6 @@
+using Lyre.Model;
+using Lyre.Repository;
+using Lyre.WebApi.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +20,21 @@ namespace Lyre.WebApi
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<DatabaseHandler>().As<IDatabaseHandler>().SingleInstance();
-            //builder.RegisterModule();
+            
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterModule(new Service.DIModule());
+            builder.RegisterModule(new Repository.DIModule());
 
             return builder;
         }
-
         private static IMapper GenerateMapper()
         {
             var config = new MapperConfiguration(cfg =>
             {
                 //cfg.CreateMap<src, dest>();
+                cfg.CreateMap<Genre, GenreController.GenreREST>();
+                cfg.CreateMap<Artist, ArtistController.ArtistREST>();
             }
             );
 

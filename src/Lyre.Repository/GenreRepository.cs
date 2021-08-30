@@ -1,4 +1,5 @@
-﻿using Lyre.Model;
+﻿using Lyre.Common;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Repository.Common;
 using System;
@@ -13,43 +14,28 @@ namespace Lyre.Repository
 {
     public class GenreRepository: IGenreRepository
     {
-        public GenreRepository() { }
-
-        public string ConnectionString { get; set; }
+        public IDatabaseHandler DBHandler { get; set; }
+        public GenreRepository(IDatabaseHandler dbHandler)
+        {
+            DBHandler = dbHandler;
+        }
 
         public async Task<int> PostGenreAsync(IGenre newGenre) 
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
                     string queryString = "INSERT INTO genre VALUES (@genreId, @genreName);";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.Add("@genreId", SqlDbType.Int).Value = newGenre.ID;
-                    command.Parameters.Add("@genreName", SqlDbType.VarChar, 50).Value = newGenre.Name;
+                    command.Parameters.Add("@genreId", SqlDbType.UniqueIdentifier).Value = newGenre.ID;
+                    command.Parameters.Add("@genreName", SqlDbType.VarChar, 128).Value = newGenre.Name;
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.InsertCommand = command;
-                    await adapter.InsertCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    return await adapter.InsertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch
@@ -59,7 +45,7 @@ namespace Lyre.Repository
         }
         public async Task<List<IGenre>> GetAllGenresAsync() 
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
                 string queryString = "SELECT * FROM genre;";
@@ -87,11 +73,12 @@ namespace Lyre.Repository
         }
         public async Task<IGenre> GetGenreByIDAsync(Guid id) 
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM genre WHERE genre_id = " + id.ToString() + ";";
+                string queryString = "SELECT * FROM genre WHERE genre_id = @genreID;";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@genreID", id);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -112,31 +99,18 @@ namespace Lyre.Repository
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE genre SET name = " + genre.Name + " WHERE genre_id = " + genre.ID + ";";
+                    string queryString = "UPDATE genre SET name = @genreName WHERE genre_id = @genreID;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.Add("@genreID", SqlDbType.UniqueIdentifier).Value = genre.ID;
+                    command.Parameters.Add("@genreName", SqlDbType.VarChar, 128).Value = genre.Name;
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.UpdateCommand = new SqlCommand(queryString, connection);
-                    await adapter.UpdateCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    adapter.UpdateCommand = command;
+                    return await adapter.UpdateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch
@@ -148,32 +122,17 @@ namespace Lyre.Repository
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "DELETE FROM genre WHERE genre_id = " + id.ToString() + ";";
+                    string queryString = "DELETE FROM genre WHERE genre_id = @id;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@id", id);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.DeleteCommand = connection.CreateCommand();
-                    adapter.DeleteCommand.CommandText = queryString;
-                    await adapter.DeleteCommand.ExecuteNonQueryAsync();
-
-                    queryString = "SELECT @@ROWCOUNT;";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        int count = reader.GetInt32(0);
-                        reader.Close();
-                        return count;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
                 }
             }
             catch
