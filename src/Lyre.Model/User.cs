@@ -17,24 +17,31 @@ namespace Lyre.Model
         public UserRole Role { get; set; }
         public DateTime? CreationTime { get; set; }
 
-        public User()
+        public User(Guid id, string username)
         {
-            UserID = Guid.NewGuid();
+            UserID = id;
+            Username = username;
+            Role = UserRole.USER;
             CreationTime = DateTime.Now;
         }
-
         public User(string username)
         {
             UserID = Guid.NewGuid();
-            CreationTime = DateTime.Now;
             Username = username;
+            Role = UserRole.USER;
+            CreationTime = DateTime.Now;
         }
 
         public User(object[] obj)
         {
             if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
-            //UserID
-            
+
+            UserID = (Guid)obj[0];
+            Username = (string)obj[1];
+            Hash = (string)obj[2];
+            Salt = (string)obj[3];
+            Role = (UserRole)Enum.Parse(typeof(UserRole), (string)obj[4]);
+            CreationTime = (DateTime?)(obj[5] == DBNull.Value ? null : obj[5]);
         }
     }
 }
