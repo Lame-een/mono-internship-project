@@ -13,7 +13,7 @@ namespace Lyre.Repository.Common
         //Task<List<IUser>> SelectAsync(Pager pager, Sorter sorter, AlbumFilter filter);
 
         Task<int> InsertAsync(IUser value);
-        Task<int> UpdateAsync(Guid id, IUser value);
+        Task<int> UpdateAsync(IUser value);
         Task<int> DeleteAsync(Guid id);
     }
 }

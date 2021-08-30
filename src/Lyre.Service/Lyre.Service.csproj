@@ -98,6 +98,10 @@
       <Project>{3BB966B5-4B47-4A55-8288-95B813AB6BDD}</Project>
       <Name>Lyre.Model.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lyre.Model\Lyre.Model.csproj">
+      <Project>{fbbbf63f-6af6-4725-bfe8-dd38fb35e911}</Project>
+      <Name>Lyre.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lyre.Repository.Common\Lyre.Repository.Common.csproj">
       <Project>{199fc71a-465d-4433-9fc0-960bf3e6b65e}</Project>
       <Name>Lyre.Repository.Common</Name>
