@@ -9,14 +9,14 @@ namespace Lyre.Repository.Common
 {
     public interface ISongRepository
     {
-        Task<ISong> GetSong(int id);
+        Task<ISong> GetSong(Guid songGuid);
 
         Task<List<ISong>> GetAllSongs();
 
         Task<int> PostSong(ISong S);
 
-        Task<int> PutSong(int id, string name);
+        Task<int> PutSong(Guid songGuid, ISong value);
 
-        Task<int> DeleteSong(ISong S);
+        Task<int> DeleteSong(Guid songGuid);
     }
 }

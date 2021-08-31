@@ -8,7 +8,7 @@ namespace Lyre.Model.Common
 {
     public interface IAlbum
     {
-        int album_id { get; set; }
+        Guid album_id { get; set; }
 
         string name { get; set; }
 
@@ -18,7 +18,7 @@ namespace Lyre.Model.Common
 
         string cover { get; set; }
 
-        int artist_id { get; set; }
+        Guid? artist_id { get; set; }
 
         DateTime creation_time { get; set; }
     }

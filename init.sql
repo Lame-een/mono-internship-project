@@ -12,14 +12,14 @@ CREATE TABLE serveruser(
 	hash CHAR(256) NOT NULL,
 	salt CHAR(64) NOT NULL,
 	role CHAR(32) NOT NULL,
-	creation_time TIMESTAMP
+	creation_time DATETIME
 );
 
 CREATE TABLE artist(
 	artist_id UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT artist_pk PRIMARY KEY DEFAULT NEWID(),
 	name VARCHAR(128) NOT NULL,
-	creation_time TIMESTAMP
+	creation_time DATETIME
 );
 
 CREATE TABLE album(
@@ -31,7 +31,7 @@ CREATE TABLE album(
 	cover VARCHAR(512),
 	artist_id UNIQUEIDENTIFIER 
 	CONSTRAINT album_fk_artist_id REFERENCES artist(artist_id),
-	creation_time TIMESTAMP
+	creation_time DATETIME
 );
 
 CREATE TABLE genre(
@@ -48,7 +48,7 @@ CREATE TABLE song(
 	CONSTRAINT song_fk_album_id REFERENCES album(album_id),
 	genre_id UNIQUEIDENTIFIER 
 	CONSTRAINT song_fk_genre_id REFERENCES genre(genre_id),
-	creation_time TIMESTAMP
+	creation_time DATETIME
 );
 
 CREATE TABLE lyrics(
@@ -59,7 +59,7 @@ CREATE TABLE lyrics(
 	CONSTRAINT lyrics_fk_user_id REFERENCES serveruser(user_id),
 	song_id UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_fk_song_id REFERENCES song(song_id),
-	creation_time TIMESTAMP
+	creation_time DATETIME
 );
 
 INSERT INTO serveruser(user_id, username, hash, salt, role) VALUES

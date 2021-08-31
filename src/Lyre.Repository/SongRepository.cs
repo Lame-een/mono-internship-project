@@ -8,23 +8,30 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lyre.Common;
 
 namespace Lyre.Repository
 {
     public class SongRepository: ISongRepository
     {
 
-        SqlConnection connection = new SqlConnection("");
-        public async Task<ISong> GetSong(int id)
+        protected IDatabaseHandler DBHandler;
+
+        public SongRepository(IDatabaseHandler dbHandler)
         {
-            using(connection)
+            DBHandler = dbHandler;
+
+        }
+        public async Task<ISong> GetSong(Guid songGuid)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
-                await connection.OpenAsync();
+                connection.Open();
                 string queryString = "SELECT * FROM SONG WHERE SONG_ID = @SongID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
-                command.Parameters.AddWithValue("@SongID", id);
+                SqlUtilities.AddParameterWithNullableValue(command, "@SongID", songGuid);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -34,10 +41,10 @@ namespace Lyre.Repository
 
                     Song S = new Song
                     {
-                        song_id = Convert.ToInt32(reader.GetInt32(0)),
+                        song_id = reader.GetGuid(0),
                         name = Convert.ToString(reader.GetString(1)),
-                        album_id = Convert.ToInt32(reader.GetInt32(2)),
-                        genre_id = Convert.ToInt32(reader.GetInt32(3)),
+                        album_id = reader.GetGuid(2),
+                        genre_id = reader.GetGuid(3),
                         creation_time = Convert.ToDateTime(reader.GetDateTime(4))
                     };
 
@@ -54,9 +61,9 @@ namespace Lyre.Repository
 
         public async Task<List<ISong>> GetAllSongs()
         {
-            using (connection)
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
-                await connection.OpenAsync();
+                connection.Open();
                 string queryString = "SELECT * FROM SONG;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -72,10 +79,10 @@ namespace Lyre.Repository
 
                         Song S = new Song
                         {
-                            song_id = Convert.ToInt32(reader.GetInt32(0)),
+                            song_id = reader.GetGuid(0),
                             name = Convert.ToString(reader.GetString(1)),
-                            album_id = Convert.ToInt32(reader.GetInt32(2)),
-                            genre_id = Convert.ToInt32(reader.GetInt32(3)),
+                            album_id = reader.GetGuid(2),
+                            genre_id = reader.GetGuid(3),
                             creation_time = Convert.ToDateTime(reader.GetDateTime(4))
                         };
 
@@ -93,9 +100,9 @@ namespace Lyre.Repository
 
         public async Task<int> PostSong(ISong S)
         {
-            using (connection)
+            using(SqlConnection connection = DBHandler.NewConnection())
             {
-                await connection.OpenAsync();
+                connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
 
                 string queryString = 
@@ -105,17 +112,16 @@ namespace Lyre.Repository
 
                 adapter.InsertCommand = new SqlCommand(queryString, connection);
 
-                adapter.InsertCommand.Parameters.AddWithValue("@SongID", S.song_id);
-                adapter.InsertCommand.Parameters.AddWithValue("@SongName", S.name);
-                adapter.InsertCommand.Parameters.AddWithValue("@AlbumID", S.album_id);
-                adapter.InsertCommand.Parameters.AddWithValue("@GenreID", S.genre_id);
-                adapter.InsertCommand.Parameters.AddWithValue("@CreationTime", S.creation_time);
+
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@SongID", S.song_id);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@SongName", S.name);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@AlbumID", S.album_id);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@GenreID", S.genre_id);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@CreationTime", S.creation_time);
 
                 try
                 {
-                    int rowsAffected = await adapter.InsertCommand.ExecuteNonQueryAsync();
-                    connection.Close();
-                    return rowsAffected;
+                    return await adapter.InsertCommand.ExecuteNonQueryAsync();
                 }
                 catch
                 {
@@ -124,25 +130,22 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> PutSong(int id, string name)
+        public async Task<int> PutSong(Guid songGuid, ISong song)
         {
             string queryString = "UPDATE SONG SET name = @name "
             + "WHERE song_id = @ID;";
 
-            using (connection)
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@ID", SqlDbType.Int);
-                command.Parameters["@ID"].Value = id;
 
-
-                command.Parameters.AddWithValue("@name", name);
+                SqlUtilities.AddParameterWithNullableValue(command, "@name", song.name);
+                SqlUtilities.AddParameterWithNullableValue(command, "@ID", songGuid);
 
                 try
                 {
-                    await connection.OpenAsync();
-                    int rowsAffected = await command.ExecuteNonQueryAsync();
-                    return rowsAffected;
+                    connection.Open();
+                    return await command.ExecuteNonQueryAsync();
                 }
                 catch
                 {
@@ -151,9 +154,9 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> DeleteSong(ISong S)
+        public async Task<int> DeleteSong(Guid songGuid)
         {
-            using (connection)
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
@@ -162,13 +165,12 @@ namespace Lyre.Repository
 
                 adapter.DeleteCommand = connection.CreateCommand();
                 adapter.DeleteCommand.CommandText = queryString;
-                adapter.DeleteCommand.Parameters.AddWithValue("@SongID", S.song_id);
+
+                SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@SongID", songGuid);
+
                 try
                 {
-                    int affectedRows = await adapter.DeleteCommand.ExecuteNonQueryAsync();
-                    connection.Close();
-
-                    return affectedRows;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
                 }
                 catch
                 {

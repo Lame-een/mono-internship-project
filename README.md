@@ -1,5 +1,4 @@
-## Mono internship
-### Teamwork backend project
+# Praksa2021-g03-02
 
 ## Lyre - a site for song lyrics lookups
 
