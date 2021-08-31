@@ -13,8 +13,10 @@ namespace Lyre.Service.Common
         Task<IUser> SelectAsync(Guid guid);
 
         Task<int> InsertAsync(IUser value);
-        Task<int> UpdateAsync<T>(Guid id, IUser value);
+        Task<int> UpdateAsync(IUser value);
+        Task<int> DeleteAsync(Guid id);
 
-        IUser NewUser();
+        IUser NewUser(string name);
+        IUser NewUser(Guid id, string name);
     }
 }

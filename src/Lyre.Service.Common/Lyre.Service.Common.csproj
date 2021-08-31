@@ -93,6 +93,10 @@
       <Project>{3bb966b5-4b47-4a55-8288-95b813ab6bdd}</Project>
       <Name>Lyre.Model.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lyre.Model\Lyre.Model.csproj">
+      <Project>{fbbbf63f-6af6-4725-bfe8-dd38fb35e911}</Project>
+      <Name>Lyre.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

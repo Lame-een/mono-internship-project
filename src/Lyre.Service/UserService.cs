@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lyre.Common;
 using Lyre.Model.Common;
 using Lyre.Service.Common;
 using Lyre.Repository.Common;
+using Lyre.Model;
 
 namespace Lyre.Service
 {
@@ -23,17 +25,28 @@ namespace Lyre.Service
         }
         public async Task<int> InsertAsync(IUser value)
         {
-            throw new NotImplementedException();
+            return await Repository.InsertAsync(value);
         }
 
-        public async Task<int> UpdateAsync<T>(Guid id, IUser value)
+        public async Task<int> UpdateAsync(IUser value)
         {
-            throw new NotImplementedException();
+            return await Repository.UpdateAsync(value);
         }
 
-        public IUser NewUser()
+        public async Task<int> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await Repository.DeleteAsync(id);
+        }
+
+        //FIX salt shouldn't be generated for every user
+        public IUser NewUser(string name)
+        {
+            return new User(name);
+        }
+
+        public IUser NewUser(Guid id, string name)
+        {
+            return new User(id, name);
         }
     }
 }

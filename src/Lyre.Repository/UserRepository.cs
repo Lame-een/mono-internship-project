@@ -22,13 +22,13 @@ namespace Lyre.Repository
 
         public async Task<IUser> SelectAsync(Guid id)
         {
-            const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE User_ID = @userID";
+            const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE User_ID = @UserID";
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlSelect, connection);
-                command.Parameters.AddWithValue("@AlbumID", id);
+                command.Parameters.AddWithValue("@UserID", id);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -40,11 +40,11 @@ namespace Lyre.Repository
                 IUser ret = null;
 
                 object[] objectBuffer = new object[User.FieldNumber];
+
                 if (reader.Read())
                 {
                     reader.GetValues(objectBuffer);
-                    //ret = new User(objectBuffer);
-                    ret = objectBuffer.Cast<User>().First();
+                    ret = new User(objectBuffer);
                 }
                 return ret;
             }
@@ -55,19 +55,89 @@ namespace Lyre.Repository
         //    throw new NotImplementedException();
         //}
 
-        public async Task<int> UpdateAsync(Guid id, IUser value)
+        public async Task<int> UpdateAsync(IUser value)
         {
-            throw new NotImplementedException();
+            const string sqlUpdate = "UPDATE serveruser SET " +
+                "user_id = @UserID, username = @Username, hash = @Hash, salt = @Salt, role = @Role, creation_time = @CreationTime " +
+                "WHERE user_id = @UserID";
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlUpdate, connection);
+                    command.Parameters.AddWithValue("@UserID", value.UserID);
+                    command.Parameters.AddWithValue("@Username", value.Username);
+                    command.Parameters.AddWithValue("@Hash", value.Hash);
+                    command.Parameters.AddWithValue("@Salt", value.Salt);
+                    command.Parameters.AddWithValue("@Role", value.Role.ToString());
+                    SqlUtilities.AddParameterWithNullableValue(command, "@CreationTime", value.CreationTime);
+                    
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.UpdateCommand = command;
+                    return await adapter.UpdateCommand.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    return -1;
+                }
+
+            }
         }
 
         public async Task<int> InsertAsync(IUser value)
         {
-            throw new NotImplementedException();
+
+            const string sqlInsert = "INSERT INTO serveruser(user_id, username, hash, salt, role, creation_time) VALUES (@UserID, @Username, @Hash, @Salt, @Role, @CreationTime)";
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(sqlInsert, connection);
+                    command.Parameters.AddWithValue("@UserID", value.UserID);
+                    command.Parameters.AddWithValue("@Username", value.Username);
+                    command.Parameters.AddWithValue("@Hash", value.Hash);
+                    command.Parameters.AddWithValue("@Salt", value.Salt);
+                    command.Parameters.AddWithValue("@Role", value.Role.ToString());
+                    SqlUtilities.AddParameterWithNullableValue(command, "@CreationTime", value.CreationTime);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.InsertCommand = command;
+                    return await adapter.InsertCommand.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    return -1;
+                }
+            }
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            const string sqlDelete = "DELETE FROM serveruser WHERE user_id = @UserID";
+
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(sqlDelete, connection);
+                    command.Parameters.AddWithValue("@UserID", id);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    return -1;
+                }
+            }
         }
     }
 }
