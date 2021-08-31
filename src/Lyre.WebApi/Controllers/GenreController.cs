@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Service;
 using Lyre.Service.Common;
@@ -96,7 +97,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPut]
         [Route("api/Genre")]
-        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] IGenre genre)
+        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] Genre genre)
         {
             if (genre == null || genre.ID == Guid.Empty || genre.Name.Length == 0)
             {

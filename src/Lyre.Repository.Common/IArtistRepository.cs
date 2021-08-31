@@ -15,5 +15,6 @@ namespace Lyre.Repository.Common
         Task<IArtist> GetArtistByIDAsync(Guid id);
         Task<int> PutArtistAsync(IArtist artist);
         Task<int> DeleteArtistByIDAsync(Guid id);
+        Task<int> DeleteArtistByNameAsync(string artistName);
     }
 }

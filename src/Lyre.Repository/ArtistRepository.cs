@@ -141,5 +141,27 @@ namespace Lyre.Repository
                 return -1;
             }
         }
+        public async Task<int> DeleteArtistByNameAsync(string artistName)
+        {
+            try
+            {
+                using (SqlConnection connection = DBHandler.NewConnection())
+                {
+                    connection.Open();
+                    string queryString = "DELETE FROM artist WHERE name = @artistName;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@artistName", artistName);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch
+            {
+                return -1;
+            }
+        }
     }
 }
