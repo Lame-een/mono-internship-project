@@ -13,6 +13,21 @@ namespace Lyre.Common
         public OrderType Order { get; set; }
         public string SortBy { get; set; }
 
+        ///<summary>
+        ///Checks if the <strong>SortBy</strong> property is contained in a column of 
+        ///the <strong>type</strong> model class.
+        ///</summary>
+        ///<example>Example usage:
+        ///<code>
+        /// Sorter sorter = new Sorter("name");
+        /// 
+        /// ...
+        /// 
+        /// string sqlSelect = "SELECT * FROM song" + filter.GetSql() + sorter.GetSql(typeof(ISong)) + pager.GetSql() + ';';
+        /// </code>
+        ///</example>
+        ///<param name="type">Type of the Model object which is being sorted</param>
+        ///<returns><strong>string</strong> SQL command snippet</returns>
         public string GetSql(Type type)
         {
             if (SortBy == null)
@@ -36,10 +51,10 @@ namespace Lyre.Common
             Order = order;
         }
 
-        public Sorter(OrderType order = OrderType.ASC)
+        public Sorter()
         {
             SortBy = null;
-            Order = order;
+            Order = OrderType.ASC;
         }
     }
 }
