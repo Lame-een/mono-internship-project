@@ -11,8 +11,6 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using Lyre.Common;
-using Lyre.Model;
-using Lyre.WebApi.Controllers;
 
 namespace Lyre.WebApi
 {

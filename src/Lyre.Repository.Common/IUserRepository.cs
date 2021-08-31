@@ -9,9 +9,9 @@ namespace Lyre.Repository.Common
 {
     public interface IUserRepository
     {
-        Task<IUser> SelectAsync(Guid id);
+        Task<IUser> SelectUserAsync(Guid id);
+        Task<IUser> SelectUserAsync(string name);
         //Task<List<IUser>> SelectAsync(Pager pager, Sorter sorter, AlbumFilter filter);
-
         Task<int> InsertAsync(IUser value);
         Task<int> UpdateAsync(IUser value);
         Task<int> DeleteAsync(Guid id);

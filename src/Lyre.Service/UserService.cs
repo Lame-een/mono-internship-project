@@ -19,10 +19,15 @@ namespace Lyre.Service
             Repository = repository;
         }
 
-        public async Task<IUser> SelectAsync(Guid guid)
+        public async Task<IUser> SelectUserAsync(Guid guid)
         {
-            return await Repository.SelectAsync(guid);
+            return await Repository.SelectUserAsync(guid);
         }
+        public async Task<IUser> SelectUserAsync(string name)
+        {
+            return await Repository.SelectUserAsync(name);
+        }
+
         public async Task<int> InsertAsync(IUser value)
         {
             return await Repository.InsertAsync(value);
@@ -38,15 +43,39 @@ namespace Lyre.Service
             return await Repository.DeleteAsync(id);
         }
 
-        //FIX salt shouldn't be generated for every user
-        public IUser NewUser(string name)
+        public async Task<int> RegisterUserAsync(string name, string password, UserRole role = UserRole.USER)
         {
-            return new User(name);
+            if((await SelectUserAsync(name)) != null)
+            {
+                return -2;
+            }
+
+            byte[] saltBytes = null;
+            string salt = CryptoProvider.GenerateSalt(ref saltBytes);
+
+            string hash = CryptoProvider.Hash(password, saltBytes);
+
+            IUser user = new User(name, hash, salt, role);
+
+            return await InsertAsync(user);
         }
 
-        public IUser NewUser(Guid id, string name)
+        public async Task<int> LoginUserAsync(string name, string password)
         {
-            return new User(id, name);
+            IUser user = await SelectUserAsync(name);
+
+            if(user == null)
+            {
+                return -1;
+            }
+
+            if(CryptoProvider.Verify(password, user.Salt, user.Hash)){
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

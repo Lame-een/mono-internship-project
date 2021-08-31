@@ -10,13 +10,14 @@ namespace Lyre.Service.Common
     public interface IUserService
     {
         //Task<List<IUser>> SelectAsync(Pager pager, Sorter sorter, SongFilter filter);
-        Task<IUser> SelectAsync(Guid guid);
+        Task<IUser> SelectUserAsync(Guid guid);
+        Task<IUser> SelectUserAsync(string name);
 
         Task<int> InsertAsync(IUser value);
         Task<int> UpdateAsync(IUser value);
         Task<int> DeleteAsync(Guid id);
 
-        IUser NewUser(string name);
-        IUser NewUser(Guid id, string name);
+        Task<int> RegisterUserAsync(string name, string password, UserRole role = UserRole.USER);
+        Task<int> LoginUserAsync(string name, string password);
     }
 }

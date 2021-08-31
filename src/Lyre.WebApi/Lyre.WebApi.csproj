@@ -119,15 +119,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Controllers\UserController.cs.orig" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -138,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lyre.Common\Lyre.Common.csproj">
@@ -146,7 +146,7 @@
       <Name>Lyre.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
-      <Project>{3bb966b5-4b47-4a55-8288-95b813ab6bdd}</Project>
+      <Project>{3BB966B5-4B47-4A55-8288-95B813AB6BDD}</Project>
       <Name>Lyre.Model.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lyre.Model\Lyre.Model.csproj">

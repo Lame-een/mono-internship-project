@@ -31,7 +31,7 @@ namespace Lyre.WebApi.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetUserAsync(Guid id)
         {
-            UserREST user = Mapper.Map<UserREST>(await Service.SelectAsync(id));
+            UserREST user = Mapper.Map<UserREST>(await Service.SelectUserAsync(id));
 
             if (user == null)
             {
@@ -42,24 +42,54 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> RegisterUserAsync([FromBody] UserREST value)
+        [Route("api/User/register/")]
+        public async Task<HttpResponseMessage> RegisterUserAsync([FromBody] UserLoginREST value)
         {
             if (value.Username.Length == 0)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username value.");
             }
-            //TEMPORARY TO FIX - HERE FIX
-            //nothing to implement passwords as of yet
-            IUser user = Service.NewUser(value.Username);
-            user.Role = value.Role;
+            else if (value.Password.Length == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password value.");
+            }
 
-            int changeCount = await Service.InsertAsync(user);
+            int changeCount = await Service.RegisterUserAsync(value.Username, value.Password);
+
 
             if (changeCount == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
             }
-            return Request.CreateResponse(HttpStatusCode.Created, $"Inserted {changeCount} row(s).");
+            else if (changeCount == -2)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists.");
+            }
+            return Request.CreateResponse(HttpStatusCode.Created, $"Registered user: {value.Username}");
+        }
+
+        [HttpPost]
+        [Route("api/User/login/")]
+        public async Task<HttpResponseMessage> UserLoginAsync([FromBody] UserLoginREST value)
+        {
+            if (value.Username.Length == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username value.");
+            }
+            else if (value.Password.Length == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password value.");
+            }
+
+            int changeCount = await Service.LoginUserAsync(value.Username, value.Password);
+
+
+            if (changeCount == -1)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username or password.");
+            }
+            //auth token should be returned on successful login
+            return Request.CreateResponse(HttpStatusCode.OK, $"User logged in.");
         }
 
         [HttpPut]
@@ -74,16 +104,17 @@ namespace Lyre.WebApi.Controllers
             //updating probably shouldn't change passwords/hashes/salts
             //seperate put request for passwords???
 
-            IUser user = Service.NewUser(value.UserID, value.Username);
-            user.Role = value.Role;
-
-            int changeCount = await Service.UpdateAsync(user);
-
-            if (changeCount == -1)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
-            }
-            return Request.CreateResponse(HttpStatusCode.Created, $"Updated {changeCount} row(s).");
+            //IUser user = Service.FetchUser(value.Username);
+            //user.Role = value.Role;
+            //
+            //int changeCount = await Service.UpdateAsync(user);
+            //
+            //if (changeCount == -1)
+            //{
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+            //}
+            //return Request.CreateResponse(HttpStatusCode.Created, $"Updated {changeCount} row(s).");
+            return Request.CreateResponse(HttpStatusCode.BadRequest, $"Update temporarily disabled.");
         }
 
         [HttpDelete]
@@ -100,6 +131,14 @@ namespace Lyre.WebApi.Controllers
             public Guid UserID { get; set; }
             public string Username { get; set; }
             public UserRole Role { get; set; }
+        }
+
+        public class UserLoginREST
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+
+            //email could be added
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Lyre.Repository
 
         }
 
-        public async Task<IUser> SelectAsync(Guid id)
+        public async Task<IUser> SelectUserAsync(Guid id)
         {
             const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE User_ID = @UserID";
 
@@ -50,7 +50,45 @@ namespace Lyre.Repository
             }
         }
 
-        //public Task<List<IUser>> SelectAsync(Pager pager, Sorter sorter, AlbumFilter filter)
+        public async Task<IUser> SelectUserAsync(string name)
+        {
+            const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE lower(Username) = lower(@Username)";
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlSelect, connection);
+                command.Parameters.AddWithValue("@Username", name);
+
+                try
+                {
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (!reader.HasRows)
+                    {
+                        return null;
+                    }
+
+                    IUser ret = null;
+
+                    object[] objectBuffer = new object[User.FieldNumber];
+
+                    if (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        ret = new User(objectBuffer);
+                    }
+                    return ret;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        //public Task<List<IUser>> SelectUserAsync(Pager pager, Sorter sorter, AlbumFilter filter)
         //{
         //    throw new NotImplementedException();
         //}
@@ -73,7 +111,7 @@ namespace Lyre.Repository
                     command.Parameters.AddWithValue("@Salt", value.Salt);
                     command.Parameters.AddWithValue("@Role", value.Role.ToString());
                     SqlUtilities.AddParameterWithNullableValue(command, "@CreationTime", value.CreationTime);
-                    
+
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.UpdateCommand = command;
                     return await adapter.UpdateCommand.ExecuteNonQueryAsync();
