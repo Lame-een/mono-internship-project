@@ -13,17 +13,17 @@ namespace Lyre.Model
 
         public string name { get; set; }
 
-        public int number_of_tracks { get; set; }
+        public int? number_of_tracks { get; set; }
 
-        public int year { get; set; }
+        public int? year { get; set; }
 
         public string cover { get; set; }
 
-        public Guid? artist_id { get; set; }
+        public Guid artist_id { get; set; }
 
-        public DateTime creation_time { get; set; }
+        public DateTime? creation_time { get; set; }
 
-        public Album(Guid Album_id, string Name, int Number_of_tracks, int Year, string Cover, Guid? Artist_id = null)
+        public Album(Guid Album_id, string Name, string Cover, Guid Artist_id, int? Number_of_tracks = null, int? Year = null)
         {
             album_id = Album_id;
             name = Name;

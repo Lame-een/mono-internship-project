@@ -1,4 +1,5 @@
-﻿using Lyre.Model.Common;
+﻿using Lyre.Common;
+using Lyre.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,14 @@ namespace Lyre.Repository.Common
     {
         Task<ISong> GetSong(Guid songGuid);
 
-        Task<List<ISong>> GetAllSongs();
+        Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter);
 
         Task<int> PostSong(ISong S);
 
         Task<int> PutSong(Guid songGuid, ISong value);
 
-        Task<int> DeleteSong(Guid songGuid);
+        Task<int> DeleteSongByID(Guid songGuid);
+
+        Task<int> DeleteSongByName(string name);
     }
 }

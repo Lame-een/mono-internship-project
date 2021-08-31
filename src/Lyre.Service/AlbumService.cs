@@ -1,4 +1,5 @@
-﻿using Lyre.Model;
+﻿using Lyre.Common;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Repository.Common;
 using Lyre.Service.Common;
@@ -23,9 +24,9 @@ namespace Lyre.Service
             return await Repository.GetAlbum(albumGuid);
         }
 
-        public async Task<List<IAlbum>> GetAllAlbums()
+        public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
         {
-            return await Repository.GetAllAlbums();
+            return await Repository.GetAllAlbums(pager, sorter, filter);
         }
 
         public async Task<int> PostAlbum(IAlbum album)
@@ -36,9 +37,14 @@ namespace Lyre.Service
         {
             return await Repository.PutAlbum(albumGuid, value);
         }
-        public async Task<int> DeleteAlbum(Guid albumGuid)
+        public async Task<int> DeleteAlbumByID(Guid albumGuid)
         {
-            return await Repository.DeleteAlbum(albumGuid);
+            return await Repository.DeleteAlbumByID(albumGuid);
+        }
+
+        public async Task<int> DeleteAlbumByName(string name)
+        {
+            return await Repository.DeleteAlbumByName(name);
         }
 
 
@@ -48,7 +54,7 @@ namespace Lyre.Service
             return new Album();
         }
 
-        public IAlbum NewAlbum(Guid album_id, string name, int number_of_tracks, int year, string cover, Guid? artist_id = null)
+        public IAlbum NewAlbum(Guid album_id, string name, int? number_of_tracks, int? year, string cover, Guid artist_id)
         {
             return new Album(album_id, name, number_of_tracks, year, cover, artist_id);
         }

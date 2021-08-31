@@ -12,14 +12,14 @@ namespace Lyre.Model.Common
 
         string name { get; set; }
 
-        int number_of_tracks { get; set; }
+        int? number_of_tracks { get; set; }
 
-        int year { get; set; }
+        int? year { get; set; }
 
         string cover { get; set; }
 
-        Guid? artist_id { get; set; }
+        Guid artist_id { get; set; }
 
-        DateTime creation_time { get; set; }
+        DateTime? creation_time { get; set; }
     }
 }

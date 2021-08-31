@@ -12,10 +12,10 @@ namespace Lyre.Model.Common
 
         string name { get; set; }
 
-        Guid? album_id { get; set; }
+        Guid album_id { get; set; }
 
         Guid? genre_id { get; set; }
 
-        DateTime creation_time { get; set; }
+        DateTime? creation_time { get; set; }
     }
 }

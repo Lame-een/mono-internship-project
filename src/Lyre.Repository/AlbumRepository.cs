@@ -60,12 +60,12 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<List<IAlbum>> GetAllAlbums()
+        public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM ALBUM;";
+                string queryString = "SELECT * FROM ALBUM" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
@@ -159,7 +159,7 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> DeleteAlbum(Guid albumGuid)
+        public async Task<int> DeleteAlbumByID(Guid albumGuid)
         {
             using(SqlConnection connection = DBHandler.NewConnection())
             {
@@ -171,6 +171,29 @@ namespace Lyre.Repository
                 adapter.DeleteCommand = connection.CreateCommand();
                 adapter.DeleteCommand.CommandText = queryString;
                 SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@AlbumID", albumGuid);
+                try
+                {
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+                catch
+                {
+                    return -1;
+                }
+            }
+        }
+
+        public async Task<int> DeleteAlbumByName(string name)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+
+                string queryString = "DELETE ALBUM WHERE name = @ALbumName";
+
+                adapter.DeleteCommand = connection.CreateCommand();
+                adapter.DeleteCommand.CommandText = queryString;
+                SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@AlbumName", name);
                 try
                 {
                     return await adapter.DeleteCommand.ExecuteNonQueryAsync();

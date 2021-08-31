@@ -1,4 +1,5 @@
-﻿using Lyre.Model;
+﻿using Lyre.Common;
+using Lyre.Model;
 using Lyre.Model.Common;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,18 @@ namespace Lyre.Service.Common
     {
         Task<ISong> GetSong(Guid songGuid);
 
-        Task<List<ISong>> GetAllSongs();
+        Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter);
 
         Task<int> PostSong(ISong song);
 
         Task<int> PutSong(Guid songGuid, ISong value);
 
-        Task<int> DeleteSong(Guid songGuid);
+        Task<int> DeleteSongByID(Guid songGuid);
+
+        Task<int> DeleteSongByName(string name);
+
+        ISong NewSong();
+
+        ISong NewSong(Guid Song_id, string Name, Guid Album_id, Guid? Genre_id = null);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Lyre.Model;
+﻿using Lyre.Common;
+using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Repository.Common;
 using Lyre.Service.Common;
@@ -22,9 +23,9 @@ namespace Lyre.Service
             return await Repository.GetSong(songGuid);
         }
 
-        public async Task<List<ISong>> GetAllSongs()
+        public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
         {
-            return await Repository.GetAllSongs();
+            return await Repository.GetAllSongs(pager, sorter, filter);
         }
 
         public async Task<int> PostSong(ISong song)
@@ -35,9 +36,14 @@ namespace Lyre.Service
         {
             return await Repository.PutSong(songGuid, value);
         }
-        public async Task<int> DeleteSong(Guid songGuid)
+        public async Task<int> DeleteSongByID(Guid songGuid)
         {
-            return await Repository.DeleteSong(songGuid);
+            return await Repository.DeleteSongByID(songGuid);
+        }
+
+        public async Task<int> DeleteSongByName(string name)
+        {
+            return await Repository.DeleteSongByName(name);
         }
 
 
@@ -46,7 +52,7 @@ namespace Lyre.Service
             return new Song();
         }
 
-        public ISong NewSong(Guid song_id, string name, Guid? album_id = null, Guid? genre_id = null)
+        public ISong NewSong(Guid song_id, string name, Guid album_id, Guid? genre_id = null)
         {
             return new Song(song_id, name, album_id, genre_id);
         }

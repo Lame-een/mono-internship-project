@@ -81,10 +81,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlbumFilter.cs" />
+    <Compile Include="SongFilter.cs" />
     <Compile Include="DatabaseHandler.cs" />
     <Compile Include="IDatabaseHandler.cs" />
+    <Compile Include="IFilter.cs" />
+    <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RNGProvider.cs" />
+    <Compile Include="Sorter.cs" />
+    <Compile Include="SqlUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

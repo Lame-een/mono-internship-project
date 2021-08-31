@@ -81,7 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUserService.cs" />
+    <Compile Include="IAlbumService.cs" />
+    <Compile Include="ISongService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lyre.Common\Lyre.Common.csproj">
+      <Project>{D4454CA9-4DB6-47F3-9D7D-6D420FDA18F4}</Project>
+      <Name>Lyre.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
       <Project>{3bb966b5-4b47-4a55-8288-95b813ab6bdd}</Project>
       <Name>Lyre.Model.Common</Name>

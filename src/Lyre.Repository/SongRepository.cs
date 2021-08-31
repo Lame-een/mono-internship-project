@@ -59,12 +59,12 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<List<ISong>> GetAllSongs()
+        public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM SONG;";
+                string queryString = "SELECT * FROM SONG" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
@@ -154,7 +154,7 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> DeleteSong(Guid songGuid)
+        public async Task<int> DeleteSongByID(Guid songGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
             {
@@ -167,6 +167,31 @@ namespace Lyre.Repository
                 adapter.DeleteCommand.CommandText = queryString;
 
                 SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@SongID", songGuid);
+
+                try
+                {
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+                catch
+                {
+                    return -1;
+                }
+            }
+        }
+
+        public async Task<int> DeleteSongByName(string name)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+
+                string queryString = "DELETE SONG WHERE name = @SongName";
+
+                adapter.DeleteCommand = connection.CreateCommand();
+                adapter.DeleteCommand.CommandText = queryString;
+
+                SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@SongName", name);
 
                 try
                 {
