@@ -8,11 +8,13 @@ namespace Lyre.Service
         protected override void Load(ContainerBuilder builder)
         {
 <<<<<<< HEAD
-            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<AlbumService>().As<IAlbumService>();
+            builder.RegisterType<SongService>().As<ISongService>();
 =======
+            builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<GenreService>().As<IGenreService>();
             builder.RegisterType<ArtistService>().As<IArtistService>();
->>>>>>> feature_genre_artist
+>>>>>>> develop
         }
     }
 }

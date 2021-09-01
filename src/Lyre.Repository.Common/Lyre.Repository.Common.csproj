@@ -81,6 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAlbumRepository.cs" />
+    <Compile Include="ISongRepository.cs" />
     <Compile Include="DatabaseHandler.cs" />
     <Compile Include="IArtistRepository.cs" />
     <Compile Include="IGenreRepository.cs" />
@@ -93,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lyre.Common\Lyre.Common.csproj">
-      <Project>{d4454ca9-4db6-47f3-9d7d-6d420fda18f4}</Project>
+      <Project>{D4454CA9-4DB6-47F3-9D7D-6D420FDA18F4}</Project>
       <Name>Lyre.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
