@@ -20,6 +20,41 @@ namespace Lyre.Repository
 
         }
 
+        public async Task<List<IUser>> SelectUsersAsync(QueryStringManager qsManager)
+        {
+            string sqlSelect = "SELECT * FROM serveruser " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql(typeof(IUser)) + qsManager.Pager.GetSql() + ';';
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlSelect, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<IUser> userList = new List<IUser>();
+
+                if (!reader.HasRows)
+                {
+                    return userList;
+                }
+
+                object[] objectBuffer = new object[User.FieldNumber];
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        userList.Add(new User(objectBuffer));
+                    }
+                    reader.NextResult();
+                }
+                return userList;
+            }
+        }
+
         public async Task<IUser> SelectUserAsync(Guid id)
         {
             const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE User_ID = @UserID";

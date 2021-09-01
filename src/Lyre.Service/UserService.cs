@@ -19,6 +19,11 @@ namespace Lyre.Service
             Repository = repository;
         }
 
+        public async Task<List<IUser>> SelectUsersAsync(QueryStringManager qsManager)
+        {
+            return await Repository.SelectUsersAsync(qsManager);
+        }
+
         public async Task<IUser> SelectUserAsync(Guid guid)
         {
             return await Repository.SelectUserAsync(guid);

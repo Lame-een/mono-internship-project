@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using Lyre.Service.Common;
 using Lyre.Model.Common;
+using Lyre.Common;
 using AutoMapper;
 
 namespace Lyre.WebApi.Controllers
@@ -21,17 +22,36 @@ namespace Lyre.WebApi.Controllers
             Mapper = mapper;
         }
 
+        //catch all get - used for filtering
         [HttpGet]
-        public Task<HttpResponseMessage> GetAllUsersAsync()
+        public async Task<HttpResponseMessage> QueryUsersAsync()
         {
-            return default;
-            //return new string[] { "value1", "value2" };
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
+
+            qsManager.Filter.InitializeSql(typeof(UserREST));
+            //qsManager.Sorter.InitializeSql(typeof(UserREST));
+
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.SelectUsersAsync(qsManager));
         }
 
         [HttpGet]
         public async Task<HttpResponseMessage> GetUserAsync(Guid id)
         {
             UserREST user = Mapper.Map<UserREST>(await Service.SelectUserAsync(id));
+
+            if (user == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, user);
+        }
+
+        [HttpGet]
+        [Route("api/User/{name}")]
+        public async Task<HttpResponseMessage> GetUserAsync(string name)
+        {
+            UserREST user = Mapper.Map<UserREST>(await Service.SelectUserAsync(name));
 
             if (user == null)
             {

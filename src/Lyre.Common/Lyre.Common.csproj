@@ -84,11 +84,12 @@
     <Compile Include="AlbumFilter.cs" />
     <Compile Include="SongFilter.cs" />
     <Compile Include="DatabaseHandler.cs" />
+    <Compile Include="Filter.cs" />
     <Compile Include="IDatabaseHandler.cs" />
-    <Compile Include="IFilter.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CryptoProvider.cs" />
+    <Compile Include="QueryManager.cs" />
     <Compile Include="Sorter.cs" />
     <Compile Include="SqlUtilities.cs" />
   </ItemGroup>
