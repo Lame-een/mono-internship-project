@@ -1,24 +1,15 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Lyre.Common
 {
     public class Pager
     {
         public int PageSize { get; set; }
-        public int PageNumber { get; set; }
+        public int Page { get; set; }
 
-        public Pager(int pageNumber = 1, int pageSize = 10)
-        {
-            if (pageSize < 5)
-            {
-                pageSize = 10;
-            }
-
-            PageSize = pageSize;
-            PageNumber = pageNumber;
-        }
-
-        public int Offset { get => (PageNumber - 1) * PageSize; }
+        public int Offset { get => (Page - 1) * PageSize; }
 
         public string GetSql()
         {
@@ -29,6 +20,31 @@ namespace Lyre.Common
         {
             command.Parameters.AddWithValue("@Offset", Offset);
             command.Parameters.AddWithValue("@PageSize", PageSize);
+        }
+
+        public Pager(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+
+            PageSize = pageSize;
+            Page = pageNumber;
+        }
+
+        public Pager(Dictionary<string, string> inDict) : this()
+        {
+            string value;
+            if (inDict.TryGetValue("page", out value))
+            {
+                Page = Convert.ToInt32(value);
+            }
+
+            if (inDict.TryGetValue("pagesize", out value))
+            {
+                PageSize = Convert.ToInt32(value);
+            }
         }
     }
 }

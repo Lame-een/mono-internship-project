@@ -91,6 +91,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lyre.Common\Lyre.Common.csproj">
+      <Project>{d4454ca9-4db6-47f3-9d7d-6d420fda18f4}</Project>
+      <Name>Lyre.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lyre.Model.Common\Lyre.Model.Common.csproj">
       <Project>{3bb966b5-4b47-4a55-8288-95b813ab6bdd}</Project>
       <Name>Lyre.Model.Common</Name>

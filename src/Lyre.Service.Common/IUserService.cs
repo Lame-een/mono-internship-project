@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lyre.Common;
 using Lyre.Model.Common;
 
 namespace Lyre.Service.Common
@@ -10,6 +11,7 @@ namespace Lyre.Service.Common
     public interface IUserService
     {
         //Task<List<IUser>> SelectAsync(Pager pager, Sorter sorter, SongFilter filter);
+        Task<List<IUser>> SelectUsersAsync(QueryStringManager qsManager);
         Task<IUser> SelectUserAsync(Guid guid);
         Task<IUser> SelectUserAsync(string name);
 
