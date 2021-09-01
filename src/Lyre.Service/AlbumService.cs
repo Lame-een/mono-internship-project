@@ -56,7 +56,7 @@ namespace Lyre.Service
 
         public IAlbum NewAlbum(Guid album_id, string name, int? number_of_tracks, int? year, string cover, Guid artist_id)
         {
-            return new Album(album_id, name, number_of_tracks, year, cover, artist_id);
+            return new Album(album_id, name, cover, artist_id, number_of_tracks, year);
         }
     }
 }

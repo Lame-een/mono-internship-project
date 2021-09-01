@@ -33,7 +33,8 @@ namespace Lyre.WebApi
             //this is temporary! - use profiles
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserController.UserREST>();
+                cfg.CreateMap<Song, SongController.SongREST>();
+                cfg.CreateMap<Album, AlbumController.AlbumREST>();
                 //cfg.CreateMap<src, dest>();
             }
             );

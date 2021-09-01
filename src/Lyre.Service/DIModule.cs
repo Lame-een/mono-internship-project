@@ -7,7 +7,8 @@ namespace Lyre.Service
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<AlbumService>().As<IAlbumService>();
+            builder.RegisterType<SongService>().As<ISongService>();
         }
     }
 }

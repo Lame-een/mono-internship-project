@@ -64,16 +64,12 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPost]
         [Route("api/Album")]
-        public async Task<HttpResponseMessage> PostAsync([FromUri] AlbumREST fromUri, [FromBody] AlbumREST fromBody)
+        public async Task<HttpResponseMessage> PostAsync([FromBody] AlbumREST fromBody)
         {
             AlbumREST album;
             if (fromBody != null)
             {
                 album = fromBody;
-            }
-            else if (fromUri.name != null)
-            {
-                album = fromUri;
             }
             else
             {

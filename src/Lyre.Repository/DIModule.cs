@@ -7,7 +7,8 @@ namespace Lyre.Repository
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<AlbumRepository>().As<IAlbumRepository>();
+            builder.RegisterType<SongRepository>().As<ISongRepository>();
         }
     }
 }
