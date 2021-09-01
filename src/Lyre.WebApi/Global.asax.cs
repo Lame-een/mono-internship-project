@@ -1,3 +1,6 @@
+using Lyre.Model;
+using Lyre.Repository;
+using Lyre.WebApi.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +11,6 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using Lyre.Common;
-using Lyre.Model;
-using Lyre.WebApi.Controllers;
 
 namespace Lyre.WebApi
 {
@@ -27,7 +28,6 @@ namespace Lyre.WebApi
 
             return builder;
         }
-
         private static IMapper GenerateMapper()
         {
             //this is temporary! - use profiles
@@ -36,6 +36,8 @@ namespace Lyre.WebApi
                 cfg.CreateMap<Song, SongController.SongREST>();
                 cfg.CreateMap<Album, AlbumController.AlbumREST>();
                 //cfg.CreateMap<src, dest>();
+                cfg.CreateMap<Genre, GenreController.GenreREST>();
+                cfg.CreateMap<Artist, ArtistController.ArtistREST>();
             }
             );
 

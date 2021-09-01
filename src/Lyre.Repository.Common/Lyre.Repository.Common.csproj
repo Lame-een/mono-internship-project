@@ -83,6 +83,10 @@
   <ItemGroup>
     <Compile Include="IAlbumRepository.cs" />
     <Compile Include="ISongRepository.cs" />
+    <Compile Include="DatabaseHandler.cs" />
+    <Compile Include="IArtistRepository.cs" />
+    <Compile Include="IGenreRepository.cs" />
+    <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

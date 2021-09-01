@@ -83,6 +83,9 @@
   <ItemGroup>
     <Compile Include="IAlbumService.cs" />
     <Compile Include="ISongService.cs" />
+    <Compile Include="IArtistService.cs" />
+    <Compile Include="IGenreService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
