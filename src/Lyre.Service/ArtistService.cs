@@ -39,9 +39,5 @@ namespace Lyre.Service
         {
             return await ArtistRepo.DeleteArtistByIDAsync(id);
         }
-        public async Task<int> DeleteArtistByNameAsync(string artistName)
-        {
-            return await ArtistRepo.DeleteArtistByNameAsync(artistName);
-        }
     }
 }

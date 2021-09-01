@@ -12,7 +12,9 @@ namespace Lyre.Repository.Common
         Task<int> PostGenreAsync(IGenre newGenre);
         Task<List<IGenre>> GetAllGenresAsync();
         Task<IGenre> GetGenreByIDAsync(Guid id);
+        Task<IGenre> GetGenreByNameAsync(string genreName);
         Task<int> PutGenreAsync(IGenre genre);
         Task<int> DeleteGenreByIDAsync(Guid id);
+        Task<int> DeleteGenreByNameAsync(string genreName);
     }
 }

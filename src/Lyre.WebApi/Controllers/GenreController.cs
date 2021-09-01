@@ -39,10 +39,22 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Genre/{id}")]
+        [Route("api/Genre")]
         public async Task<HttpResponseMessage> GetGenreByIDAsync(Guid id)
         {
             GenreREST genre = Mapper.Map<GenreREST>(await Service.GetGenreByIDAsync(id));
+            if (genre == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No rows found.");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, genre);
+        }
+
+        [HttpGet]
+        [Route("api/Genre/{id}")]
+        public async Task<HttpResponseMessage> GetGenreByNameAsync([FromBody] string genreName)
+        {
+            GenreREST genre = Mapper.Map<GenreREST>(await Service.GetGenreByNameAsync(genreName));
             if (genre == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No rows found.");
@@ -122,6 +134,23 @@ namespace Lyre.WebApi.Controllers
             }
 
             int status = await Service.DeleteGenreByIDAsync(id);
+            if (status == -1)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
+        }
+
+        [HttpDelete]
+        [Route("api/Genre")]
+        public async Task<HttpResponseMessage> DeleteGenreByNameAsync([FromBody] string genreName)
+        {
+            if (genreName.Length == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+            }
+
+            int status = await Service.DeleteGenreByNameAsync(genreName);
             if (status == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");

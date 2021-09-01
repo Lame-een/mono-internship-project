@@ -133,23 +133,6 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
         }
 
-        [HttpDelete]
-        [Route("api/Artist")]
-        public async Task<HttpResponseMessage> DeleteArtistByNameAsync([FromBody] string artistName)
-        {
-            if (artistName.Length == 0)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
-            }
-
-            int status = await Service.DeleteArtistByNameAsync(artistName);
-            if (status == -1)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "No entries found");
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
-        }
-
         public class ArtistREST
         {
             public Guid ID { get; set; }
