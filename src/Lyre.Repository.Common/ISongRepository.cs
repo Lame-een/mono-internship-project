@@ -12,7 +12,7 @@ namespace Lyre.Repository.Common
     {
         Task<ISong> GetSong(Guid songGuid);
 
-        Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter);
+        Task<List<ISong>> GetAllSongs(QueryStringManager qsManager);
 
         Task<int> PostSong(ISong S);
 

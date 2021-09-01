@@ -21,6 +21,41 @@ namespace Lyre.Repository
             DBHandler = dbHandler;
         }
 
+        public async Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager)
+        {
+            string sqlSelect = "SELECT * FROM album " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql(typeof(IAlbum)) + qsManager.Pager.GetSql() + ';';
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlSelect, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<IAlbum> albumList = new List<IAlbum>();
+
+                if (!reader.HasRows)
+                {
+                    return albumList;
+                }
+
+                object[] objectBuffer = new object[Album.FieldNumber];
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        albumList.Add(new Album(objectBuffer));
+                    }
+                    reader.NextResult();
+                }
+                return albumList;
+            }
+        }
+
         public async Task<IAlbum> GetAlbum(Guid albumGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
@@ -59,46 +94,46 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
-        {
-            using (SqlConnection connection = DBHandler.NewConnection())
-            {
-                connection.Open();
-                string queryString = "SELECT * FROM ALBUM" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
+        //public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
+        //{
+        //    using (SqlConnection connection = DBHandler.NewConnection())
+        //    {
+        //        connection.Open();
+        //        string queryString = "SELECT * FROM ALBUM" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
 
-                SqlCommand command = new SqlCommand(queryString, connection);
+        //        SqlCommand command = new SqlCommand(queryString, connection);
 
-                SqlDataReader reader = await command.ExecuteReaderAsync();
-                if (reader.HasRows)
-                {
-                    List<IAlbum> albumList = new List<IAlbum>();
+        //        SqlDataReader reader = await command.ExecuteReaderAsync();
+        //        if (reader.HasRows)
+        //        {
+        //            List<IAlbum> albumList = new List<IAlbum>();
 
-                    while (reader.HasRows)
-                    {
-                        reader.Read();
+        //            while (reader.HasRows)
+        //            {
+        //                reader.Read();
 
-                        Album A = new Album
-                        {
-                            album_id = reader.GetGuid(0),
-                            name = Convert.ToString(reader.GetString(1)),
-                            number_of_tracks = Convert.ToInt32(reader.GetInt32(2)),
-                            year = Convert.ToInt32(reader.GetInt32(3)),
-                            cover = Convert.ToString(reader.GetString(4)),
-                            artist_id = reader.GetGuid(5),
-                            creation_time = Convert.ToDateTime(reader.GetDateTime(6))
-                        };
+        //                Album A = new Album
+        //                {
+        //                    album_id = reader.GetGuid(0),
+        //                    name = Convert.ToString(reader.GetString(1)),
+        //                    number_of_tracks = Convert.ToInt32(reader.GetInt32(2)),
+        //                    year = Convert.ToInt32(reader.GetInt32(3)),
+        //                    cover = Convert.ToString(reader.GetString(4)),
+        //                    artist_id = reader.GetGuid(5),
+        //                    creation_time = Convert.ToDateTime(reader.GetDateTime(6))
+        //                };
 
-                        albumList.Add(A);
-                    }
+        //                albumList.Add(A);
+        //            }
 
-                    return albumList;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        //            return albumList;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
 
         public async Task<int> PostAlbum(IAlbum A)
         {

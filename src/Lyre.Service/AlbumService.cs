@@ -24,9 +24,9 @@ namespace Lyre.Service
             return await Repository.GetAlbum(albumGuid);
         }
 
-        public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
+        public async Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager)
         {
-            return await Repository.GetAllAlbums(pager, sorter, filter);
+            return await Repository.GetAllAlbums(qsManager);
         }
 
         public async Task<int> PostAlbum(IAlbum album)

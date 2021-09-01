@@ -23,9 +23,9 @@ namespace Lyre.Service
             return await Repository.GetSong(songGuid);
         }
 
-        public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
+        public async Task<List<ISong>> GetAllSongs(QueryStringManager qsManager)
         {
-            return await Repository.GetAllSongs(pager, sorter, filter);
+            return await Repository.GetAllSongs(qsManager);
         }
 
         public async Task<int> PostSong(ISong song)

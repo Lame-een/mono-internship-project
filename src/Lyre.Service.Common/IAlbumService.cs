@@ -12,7 +12,7 @@ namespace Lyre.Service.Common
     {
         Task<IAlbum> GetAlbum(Guid albumGuid);
 
-        Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter);
+        Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager);
 
         Task<int> PostAlbum(IAlbum song);
 

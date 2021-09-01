@@ -16,7 +16,7 @@ namespace Lyre.WebApi.Controllers
     {
         [HttpGet]
         [Route("api/song/id/{id}")]
-        public async Task<HttpResponseMessage> GetAsync(Guid id)
+        public async Task<HttpResponseMessage> GetSongAsync(Guid id)
         {
             SongREST Song = Mapper.Map<SongREST>(await Service.GetSong(id));
 
@@ -28,43 +28,54 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, Song);
         }
 
+        //[HttpGet]
+        //[Route("api/song/{pageNum?}")]
+        //public async Task<HttpResponseMessage> GetSongsAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
+        //{
+        //    Pager pager;
+        //    Sorter sorter;
+        //    SongFilter filter;
+
+        //    if (metaArg == null)
+        //    {
+        //        pager = new Pager(pageNum);
+        //        sorter = new Sorter();
+        //        filter = new SongFilter();
+        //    }
+        //    else
+        //    {
+        //        pager = metaArg.GetPager(pageNum);
+        //        sorter = metaArg.GetSorter();
+        //        filter = metaArg.GetFilter();
+        //    }
+
+
+
+        //    List<SongREST> SongList = Mapper.Map<List<SongREST>>(await Service.GetAllSongs(pager, sorter, filter));
+
+        //    if (SongList.Count == 0)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
+        //    }
+
+        //    return Request.CreateResponse(HttpStatusCode.OK, SongList);
+        //}
+
         [HttpGet]
-        [Route("api/song/{pageNum?}")]
-        public async Task<HttpResponseMessage> GetAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
+        [Route("api/song")]
+        public async Task<HttpResponseMessage> QuerySongsAsync()
         {
-            Pager pager;
-            Sorter sorter;
-            SongFilter filter;
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            if (metaArg == null)
-            {
-                pager = new Pager(pageNum);
-                sorter = new Sorter();
-                filter = new SongFilter();
-            }
-            else
-            {
-                pager = metaArg.GetPager(pageNum);
-                sorter = metaArg.GetSorter();
-                filter = metaArg.GetFilter();
-            }
+            qsManager.Filter.InitializeSql(typeof(SongREST));
 
-
-
-            List<SongREST> SongList = Mapper.Map<List<SongREST>>(await Service.GetAllSongs(pager, sorter, filter));
-
-            if (SongList.Count == 0)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, SongList);
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllSongs(qsManager));
         }
 
 
         [HttpPost]
         [Route("api/song")]
-        public async Task<HttpResponseMessage> PostAsync([FromBody] SongREST fromBody)
+        public async Task<HttpResponseMessage> PostSongAsync([FromBody] SongREST fromBody)
         {
             SongREST song;
 
@@ -98,7 +109,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPut]
         [Route("api/song")]
-        public async Task<HttpResponseMessage> PutAsync([FromBody] SongREST song)
+        public async Task<HttpResponseMessage> PutSongAsync([FromBody] SongREST song)
         {
             if (song.name == null)
             {
@@ -132,7 +143,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpDelete]
         [Route("api/song/id/{id}")]
-        public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] Guid id)
+        public async Task<HttpResponseMessage> DeleteSongAsync([FromUri] Guid id)
         {
             int changeCount = await Service.DeleteSongByID(id);
             if (changeCount == -1)
@@ -163,36 +174,6 @@ namespace Lyre.WebApi.Controllers
                 album_id = AlbumGUID;
                 genre_id = GenreGUID;
             }
-        }
-
-        public class FilterCompositeREST
-        {
-            public string Filter { get; set; }
-
-            public string Sort { get; set; }
-            public Sorter.OrderType Order { get; set; }
-
-            public int Page { get; set; }
-            public int PageSize { get; set; }
-
-            public Pager GetPager(int pageNum = 0)
-            {
-                if (Page != 0)
-                    return new Pager(Page, PageSize);
-                else
-                    return new Pager(pageNum, PageSize);
-            }
-
-            public Sorter GetSorter()
-            {
-                return new Sorter(Sort, Order);
-            }
-
-            public SongFilter GetFilter()
-            {
-                return new SongFilter(Filter);
-            }
-
         }
 
         public SongController(ISongService service, IMapper mapper)

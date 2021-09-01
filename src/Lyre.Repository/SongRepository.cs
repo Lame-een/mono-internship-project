@@ -22,6 +22,42 @@ namespace Lyre.Repository
             DBHandler = dbHandler;
 
         }
+
+        public async Task<List<ISong>> GetAllSongs(QueryStringManager qsManager)
+        {
+            string sqlSelect = "SELECT * FROM song " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql(typeof(ISong)) + qsManager.Pager.GetSql() + ';';
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlSelect, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<ISong> songList = new List<ISong>();
+
+                if (!reader.HasRows)
+                {
+                    return songList;
+                }
+
+                object[] objectBuffer = new object[Song.FieldNumber];
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        songList.Add(new Song(objectBuffer));
+                    }
+                    reader.NextResult();
+                }
+                return songList;
+            }
+        }
+
         public async Task<ISong> GetSong(Guid songGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
@@ -59,44 +95,44 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
-        {
-            using (SqlConnection connection = DBHandler.NewConnection())
-            {
-                connection.Open();
-                string queryString = "SELECT * FROM SONG" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
+        //public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
+        //{
+        //    using (SqlConnection connection = DBHandler.NewConnection())
+        //    {
+        //        connection.Open();
+        //        string queryString = "SELECT * FROM SONG" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
 
-                SqlCommand command = new SqlCommand(queryString, connection);
+        //        SqlCommand command = new SqlCommand(queryString, connection);
 
-                SqlDataReader reader = await command.ExecuteReaderAsync();
-                if (reader.HasRows)
-                {
-                    List<ISong> songList = new List<ISong>();
+        //        SqlDataReader reader = await command.ExecuteReaderAsync();
+        //        if (reader.HasRows)
+        //        {
+        //            List<ISong> songList = new List<ISong>();
 
-                    while (reader.HasRows)
-                    {
-                        reader.Read();
+        //            while (reader.HasRows)
+        //            {
+        //                reader.Read();
 
-                        Song S = new Song
-                        {
-                            song_id = reader.GetGuid(0),
-                            name = Convert.ToString(reader.GetString(1)),
-                            album_id = reader.GetGuid(2),
-                            genre_id = reader.GetGuid(3),
-                            creation_time = Convert.ToDateTime(reader.GetDateTime(4))
-                        };
+        //                Song S = new Song
+        //                {
+        //                    song_id = reader.GetGuid(0),
+        //                    name = Convert.ToString(reader.GetString(1)),
+        //                    album_id = reader.GetGuid(2),
+        //                    genre_id = reader.GetGuid(3),
+        //                    creation_time = Convert.ToDateTime(reader.GetDateTime(4))
+        //                };
 
-                        songList.Add(S);
-                    }
+        //                songList.Add(S);
+        //            }
 
-                    return songList;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        //            return songList;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
 
         public async Task<int> PostSong(ISong S)
         {

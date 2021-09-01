@@ -9,6 +9,7 @@ namespace Lyre.Model
 {
     public class Album: IAlbum
     {
+        public const int FieldNumber = 7;
         public Guid album_id { get; set; }
 
         public string name { get; set; }
@@ -38,6 +39,19 @@ namespace Lyre.Model
         {
             album_id = Guid.NewGuid();
             creation_time = DateTime.Now;
+        }
+
+        public Album(object[] obj)
+        {
+            if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
+
+            album_id = (Guid)obj[0];
+            name = (string)obj[1];
+            number_of_tracks = (int?)obj[2];
+            year = (int?)obj[3];
+            cover = (string)obj[4];
+            artist_id = (Guid)obj[5];
+            creation_time = (DateTime?)(obj[6] == DBNull.Value ? null : obj[6]);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Lyre.WebApi.Controllers
     {
         [HttpGet]
         [Route("api/album/id/{id}")]
-        public async Task<HttpResponseMessage> GetAsync(Guid id)
+        public async Task<HttpResponseMessage> GetAlbumAsync(Guid id)
         {
             AlbumREST album = Mapper.Map<AlbumREST>(await Service.GetAlbum(id));
 
@@ -28,43 +28,53 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, album);
         }
 
+        //[HttpGet]
+        //[Route("api/album/{pageNum?}")]
+        //public async Task<HttpResponseMessage> GetAlbumsAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
+        //{
+        //    Pager pager;
+        //    Sorter sorter;
+        //    AlbumFilter filter;
+
+        //    if (metaArg == null)
+        //    {
+        //        pager = new Pager(pageNum);
+        //        sorter = new Sorter();
+        //        filter = new AlbumFilter();
+        //    }
+        //    else
+        //    {
+        //        pager = metaArg.GetPager(pageNum);
+        //        sorter = metaArg.GetSorter();
+        //        filter = metaArg.GetFilter();
+        //    }
+
+
+
+        //    List<AlbumREST> albumList = Mapper.Map<List<AlbumREST>>(await Service.GetAllAlbums(pager, sorter, filter));
+
+        //    if (albumList.Count == 0)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
+        //    }
+
+        //    return Request.CreateResponse(HttpStatusCode.OK, albumList);
+        //}
         [HttpGet]
-        [Route("api/album/{pageNum?}")]
-        public async Task<HttpResponseMessage> GetAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
+        [Route("api/album")]
+        public async Task<HttpResponseMessage> QueryAlbumsAsync()
         {
-            Pager pager;
-            Sorter sorter;
-            AlbumFilter filter;
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            if (metaArg == null)
-            {
-                pager = new Pager(pageNum);
-                sorter = new Sorter();
-                filter = new AlbumFilter();
-            }
-            else
-            {
-                pager = metaArg.GetPager(pageNum);
-                sorter = metaArg.GetSorter();
-                filter = metaArg.GetFilter();
-            }
+            qsManager.Filter.InitializeSql(typeof(AlbumREST));
 
-
-
-            List<AlbumREST> albumList = Mapper.Map<List<AlbumREST>>(await Service.GetAllAlbums(pager, sorter, filter));
-
-            if (albumList.Count == 0)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, albumList);
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllAlbums(qsManager));
         }
 
 
         [HttpPost]
         [Route("api/album")]
-        public async Task<HttpResponseMessage> PostAsync([FromBody] AlbumREST fromBody)
+        public async Task<HttpResponseMessage> PostAlbumsAsync([FromBody] AlbumREST fromBody)
         {
             AlbumREST album;
 
@@ -98,7 +108,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPut]
         [Route("api/album")]
-        public async Task<HttpResponseMessage> PutAsync([FromBody] AlbumREST album)
+        public async Task<HttpResponseMessage> PutAlbumAsync([FromBody] AlbumREST album)
         {
             if (album.name == null)
             {
@@ -132,7 +142,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpDelete]
         [Route("api/album/id/{id}")]
-        public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] Guid id)
+        public async Task<HttpResponseMessage> DeleteAlbumAsync([FromUri] Guid id)
         {
             int changeCount = await Service.DeleteAlbumByID(id);
             if (changeCount == -1)
@@ -169,36 +179,6 @@ namespace Lyre.WebApi.Controllers
                 year = Year;
                 artist_id = Artist_id;
             }
-        }
-
-        public class FilterCompositeREST
-        {
-            public string Filter { get; set; }
-
-            public string Sort { get; set; }
-            public Sorter.OrderType Order { get; set; }
-
-            public int Page { get; set; }
-            public int PageSize { get; set; }
-
-            public Pager GetPager(int pageNum = 0)
-            {
-                if (Page != 0)
-                    return new Pager(Page, PageSize);
-                else
-                    return new Pager(pageNum, PageSize);
-            }
-
-            public Sorter GetSorter()
-            {
-                return new Sorter(Sort, Order);
-            }
-
-            public AlbumFilter GetFilter()
-            {
-                return new AlbumFilter(Filter);
-            }
-
         }
 
         public AlbumController(IAlbumService service, IMapper mapper)
