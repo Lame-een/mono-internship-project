@@ -176,3 +176,5 @@ $RECYCLE.BIN/
 **/*.log.*
 *.log
 
+# Ignore mergetool backups
+*.orig
