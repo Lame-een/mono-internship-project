@@ -15,7 +15,7 @@ namespace Lyre.WebApi.Controllers
     public class SongController : ApiController
     {
         [HttpGet]
-        [Route("api/Song/id/{id}")]
+        [Route("api/song/id/{id}")]
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             SongREST Song = Mapper.Map<SongREST>(await Service.GetSong(id));
@@ -29,7 +29,7 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Song/{pageNum?}")]
+        [Route("api/song/{pageNum?}")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
         {
             Pager pager;
@@ -63,18 +63,12 @@ namespace Lyre.WebApi.Controllers
 
 
         [HttpPost]
-        [Route("api/Song")]
+        [Route("api/song")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] SongREST fromBody)
         {
             SongREST song;
-            if (fromBody != null)
-            {
-                song = fromBody;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
-            }
+
+            song = fromBody;
 
             if (song.name.Length == 0)
             {
@@ -103,7 +97,7 @@ namespace Lyre.WebApi.Controllers
 
 
         [HttpPut]
-        [Route("api/Song")]
+        [Route("api/song")]
         public async Task<HttpResponseMessage> PutAsync([FromBody] SongREST song)
         {
             if (song.name == null)
@@ -141,18 +135,6 @@ namespace Lyre.WebApi.Controllers
         public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] Guid id)
         {
             int changeCount = await Service.DeleteSongByID(id);
-            if (changeCount == -1)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid data.");
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, $"Deleted {changeCount} row(s).");
-        }
-
-        [HttpDelete]
-        [Route("api/song/name/{name}")]
-        public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] string name)
-        {
-            int changeCount = await Service.DeleteSongByName(name);
             if (changeCount == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid data.");

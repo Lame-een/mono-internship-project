@@ -41,12 +41,6 @@ namespace Lyre.Service
             return await Repository.DeleteSongByID(songGuid);
         }
 
-        public async Task<int> DeleteSongByName(string name)
-        {
-            return await Repository.DeleteSongByName(name);
-        }
-
-
         public ISong NewSong()
         {
             return new Song();

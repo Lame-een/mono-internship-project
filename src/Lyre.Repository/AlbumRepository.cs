@@ -49,7 +49,6 @@ namespace Lyre.Repository
                         creation_time = Convert.ToDateTime(reader.GetDateTime(6))
                     };
 
-                    connection.Close();
 
                     return A;
                 }
@@ -182,23 +181,26 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> DeleteAlbumByName(string name)
+        public async Task<int> CountSongsInAlbum(Guid albumGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
+                string queryString = "SELECT COUNT(song_id) FROM SONG WHERE ALBUM_ID = @AlbumID;";
 
-                string queryString = "DELETE ALBUM WHERE name = @ALbumName";
+                SqlCommand command = new SqlCommand(queryString, connection);
 
-                adapter.DeleteCommand = connection.CreateCommand();
-                adapter.DeleteCommand.CommandText = queryString;
-                SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@AlbumName", name);
-                try
+                SqlUtilities.AddParameterWithNullableValue(command, "@AlbumID", albumGuid);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                if (reader.HasRows)
                 {
-                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                    reader.Read();
+
+                    return reader.GetInt32(0);
                 }
-                catch
+                else
                 {
                     return -1;
                 }

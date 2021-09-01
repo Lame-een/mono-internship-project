@@ -29,7 +29,7 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Album/{pageNum?}")]
+        [Route("api/album/{pageNum?}")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
         {
             Pager pager;
@@ -63,18 +63,12 @@ namespace Lyre.WebApi.Controllers
 
 
         [HttpPost]
-        [Route("api/Album")]
+        [Route("api/album")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] AlbumREST fromBody)
         {
             AlbumREST album;
-            if (fromBody != null)
-            {
-                album = fromBody;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
-            }
+
+            album = fromBody;
 
             if (album.name.Length == 0)
             {
@@ -141,18 +135,6 @@ namespace Lyre.WebApi.Controllers
         public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] Guid id)
         {
             int changeCount = await Service.DeleteAlbumByID(id);
-            if (changeCount == -1)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid data.");
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, $"Deleted {changeCount} row(s).");
-        }
-
-        [HttpDelete]
-        [Route("api/album/name/{name}")]
-        public async Task<HttpResponseMessage> DeleteByIDAsync([FromUri] string name)
-        {
-            int changeCount = await Service.DeleteAlbumByName(name);
             if (changeCount == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid data.");

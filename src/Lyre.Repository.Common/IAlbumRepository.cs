@@ -20,6 +20,6 @@ namespace Lyre.Repository.Common
 
         Task<int> DeleteAlbumByID(Guid albumGuid);
 
-        Task<int> DeleteAlbumByName(string name);
+        Task<int> CountSongsInAlbum(Guid albumGuid);
     }
 }

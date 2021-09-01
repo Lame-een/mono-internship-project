@@ -178,30 +178,5 @@ namespace Lyre.Repository
                 }
             }
         }
-
-        public async Task<int> DeleteSongByName(string name)
-        {
-            using (SqlConnection connection = DBHandler.NewConnection())
-            {
-                connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-
-                string queryString = "DELETE SONG WHERE name = @SongName";
-
-                adapter.DeleteCommand = connection.CreateCommand();
-                adapter.DeleteCommand.CommandText = queryString;
-
-                SqlUtilities.AddParameterWithNullableValue(adapter.DeleteCommand, "@SongName", name);
-
-                try
-                {
-                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
-                }
-                catch
-                {
-                    return -1;
-                }
-            }
-        }
     }
 }

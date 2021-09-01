@@ -19,7 +19,5 @@ namespace Lyre.Repository.Common
         Task<int> PutSong(Guid songGuid, ISong value);
 
         Task<int> DeleteSongByID(Guid songGuid);
-
-        Task<int> DeleteSongByName(string name);
     }
 }

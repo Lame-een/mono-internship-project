@@ -42,12 +42,10 @@ namespace Lyre.Service
             return await Repository.DeleteAlbumByID(albumGuid);
         }
 
-        public async Task<int> DeleteAlbumByName(string name)
+        public async Task<int> CountSongsInAlbum(Guid albumGuid)
         {
-            return await Repository.DeleteAlbumByName(name);
+            return await Repository.CountSongsInAlbum(albumGuid);
         }
-
-
 
         public IAlbum NewAlbum()
         {

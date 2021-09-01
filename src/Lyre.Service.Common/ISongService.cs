@@ -21,8 +21,6 @@ namespace Lyre.Service.Common
 
         Task<int> DeleteSongByID(Guid songGuid);
 
-        Task<int> DeleteSongByName(string name);
-
         ISong NewSong();
 
         ISong NewSong(Guid Song_id, string Name, Guid Album_id, Guid? Genre_id = null);
