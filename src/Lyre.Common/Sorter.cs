@@ -70,7 +70,7 @@ namespace Lyre.Common
             {
                 try
                 {
-                    Order = (OrderType)Enum.Parse(typeof(OrderType), value);
+                    Order = (OrderType)Enum.Parse(typeof(OrderType), value.ToUpper());
                 }
                 catch (Exception)
                 {

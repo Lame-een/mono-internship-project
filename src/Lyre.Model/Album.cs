@@ -49,7 +49,14 @@ namespace Lyre.Model
             name = (string)obj[1];
             number_of_tracks = (int?)obj[2];
             year = (int?)obj[3];
-            cover = (string)obj[4];
+            if (obj[4].GetType() == typeof(DBNull))
+            {
+                cover = null;
+            }
+            else
+            { 
+                cover = (string)obj[4];
+            }
             artist_id = (Guid)obj[5];
             creation_time = (DateTime?)(obj[6] == DBNull.Value ? null : obj[6]);
         }
