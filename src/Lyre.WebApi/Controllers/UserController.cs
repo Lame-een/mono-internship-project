@@ -16,10 +16,13 @@ namespace Lyre.WebApi.Controllers
     {
         protected IUserService Service { get; }
         protected IMapper Mapper { get; }
-        public UserController(IUserService service, IMapper mapper)
+
+        protected IAuthenticator Authenticator { get; }
+        public UserController(IUserService service, IMapper mapper, IAuthenticator authenticator)
         {
             Service = service;
             Mapper = mapper;
+            Authenticator = authenticator;
         }
 
         //catch all get - used for filtering
@@ -29,12 +32,15 @@ namespace Lyre.WebApi.Controllers
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
             qsManager.Filter.InitializeSql(typeof(UserREST));
-            //qsManager.Sorter.InitializeSql(typeof(UserREST));
+            qsManager.Sorter.InitializeSql(typeof(UserREST));
 
-            return Request.CreateResponse(HttpStatusCode.OK, await Service.SelectUsersAsync(qsManager));
+            List<IUser> users = await Service.SelectUsersAsync(qsManager);
+
+            return Request.CreateResponse(HttpStatusCode.OK, Mapper.Map<List<UserREST>>(users));
         }
 
         [HttpGet]
+        [Route("api/User/id/{id}")]
         public async Task<HttpResponseMessage> GetUserAsync(Guid id)
         {
             UserREST user = Mapper.Map<UserREST>(await Service.SelectUserAsync(id));
@@ -48,7 +54,7 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/User/{name}")]
+        [Route("api/User/name/{name}")]
         public async Task<HttpResponseMessage> GetUserAsync(string name)
         {
             UserREST user = Mapper.Map<UserREST>(await Service.SelectUserAsync(name));
@@ -101,40 +107,50 @@ namespace Lyre.WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password value.");
             }
 
-            int changeCount = await Service.LoginUserAsync(value.Username, value.Password);
+            Guid? userID = await Service.LoginUserAsync(value.Username, value.Password);
 
-
-            if (changeCount == -1)
+            if (userID == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username or password.");
             }
-            //auth token should be returned on successful login
-            return Request.CreateResponse(HttpStatusCode.OK, $"User logged in.");
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "User logged in.");
+            response.Headers.Add("Authorization", "Bearer " + Authenticator.CreateToken((Guid)userID));
+            return response;
         }
 
         [HttpPut]
+        [Route("api/User/update/")]
         public async Task<HttpResponseMessage> UpdateUserDataAsync([FromBody] UserREST value)
         {
             if (value.Username.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
             }
-            //TEMPORARY TO FIX - HERE FIX
-            //nothing to implement passwords as of yet
-            //updating probably shouldn't change passwords/hashes/salts
-            //seperate put request for passwords???
 
-            //IUser user = Service.FetchUser(value.Username);
-            //user.Role = value.Role;
-            //
-            //int changeCount = await Service.UpdateAsync(user);
-            //
-            //if (changeCount == -1)
-            //{
-            //    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
-            //}
-            //return Request.CreateResponse(HttpStatusCode.Created, $"Updated {changeCount} row(s).");
-            return Request.CreateResponse(HttpStatusCode.BadRequest, $"Update temporarily disabled.");
+
+            //authentication code starts here
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if(user == null || ((user.Username != value.Username) && (user.Role != UserRole.ADMIN)))    //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+            else if((value.Role > user.Role) && (user.Role != UserRole.ADMIN))  //role change to a higher one isn't allowed unless you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+            //end of authentication code
+
+
+            //normal update CRUD code
+            int changeCount = await Service.UpdateAsync(user);
+            
+            if (changeCount == -1)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+            }
+            return Request.CreateResponse(HttpStatusCode.Created, $"Updated {changeCount} row(s).");
         }
 
         [HttpDelete]

@@ -82,16 +82,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAlbumService.cs" />
+    <Compile Include="IAuthenticator.cs" />
     <Compile Include="ISongService.cs" />
     <Compile Include="IArtistService.cs" />
     <Compile Include="IGenreService.cs" />
-    <Compile Include="ILyricsService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Lyre.Service.Common.csproj.orig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
