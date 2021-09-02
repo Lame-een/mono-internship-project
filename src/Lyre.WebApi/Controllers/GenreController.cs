@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Lyre.Model;
-using Lyre.Model.Common;
-using Lyre.Service;
 using Lyre.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -62,7 +60,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.PostGenreAsync(newGenreName);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
@@ -79,18 +77,22 @@ namespace Lyre.WebApi.Controllers
             int status = 0;
             foreach(string genreName in newGenreNames)
             {
+                if (genreName.Length == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+                }
                 try
                 {
                     status += await Service.PostGenreAsync(genreName);
                 }
                 catch
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
                 }
             }
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
@@ -107,7 +109,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.PutGenreAsync(genre);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Updated " + status + " row(s).");
         }
@@ -124,7 +126,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.DeleteGenreByIDAsync(id);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
         }

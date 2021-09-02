@@ -130,6 +130,7 @@
     <Compile Include="Controllers\SongController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
+    <Compile Include="Controllers\LyricsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
