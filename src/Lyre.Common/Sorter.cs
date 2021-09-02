@@ -14,6 +14,8 @@ namespace Lyre.Common
         public OrderType Order { get; set; }
         public string Sort { get; set; }
 
+        private string _sqlString = null;
+
         ///<summary>
         ///Checks if the <strong>Sort</strong> property is contained in a column of 
         ///the <strong>type</strong> model class.
@@ -21,29 +23,46 @@ namespace Lyre.Common
         ///<example>Example usage:
         ///<code>
         /// Sorter sorter = new Sorter("name");
+        /// sorter.InitializeSql(typeof(ISong));
         /// 
         /// ...
         /// 
-        /// string sqlSelect = "SELECT * FROM song" + filter.GetSql() + sorter.GetSql(typeof(ISong)) + pager.GetSql() + ';';
+        /// string sqlSelect = "SELECT * FROM song" + filter.GetSql() + sorter.GetSql() + pager.GetSql() + ';';
         /// </code>
         ///</example>
         ///<param name="type">Type of the Model object which is being sorted</param>
         ///<returns><strong>string</strong> SQL command snippet</returns>
-        public string GetSql(Type type)
+        public string InitializeSql(Type type)
         {
             if (Sort == null)
-                return String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
+                return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
 
             var names = (from name in type.GetProperties() select name.Name.ToLower());
 
             if (names.Contains(Sort.ToLower()))
             {
-                return String.Format(" ORDER BY {0} {1} ", Sort, Order.ToString());
+                return _sqlString = String.Format(" ORDER BY {0} {1} ", Sort, Order.ToString());
             }
             else
             {
-                return String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
+                return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
             }
+        }
+        public string GetSql()
+        {
+            if (_sqlString == null)
+            {
+                throw new AccessViolationException("SqlString has not been initialized.");
+            }
+            else return _sqlString;
+        }
+        public string GetSql(Type type)
+        {
+            if (_sqlString == null)
+            {
+                return InitializeSql(type);
+            }
+            else return _sqlString;
         }
 
         public Sorter(string sortBy, OrderType order = OrderType.ASC)
