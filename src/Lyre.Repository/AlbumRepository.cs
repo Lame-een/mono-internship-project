@@ -69,71 +69,21 @@ namespace Lyre.Repository
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                if (reader.HasRows)
-                {
-                    reader.Read();
-
-                    Album A = new Album
-                    {
-                        album_id = reader.GetGuid(0),
-                        name = Convert.ToString(reader.GetString(1)),
-                        number_of_tracks = Convert.ToInt32(reader.GetInt32(2)),
-                        year = Convert.ToInt32(reader.GetInt32(3)),
-                        cover = Convert.ToString(reader.GetString(4)),
-                        artist_id = reader.GetGuid(5),
-                        creation_time = Convert.ToDateTime(reader.GetDateTime(6))
-                    };
-
-
-                    return A;
-                }
-                else
+                if (!reader.HasRows)
                 {
                     return null;
                 }
+
+                object[] objectBuffer = new object[Album.FieldNumber];
+
+                reader.Read();
+
+                reader.GetValues(objectBuffer);
+                IAlbum album = new Album(objectBuffer);
+
+                return album;
             }
         }
-
-        //public async Task<List<IAlbum>> GetAllAlbums(Pager pager, Sorter sorter, AlbumFilter filter)
-        //{
-        //    using (SqlConnection connection = DBHandler.NewConnection())
-        //    {
-        //        connection.Open();
-        //        string queryString = "SELECT * FROM ALBUM" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
-
-        //        SqlCommand command = new SqlCommand(queryString, connection);
-
-        //        SqlDataReader reader = await command.ExecuteReaderAsync();
-        //        if (reader.HasRows)
-        //        {
-        //            List<IAlbum> albumList = new List<IAlbum>();
-
-        //            while (reader.HasRows)
-        //            {
-        //                reader.Read();
-
-        //                Album A = new Album
-        //                {
-        //                    album_id = reader.GetGuid(0),
-        //                    name = Convert.ToString(reader.GetString(1)),
-        //                    number_of_tracks = Convert.ToInt32(reader.GetInt32(2)),
-        //                    year = Convert.ToInt32(reader.GetInt32(3)),
-        //                    cover = Convert.ToString(reader.GetString(4)),
-        //                    artist_id = reader.GetGuid(5),
-        //                    creation_time = Convert.ToDateTime(reader.GetDateTime(6))
-        //                };
-
-        //                albumList.Add(A);
-        //            }
-
-        //            return albumList;
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
 
         public async Task<int> PostAlbum(IAlbum A)
         {
@@ -174,13 +124,18 @@ namespace Lyre.Repository
             {
                 connection.Open();
 
-                string queryString = "UPDATE ALBUM SET name = @name "
+                string queryString = "UPDATE ALBUM SET name = @name, number_of_tracks = @number_of_tracks, year = @year, cover = @cover, artist_id = @artist_id "
                 + "WHERE album_id = @ID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
                 SqlUtilities.AddParameterWithNullableValue(command, "@ID", albumGuid);
                 SqlUtilities.AddParameterWithNullableValue(command, "@name", album.name);
+                SqlUtilities.AddParameterWithNullableValue(command, "@number_of_tracks", album.number_of_tracks);
+                SqlUtilities.AddParameterWithNullableValue(command, "@year", album.year);
+                SqlUtilities.AddParameterWithNullableValue(command, "@cover", album.cover);
+                SqlUtilities.AddParameterWithNullableValue(command, "@artist_id", album.artist_id);
+
 
                 try
                 {

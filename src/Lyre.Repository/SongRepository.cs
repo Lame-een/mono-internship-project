@@ -95,45 +95,7 @@ namespace Lyre.Repository
             }
         }
 
-        //public async Task<List<ISong>> GetAllSongs(Pager pager, Sorter sorter, SongFilter filter)
-        //{
-        //    using (SqlConnection connection = DBHandler.NewConnection())
-        //    {
-        //        connection.Open();
-        //        string queryString = "SELECT * FROM SONG" + filter.GetSql() + sorter.GetSql(typeof(IAlbum)) + pager.GetSql() + ";";
-
-        //        SqlCommand command = new SqlCommand(queryString, connection);
-
-        //        SqlDataReader reader = await command.ExecuteReaderAsync();
-        //        if (reader.HasRows)
-        //        {
-        //            List<ISong> songList = new List<ISong>();
-
-        //            while (reader.HasRows)
-        //            {
-        //                reader.Read();
-
-        //                Song S = new Song
-        //                {
-        //                    song_id = reader.GetGuid(0),
-        //                    name = Convert.ToString(reader.GetString(1)),
-        //                    album_id = reader.GetGuid(2),
-        //                    genre_id = reader.GetGuid(3),
-        //                    creation_time = Convert.ToDateTime(reader.GetDateTime(4))
-        //                };
-
-        //                songList.Add(S);
-        //            }
-
-        //            return songList;
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
-
+      
         public async Task<int> PostSong(ISong S)
         {
             using(SqlConnection connection = DBHandler.NewConnection())
@@ -168,15 +130,17 @@ namespace Lyre.Repository
 
         public async Task<int> PutSong(Guid songGuid, ISong song)
         {
-            string queryString = "UPDATE SONG SET name = @name "
+            string queryString = "UPDATE SONG SET name = @name, album_id = @album_id, genre_id = @genre_id "
             + "WHERE song_id = @ID;";
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
 
-                SqlUtilities.AddParameterWithNullableValue(command, "@name", song.name);
                 SqlUtilities.AddParameterWithNullableValue(command, "@ID", songGuid);
+                SqlUtilities.AddParameterWithNullableValue(command, "@name", song.name);
+                SqlUtilities.AddParameterWithNullableValue(command, "@album_id", song.album_id);
+                SqlUtilities.AddParameterWithNullableValue(command, "@genre_id", song.genre_id);
 
                 try
                 {
