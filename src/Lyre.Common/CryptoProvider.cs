@@ -13,6 +13,14 @@ namespace Lyre.Common
         private const int _saltSize = 32;
         private const int _hashSize = 256;
 
+
+        public static string GenerateSalt(ref byte[] salt, int size)
+        {
+            rngCsp.GetBytes(salt = new byte[size]);
+
+            return Convert.ToBase64String(salt);
+        }
+
         public static string GenerateSalt(ref byte[] salt)
         {
             rngCsp.GetBytes(salt = new byte[_saltSize]);
@@ -40,12 +48,36 @@ namespace Lyre.Common
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, _iterations);
             var hash = pbkdf2.GetBytes(_hashSize);
 
-            for(int i = 0; i < _hashSize; i++)
+            for (int i = 0; i < _hashSize; i++)
             {
                 if (hash[i] != outsideHash[i]) return false;
             }
 
             return true;
+        }
+
+        public static byte[] Encrypt(string plainText, string key)
+        {
+            byte[] iv = new byte[16];
+            byte[] text = Convert.FromBase64String(plainText);
+            Aes aes = Aes.Create();
+            aes.Key = Convert.FromBase64String(key);
+            aes.IV = iv;
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+
+            return encryptor.TransformFinalBlock(text, 0, text.Length);
+        }
+
+        public static byte[] Decrypt(string encryptedText, string key)
+        {
+            byte[] iv = new byte[16];
+            byte[] text = Convert.FromBase64String(encryptedText);
+            Aes aes = Aes.Create();
+            aes.Key = Convert.FromBase64String(key);
+            aes.IV = iv;
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+
+            return decryptor.TransformFinalBlock(text, 0, text.Length);
         }
     }
 }
