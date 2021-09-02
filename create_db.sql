@@ -29,7 +29,7 @@ CREATE TABLE album(
 	number_of_tracks INTEGER,
 	year INTEGER,
 	cover VARCHAR(512),
-	artist_id UNIQUEIDENTIFIER 
+	artist_id UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT album_fk_artist_id REFERENCES artist(artist_id),
 	creation_time DATETIME
 );
