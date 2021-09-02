@@ -30,16 +30,10 @@ namespace Lyre.WebApi
         }
         private static IMapper GenerateMapper()
         {
-            //this is temporary! - use profiles
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Song, SongController.SongREST>();
-                cfg.CreateMap<Album, AlbumController.AlbumREST>();
-                //cfg.CreateMap<src, dest>();
-                cfg.CreateMap<Genre, GenreController.GenreREST>();
-                cfg.CreateMap<Artist, ArtistController.ArtistREST>();
-            }
-            );
+                cfg.AddProfile(new MappingProfile());
+            });
 
             config.AssertConfigurationIsValid();
 

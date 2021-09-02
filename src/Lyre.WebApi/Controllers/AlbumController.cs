@@ -28,38 +28,6 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, album);
         }
 
-        //[HttpGet]
-        //[Route("api/album/{pageNum?}")]
-        //public async Task<HttpResponseMessage> GetAlbumsAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
-        //{
-        //    Pager pager;
-        //    Sorter sorter;
-        //    AlbumFilter filter;
-
-        //    if (metaArg == null)
-        //    {
-        //        pager = new Pager(pageNum);
-        //        sorter = new Sorter();
-        //        filter = new AlbumFilter();
-        //    }
-        //    else
-        //    {
-        //        pager = metaArg.GetPager(pageNum);
-        //        sorter = metaArg.GetSorter();
-        //        filter = metaArg.GetFilter();
-        //    }
-
-
-
-        //    List<AlbumREST> albumList = Mapper.Map<List<AlbumREST>>(await Service.GetAllAlbums(pager, sorter, filter));
-
-        //    if (albumList.Count == 0)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
-        //    }
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, albumList);
-        //}
         [HttpGet]
         [Route("api/album")]
         public async Task<HttpResponseMessage> QueryAlbumsAsync()

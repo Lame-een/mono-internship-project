@@ -28,39 +28,6 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, Song);
         }
 
-        //[HttpGet]
-        //[Route("api/song/{pageNum?}")]
-        //public async Task<HttpResponseMessage> GetSongsAsync([FromUri] FilterCompositeREST metaArg, int pageNum = 1)
-        //{
-        //    Pager pager;
-        //    Sorter sorter;
-        //    SongFilter filter;
-
-        //    if (metaArg == null)
-        //    {
-        //        pager = new Pager(pageNum);
-        //        sorter = new Sorter();
-        //        filter = new SongFilter();
-        //    }
-        //    else
-        //    {
-        //        pager = metaArg.GetPager(pageNum);
-        //        sorter = metaArg.GetSorter();
-        //        filter = metaArg.GetFilter();
-        //    }
-
-
-
-        //    List<SongREST> SongList = Mapper.Map<List<SongREST>>(await Service.GetAllSongs(pager, sorter, filter));
-
-        //    if (SongList.Count == 0)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
-        //    }
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, SongList);
-        //}
-
         [HttpGet]
         [Route("api/song")]
         public async Task<HttpResponseMessage> QuerySongsAsync()
