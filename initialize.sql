@@ -66,167 +66,167 @@ INSERT INTO album (name, number_of_tracks, year, artist_id, creation_time) VALUE
 
 
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('02:09', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('02:09', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('End Credits', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('End Credits', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Gravity', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Gravity', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Nocturne', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Nocturne', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Interlude', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Interlude', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Wake Up', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Wake Up', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('catch me if you can', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('catch me if you can', (SELECT album_id FROM album WHERE name = 'End Credits'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('sex', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('sex', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('drugs', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('drugs', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('and', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('and', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('rock + roll', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('rock + roll', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Fumes', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Fumes', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('XO', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('XO', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Circles', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM gener WHERE name = 'Indie pop'), '20210902 00:00:00');
+('Circles', (SELECT album_id FROM album WHERE name = 'i think you think too much of me'), (SELECT genre_id FROM genre WHERE name = 'Indie pop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Speed of Light', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Chill'), '20210902 00:00:00');
+('Speed of Light', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Chill'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Melodymania', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Electro house'), '20210902 00:00:00');
+('Melodymania', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Electro house'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Talk About It (feat. Desirée Dawson)', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Future bass'), '20210902 00:00:00');
+('Talk About It (feat. Desirée Dawson)', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Future bass'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Go Berzerk (with Quiet Disorder)', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Dubstep'), '20210902 00:00:00');
+('Go Berzerk (with Quiet Disorder)', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Dubstep'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('BAMF', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Dubstep'), '20210902 00:00:00');
+('BAMF', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Dubstep'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Blackout', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM gener WHERE name = 'Future house'), '20210902 00:00:00');
+('Blackout', (SELECT album_id FROM album WHERE name = 'Nerds By Nature'), (SELECT genre_id FROM genre WHERE name = 'Future house'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Badboi', (SELECT album_id FROM album WHERE name = 'Badboi'), (SELECT genre_id FROM gener WHERE name = 'Trap'), '20210902 00:00:00');
+('Badboi', (SELECT album_id FROM album WHERE name = 'Badboi'), (SELECT genre_id FROM genre WHERE name = 'Trap'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Cepheus', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Cepheus', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Bale In Your Pocket', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Bale In Your Pocket', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Chalkbird (feat. Lara Hamzehpour)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Chalkbird (feat. Lara Hamzehpour)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Anatom, Problem 1', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Anatom, Problem 1', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('S.p.a.m. (feat. Tommy Blackout)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('S.p.a.m. (feat. Tommy Blackout)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Control, Problem 2 (Andre Moghimi Rework)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Control, Problem 2 (Andre Moghimi Rework)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Tapirsupper', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Tapirsupper', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('A Billion (feat. Tell You What Now)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('A Billion (feat. Tell You What Now)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Absolution', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Absolution', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Polemonium (feat. Frodo)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Polemonium (feat. Frodo)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Gluttony, Problem 3 (feat. SpaceApparat)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Gluttony, Problem 3 (feat. SpaceApparat)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Risen To A Flood (feat. Andre Moghimi)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Risen To A Flood (feat. Andre Moghimi)', (SELECT album_id FROM album WHERE name = 'AFewSides'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Skeleton', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Skeleton', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Gamma', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Gamma', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('How Many of You Are in There?', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('How Many of You Are in There?', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Of Nothing', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Of Nothing', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Structured', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Structured', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Despite This', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Despite This', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('(This is Not) Worth it', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('(This is Not) Worth it', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Treasure', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM gener WHERE name = 'Progressive'), '20210902 00:00:00');
+('Treasure', (SELECT album_id FROM album WHERE name = 'Gamma'), (SELECT genre_id FROM genre WHERE name = 'Progressive'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Doll', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Doll', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Monkey Wrench', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Monkey Wrench', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Hey, Johnny Park!', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Hey, Johnny Park!', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('My Poor Brain', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('My Poor Brain', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Wind Up', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Wind Up', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Up in Arms', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Up in Arms', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('My Hero', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('My Hero', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('See You', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('See You', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Enough Space', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Enough Space', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('February Stars', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('February Stars', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Everlong', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Everlong', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Walking After You', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('Walking After You', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('New Way Home', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM gener WHERE name = 'Alternative rock'), '20210902 00:00:00');
+('New Way Home', (SELECT album_id FROM album WHERE name = 'The Colour and the Shape'), (SELECT genre_id FROM genre WHERE name = 'Alternative rock'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Donda Chant', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Donda Chant', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Jail', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Jail', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('God Breathed', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('God Breathed', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Off the Grid', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Off the Grid', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Hurricane', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Hurricane', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Praise God', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Gospel'), '20210902 00:00:00');
+('Praise God', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Gospel'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Jonah', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Jonah', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Ok Ok', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Ok Ok', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Junya', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Junya', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Believe What I Say', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Believe What I Say', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('24', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('24', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Remote Control', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Remote Control', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Moon', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Chill'), '20210902 00:00:00');
+('Moon', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Chill'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Heaven and Hell', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Heaven and Hell', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Donda', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Donda', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Keep My Spirit Alive', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Keep My Spirit Alive', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Jesus Lord', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Gospel'), '20210902 00:00:00');
+('Jesus Lord', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Gospel'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('New Again', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('New Again', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Tell the Vision', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Tell the Vision', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Lord I Need You', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Lord I Need You', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Pure Souls', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Pure Souls', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Come to Life', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Come to Life', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('No Child Left Behind', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('No Child Left Behind', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Jail, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Jail, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Ok Ok, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Ok Ok, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Junya, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Junya, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 INSERT INTO song (name, album_id, genre_id, creation_time) VALUES
-('Jesus Lord, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM gener WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
+('Jesus Lord, Pt. 2', (SELECT album_id FROM album WHERE name = 'Donda'), (SELECT genre_id FROM genre WHERE name = 'Experimental hip hop'), '20210902 00:00:00');
 
 
 INSERT INTO lyrics (text, verified, user_id, song_id, creation_time) VALUES
