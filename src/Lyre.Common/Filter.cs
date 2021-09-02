@@ -16,10 +16,6 @@ namespace Lyre.Common
         private int _paramCount = 0;
 
         private string _sqlString = null;
-
-        //fills _generalQueries and _columnQueries with data reieved from the queryString
-        //non-value queries are placed in _generalQueries
-        //'key:value' queries are played in _columnQueries
         private void InitData(string inQuery)
         {
             //queries are either format 'param' or 'column:param'
@@ -42,8 +38,6 @@ namespace Lyre.Common
             }
         }
 
-        //constructs a new parameter which is used in 'AddParameters()'
-        //
         private string NewParam(string value)
         {
             string ret = "@param" + _paramCount++.ToString();
@@ -65,7 +59,6 @@ namespace Lyre.Common
 
             bool firstPassed = false;
 
-            //adds clauses concerning parameters compared to all columns
             foreach (string queryParam in _generalQueries)
             {
                 string param = NewParam(queryParam);
@@ -75,7 +68,6 @@ namespace Lyre.Common
                     if (property.PropertyType == typeof(Guid)) //do not filter by IDs
                         continue;
 
-                    //adds ORs between the clauses
                     if (!firstPassed)
                         firstPassed = true;
                     else
@@ -98,7 +90,7 @@ namespace Lyre.Common
                 }
             }
 
-            //adds clauses concerning specific column queries
+
             foreach (var colValPair in _columnQueries)
             {
                 PropertyInfo property = typeProperties.Find(x => (x.Name.ToLower() == colValPair.Key));
@@ -142,14 +134,6 @@ namespace Lyre.Common
             if (_sqlString == null)
             {
                 throw new AccessViolationException("SqlString has not been initialized.");
-            }
-            else return _sqlString;
-        }
-        public string GetSql(Type type)
-        {
-            if (_sqlString == null)
-            {
-                return InitializeSql(type);
             }
             else return _sqlString;
         }
