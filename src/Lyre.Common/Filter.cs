@@ -47,7 +47,7 @@ namespace Lyre.Common
 
         private string GetColumnName(PropertyInfo property, string prefix = "")
         {
-            StringBuilder stringBuilder = new StringBuilder(prefix, 16);
+            StringBuilder stringBuilder = new StringBuilder(16);
 
             if (property.PropertyType == typeof(int))    //if the property is an int, cast the column as int
             {
@@ -97,7 +97,6 @@ namespace Lyre.Common
 
                     stringBuilder.Append(" LIKE ");
                     stringBuilder.Append(param);
-                    //stringBuilder.Append(" ");
                 }
             }
 
@@ -126,7 +125,7 @@ namespace Lyre.Common
             }
 
             //check if the data initialization ended up being empty
-            if(stringBuilder.ToString() == "WHERE ")
+            if (stringBuilder.ToString() == "WHERE ")
             {
                 return _sqlString = "";
             }
@@ -134,7 +133,84 @@ namespace Lyre.Common
             return _sqlString = stringBuilder.ToString();
         }
 
-        
+
+        //only use with rest objects, expects TablenameREST types
+        //example: qsManager.Filter.InitializeSql(new Type[]{ typeof(SongREST), typeof(AlbumREST)});
+        public string InitializeSql(Type[] types)
+        {
+            //no filter
+            if (_generalQueries.Count == 0 && _columnQueries.Count == 0)
+            {
+                return _sqlString = "";
+            }
+
+            StringBuilder stringBuilder = new StringBuilder("WHERE ", 32);
+
+            bool firstPassed = false;
+
+            foreach (var type in types)
+            {
+                string prefix = type.Name.Substring(0, type.Name.Length - 4) + '.';
+                List<PropertyInfo> typeProperties = type.GetProperties().ToList();
+
+
+                foreach (string queryParam in _generalQueries)
+                {
+                    string param = NewParam(queryParam);
+
+                    foreach (var property in typeProperties)
+                    {
+                        if ((property.PropertyType == typeof(Guid)) || (Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid))) //do not filter by IDs
+                            continue;
+
+                        if (!firstPassed)
+                            firstPassed = true;
+                        else
+                            stringBuilder.Append(" OR ");
+
+                        stringBuilder.Append(GetColumnName(property, prefix));
+
+                        stringBuilder.Append(" LIKE ");
+                        stringBuilder.Append(param);
+                    }
+                }
+
+
+                foreach (var colValPair in _columnQueries)
+                {
+                    PropertyInfo property = typeProperties.Find(x => (x.Name.ToLower() == colValPair.Key));
+                    if (property == null) continue;
+
+                    if ((property.PropertyType == typeof(Guid)) || (Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid)))  //do not filter by IDs
+                        continue;
+
+                    if (!firstPassed)
+                    {
+                        firstPassed = true;
+                    }
+                    else
+                    {
+                        stringBuilder.Append(" OR ");
+                    }
+
+                    stringBuilder.Append(GetColumnName(property, prefix));
+
+                    stringBuilder.Append(" LIKE ");
+                    stringBuilder.Append(NewParam(colValPair.Value));
+                }
+            }
+
+            //check if the data initialization ended up being empty
+            if (stringBuilder.ToString() == "WHERE ")
+            {
+                return _sqlString = "";
+            }
+
+            return _sqlString = stringBuilder.ToString();
+        }
+
+
+
         public string GetSql()
         {
             if (_sqlString == null)
