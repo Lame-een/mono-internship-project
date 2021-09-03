@@ -155,7 +155,7 @@ namespace Lyre.Repository
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
 
-                string queryString = "DELETE ALBUM WHERE album_id = @ALbumID";
+                string queryString = "DELETE ALBUM WHERE album_id = @AlbumID;";
 
                 adapter.DeleteCommand = connection.CreateCommand();
                 adapter.DeleteCommand.CommandText = queryString;

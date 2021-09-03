@@ -26,7 +26,7 @@ namespace Lyre.Model
             artist_name = Artist_id;
             genre_name = Genre_name;
         }
-
+        public CompositeSongObject() { }
         public CompositeSongObject(object[] obj)
         {
             if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");

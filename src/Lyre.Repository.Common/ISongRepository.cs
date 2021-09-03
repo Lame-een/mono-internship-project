@@ -12,6 +12,8 @@ namespace Lyre.Repository.Common
     {
         Task<ISong> GetSong(Guid songGuid);
 
+        Task<ICompositeSongObject> GetSongComposite(Guid songGuid);
+
         Task<List<ISong>> GetAllSongs(QueryStringManager qsManager);
 
         Task<int> PostSong(ISong S);

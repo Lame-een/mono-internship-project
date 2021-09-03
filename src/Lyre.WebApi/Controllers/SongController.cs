@@ -29,6 +29,20 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/song/all/{id}")]
+        public async Task<HttpResponseMessage> GetSongCompositeAsync(Guid id)
+        {
+            CompositeSongObjectREST Song = Mapper.Map<CompositeSongObjectREST>(await Service.GetSongComposite(id));
+
+            if (Song == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, Song);
+        }
+
+        [HttpGet]
         [Route("api/song")]
         public async Task<HttpResponseMessage> QuerySongsAsync()
         {
@@ -47,6 +61,13 @@ namespace Lyre.WebApi.Controllers
             SongREST song;
 
             song = fromBody;
+
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)     //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
 
             if (song.name.Length == 0)
             {
@@ -78,6 +99,14 @@ namespace Lyre.WebApi.Controllers
         [Route("api/song")]
         public async Task<HttpResponseMessage> PutSongAsync([FromBody] SongREST song)
         {
+
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)    //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (song.name == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
@@ -112,6 +141,14 @@ namespace Lyre.WebApi.Controllers
         [Route("api/song/id/{id}")]
         public async Task<HttpResponseMessage> DeleteSongAsync([FromUri] Guid id)
         {
+
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)    //updates aren't allowed unless you're the user being changed or you're an admin
+                {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             int changeCount = await Service.DeleteSongByID(id);
             if (changeCount == -1)
             {
@@ -142,14 +179,34 @@ namespace Lyre.WebApi.Controllers
                 genre_id = GenreGUID;
             }
         }
+        public class CompositeSongObjectREST
+        {
+            public string song_name { get; set; }
 
-        public SongController(ISongService service, IMapper mapper)
+            public string album_name { get; set; }
+
+            public string artist_name { get; set; }
+
+            public string genre_name { get; set; }
+
+            public CompositeSongObjectREST(string Song_name, string Album_name, string Artist_name, string Genre_name)
+            {
+                song_name = Song_name;
+                album_name = Album_name;
+                artist_name = Artist_name;
+                genre_name = Genre_name;
+            }
+        }
+
+        public SongController(ISongService service, IMapper mapper, IAuthenticator authenticator)
         {
             Service = service;
             Mapper = mapper;
+            Authenticator = authenticator;
         }
 
         private ISongService Service { get; }
         private IMapper Mapper { get; }
+        private IAuthenticator Authenticator { get; }
     }
 }

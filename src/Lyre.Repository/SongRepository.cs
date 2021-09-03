@@ -58,6 +58,48 @@ namespace Lyre.Repository
             }
         }
 
+        public async Task<ICompositeSongObject> GetSongComposite(Guid songGuid)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                string queryString = "SELECT song.name, album.name, genre.name, artist.name FROM SONG " +
+                                "INNER JOIN ALBUM USING (album_id) " +
+                                "INNER JOIN ARTIST USING (artist_id) " +
+                                "INNER JOIN GENRE USING (genre_id) " +
+                                "WHERE Song.song_id = @Song_id;";
+
+
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                SqlUtilities.AddParameterWithNullableValue(command, "@SongID", songGuid);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                if (reader.HasRows)
+                {
+                    reader.Read();
+
+                    CompositeSongObject S = new CompositeSongObject
+                    {
+                        song_name = Convert.ToString(reader.GetString(0)),
+                        album_name = Convert.ToString(reader.GetString(1)),
+                        genre_name = Convert.ToString(reader.GetString(2)),
+                        artist_name = Convert.ToString(reader.GetString(3))
+                    };
+
+                    connection.Close();
+
+                    return S;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            
+        }
+
         public async Task<ISong> GetSong(Guid songGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())

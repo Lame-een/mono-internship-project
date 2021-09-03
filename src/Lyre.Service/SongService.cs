@@ -18,6 +18,11 @@ namespace Lyre.Service
             Repository = repository;
         }
         protected ISongRepository Repository { get; private set; }
+
+        public async Task<ICompositeSongObject> GetSongComposite(Guid songGuid)
+        {
+            return await Repository.GetSongComposite(songGuid);
+        }
         public async Task<ISong> GetSong(Guid songGuid)
         {
             return await Repository.GetSong(songGuid);

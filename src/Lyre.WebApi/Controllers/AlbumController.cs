@@ -9,6 +9,7 @@ using Lyre.Service.Common;
 using AutoMapper;
 using Lyre.Common;
 using Lyre.Model.Common;
+using Lyre.Service;
 
 namespace Lyre.WebApi.Controllers
 {
@@ -44,6 +45,13 @@ namespace Lyre.WebApi.Controllers
         [Route("api/album")]
         public async Task<HttpResponseMessage> PostAlbumsAsync([FromBody] AlbumREST fromBody)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)    //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             AlbumREST album;
 
             album = fromBody;
@@ -78,9 +86,17 @@ namespace Lyre.WebApi.Controllers
         [Route("api/album")]
         public async Task<HttpResponseMessage> PutAlbumAsync([FromBody] AlbumREST album)
         {
+
             if (album.name == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+            }
+
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)    //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
             }
 
             string action;
@@ -112,6 +128,13 @@ namespace Lyre.WebApi.Controllers
         [Route("api/album/id/{id}")]
         public async Task<HttpResponseMessage> DeleteAlbumAsync([FromUri] Guid id)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if (user == null || user.Role == UserRole.USER)     //updates aren't allowed unless you're the user being changed or you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             int changeCount = await Service.DeleteAlbumByID(id);
             if (changeCount == -1)
             {
@@ -149,13 +172,15 @@ namespace Lyre.WebApi.Controllers
             }
         }
 
-        public AlbumController(IAlbumService service, IMapper mapper)
+        public AlbumController(IAlbumService service, IMapper mapper, IAuthenticator authenticator)
         {
+            Authenticator = authenticator;
             Service = service;
             Mapper = mapper;
         }
 
         private IAlbumService Service { get; }
         private IMapper Mapper { get; }
+        private IAuthenticator Authenticator { get; }
     }
 }
