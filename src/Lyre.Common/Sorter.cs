@@ -17,8 +17,8 @@ namespace Lyre.Common
         private string _sqlString = null;
 
         ///<summary>
-        ///Checks if the <strong>Sort</strong> property is contained in a column of 
-        ///the <strong>type</strong> model class.
+        ///Checks if the stored <strong>Sort</strong> property is contained in a 
+        ///column of the <strong>type</strong> model class.
         ///</summary>
         ///<example>Example usage:
         ///<code>
