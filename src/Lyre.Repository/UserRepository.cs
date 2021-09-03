@@ -126,7 +126,7 @@ namespace Lyre.Repository
         public async Task<int> UpdateAsync(IUser value)
         {
             const string sqlUpdate = "UPDATE serveruser SET " +
-                "user_id = @UserID, username = @Username, hash = @Hash, salt = @Salt, role = @Role, creation_time = @CreationTime " +
+                "username = @Username, hash = @Hash, salt = @Salt, role = @Role, creation_time = @CreationTime " +
                 "WHERE user_id = @UserID";
 
             using (SqlConnection connection = DBHandler.NewConnection())
@@ -135,11 +135,11 @@ namespace Lyre.Repository
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(sqlUpdate, connection);
-                    command.Parameters.AddWithValue("@UserID", value.UserID);
                     command.Parameters.AddWithValue("@Username", value.Username);
                     command.Parameters.AddWithValue("@Hash", value.Hash);
                     command.Parameters.AddWithValue("@Salt", value.Salt);
                     command.Parameters.AddWithValue("@Role", value.Role.ToString());
+                    command.Parameters.AddWithValue("@UserID", value.UserID);
                     SqlUtilities.AddParameterWithNullableValue(command, "@CreationTime", value.CreationTime);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
@@ -196,6 +196,31 @@ namespace Lyre.Repository
 
                     SqlCommand command = new SqlCommand(sqlDelete, connection);
                     command.Parameters.AddWithValue("@UserID", id);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    return -1;
+                }
+            }
+        }
+
+        public async Task<int> DeleteAsync(string name)
+        {
+            const string sqlDelete = "DELETE FROM serveruser WHERE username = @Name";
+
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(sqlDelete, connection);
+                    command.Parameters.AddWithValue("@Name", name);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.DeleteCommand = command;

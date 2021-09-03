@@ -17,5 +17,6 @@ namespace Lyre.Repository.Common
         Task<int> InsertAsync(IUser value);
         Task<int> UpdateAsync(IUser value);
         Task<int> DeleteAsync(Guid id);
+        Task<int> DeleteAsync(string name);
     }
 }

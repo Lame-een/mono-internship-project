@@ -119,33 +119,61 @@ namespace Lyre.WebApi.Controllers
             return response;
         }
 
-        [HttpPut]
-        [Route("api/User/update/")]
-        public async Task<HttpResponseMessage> UpdateUserDataAsync([FromBody] UserREST value)
+        [HttpPost]
+        [Route("api/User/reset/")]
+        public async Task<HttpResponseMessage> ResetPasswordAsync([FromBody] UserLoginREST value)
         {
-            if (value.Username.Length == 0)
+            if (value.Username.Length == 0 || value.Password.Length == 0 || value.NewPassword.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
             }
 
+            //login instead of authentication as the password needs to be checked
+            Guid? userID = await Service.LoginUserAsync(value.Username, value.Password);
+            if (userID == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username or password.");
+            }
+
+            int changeCount = await Service.ResetPasswordAsync(value.Username, value.NewPassword);
+
+            if (changeCount == -1)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Error changing password.");
+            }
+            
+            return Request.CreateResponse(HttpStatusCode.Created, "Password changed.");
+        }
+
+        [HttpPut]
+        [Route("api/User/role/")]
+        public async Task<HttpResponseMessage> SetUserRoleAsync([FromBody] UserREST value)
+        {
+            if ((value.Username.Length == 0) || (value.Role == null))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+            }
 
             //authentication code starts here
             IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
 
-            if(user == null || ((user.Username != value.Username) && (user.Role != UserRole.ADMIN)))    //updates aren't allowed unless you're the user being changed or you're an admin
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
-            }
-            else if((value.Role > user.Role) && (user.Role != UserRole.ADMIN))  //role change to a higher one isn't allowed unless you're an admin
+            if ((user == null) || (user.Role != UserRole.ADMIN))    //role changes aren't allowed unless you're an admin
             {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
             }
             //end of authentication code
 
 
-            //normal update CRUD code
-            int changeCount = await Service.UpdateAsync(user);
-            
+            IUser targetUser = await Service.SelectUserAsync(value.Username);
+            if(targetUser == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
+            }
+
+            targetUser.Role = (UserRole)value.Role;
+
+            int changeCount = await Service.UpdateAsync(targetUser);
+
             if (changeCount == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body is empty or has invalid data.");
@@ -154,10 +182,31 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Route("api/User/id/{id}")]
         public async Task<HttpResponseMessage> DeleteUserAsync(Guid id)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
 
+            if ((user == null) || (user.Role != UserRole.ADMIN))    //role changes aren't allowed unless you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
             int changeCount = await Service.DeleteAsync(id);
+
+            return Request.CreateResponse(HttpStatusCode.Created, $"Deleted {changeCount} row(s).");
+        }
+
+        [HttpDelete]
+        [Route("api/User/name/{name}")]
+        public async Task<HttpResponseMessage> DeleteUserAsync(string name)
+        {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+
+            if ((user == null) || (user.Role != UserRole.ADMIN))    //role changes aren't allowed unless you're an admin
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+            int changeCount = await Service.DeleteAsync(name);
 
             return Request.CreateResponse(HttpStatusCode.Created, $"Deleted {changeCount} row(s).");
         }
@@ -166,13 +215,14 @@ namespace Lyre.WebApi.Controllers
         {
             public Guid UserID { get; set; }
             public string Username { get; set; }
-            public UserRole Role { get; set; }
+            public UserRole? Role { get; set; }
         }
 
         public class UserLoginREST
         {
             public string Username { get; set; }
             public string Password { get; set; }
+            public string NewPassword { get; set; }
 
             //email could be added
         }

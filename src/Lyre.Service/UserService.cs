@@ -48,6 +48,27 @@ namespace Lyre.Service
             return await Repository.DeleteAsync(id);
         }
 
+        public async Task<int> DeleteAsync(string name)
+        {
+            return await Repository.DeleteAsync(name);
+        }
+
+        public async Task<int> ResetPasswordAsync(string name, string newPassword, UserRole role = UserRole.USER)
+        {
+            IUser user = await SelectUserAsync(name);
+            if (user == null)
+            {
+                return -1;
+            }
+
+            byte[] saltBytes = null;
+            user.Salt = CryptoProvider.GenerateSalt(ref saltBytes);
+            user.Hash = CryptoProvider.Hash(newPassword, saltBytes);
+            user.Role = role;
+
+            return await UpdateAsync(user);
+        }
+
         public async Task<int> RegisterUserAsync(string name, string password, UserRole role = UserRole.USER)
         {
             if((await SelectUserAsync(name)) != null)
