@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Lyre.Model;
+using Lyre.Model.Common;
+using Lyre.Service;
 using Lyre.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ namespace Lyre.WebApi.Controllers
     {
         private ILyricsService Service { get; set; }
         private IMapper Mapper { get; set; }
+        private Authenticator Authenticator { get; set; }
 
         public LyricsController() { }
         public LyricsController(ILyricsService service, IMapper mapper) 
@@ -45,7 +48,13 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Lyrics")]
         public async Task<HttpResponseMessage> PostLyricsAsync([FromBody] LyricsREST newLyrics)
         {
-            if(newLyrics == null)
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //post isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
+            if (newLyrics == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
@@ -62,6 +71,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Lyrics")]
         public async Task<HttpResponseMessage> PutLyricsAsync([FromBody] LyricsREST lyrics)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //updates aren't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (lyrics == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -80,6 +95,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Lyrics/{id}")]
         public async Task<HttpResponseMessage> DeleteLyricsByIDAsync(Guid id)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //delete isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (id == Guid.Empty)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "No entries found.");
