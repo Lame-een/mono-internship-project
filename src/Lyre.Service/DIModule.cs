@@ -12,6 +12,9 @@ namespace Lyre.Service
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<GenreService>().As<IGenreService>();
             builder.RegisterType<ArtistService>().As<IArtistService>();
+            builder.RegisterType<LyricsService>().As<ILyricsService>();
+            
+            builder.RegisterType<Authenticator>().As<IAuthenticator>().SingleInstance();
         }
     }
 }

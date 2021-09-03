@@ -65,21 +65,21 @@ namespace Lyre.Service
             return await InsertAsync(user);
         }
 
-        public async Task<int> LoginUserAsync(string name, string password)
+        public async Task<Guid?> LoginUserAsync(string name, string password)
         {
             IUser user = await SelectUserAsync(name);
 
             if(user == null)
             {
-                return -1;
+                return null;
             }
 
             if(CryptoProvider.Verify(password, user.Salt, user.Hash)){
-                return 1;
+                return user.UserID;
             }
             else
             {
-                return -1;
+                return null;
             }
         }
     }

@@ -20,6 +20,6 @@ namespace Lyre.Service.Common
         Task<int> DeleteAsync(Guid id);
 
         Task<int> RegisterUserAsync(string name, string password, UserRole role = UserRole.USER);
-        Task<int> LoginUserAsync(string name, string password);
+        Task<Guid?> LoginUserAsync(string name, string password);
     }
 }

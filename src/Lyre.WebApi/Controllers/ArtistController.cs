@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Lyre.Model;
-using Lyre.Model.Common;
 using Lyre.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -83,18 +82,22 @@ namespace Lyre.WebApi.Controllers
             int status = 0;
             foreach (string artistName in newArtistNames)
             {
+                if (artistName.Length == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+                }
                 try
                 {
                     status += await Service.PostArtistAsync(artistName);
                 }
                 catch
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
                 }
             }
             if (status < 0)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error occured.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }

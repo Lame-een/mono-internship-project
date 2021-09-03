@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAlbumService.cs" />
+    <Compile Include="IAuthenticator.cs" />
     <Compile Include="ISongService.cs" />
     <Compile Include="IArtistService.cs" />
     <Compile Include="IGenreService.cs" />

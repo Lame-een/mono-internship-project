@@ -22,7 +22,7 @@ namespace Lyre.Repository
 
         public async Task<List<IUser>> SelectUsersAsync(QueryStringManager qsManager)
         {
-            string sqlSelect = "SELECT * FROM serveruser " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql(typeof(IUser)) + qsManager.Pager.GetSql() + ';';
+            string sqlSelect = "SELECT * FROM serveruser " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql() + qsManager.Pager.GetSql() + ';';
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {
@@ -122,11 +122,6 @@ namespace Lyre.Repository
                 }
             }
         }
-
-        //public Task<List<IUser>> SelectUserAsync(Pager pager, Sorter sorter, AlbumFilter filter)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<int> UpdateAsync(IUser value)
         {
