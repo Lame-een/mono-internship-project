@@ -95,6 +95,30 @@ namespace Lyre.Repository
                 }
             }
         }
+        public async Task<IGenre> GetGenreByNameAsync(string genreName)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                string queryString = "SELECT * FROM genre WHERE name = @genreName;";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@genreName", genreName);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    IGenre genre = new Genre(reader.GetGuid(0), reader.GetString(1));
+                    reader.Close();
+                    return genre;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         public async Task<int> PutGenreAsync(IGenre genre)
         {
             try
@@ -129,6 +153,28 @@ namespace Lyre.Repository
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@id", id);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.DeleteCommand = command;
+                    return await adapter.DeleteCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+        public async Task<int> DeleteGenreByNameAsync(string genreName)
+        {
+            try
+            {
+                using (SqlConnection connection = DBHandler.NewConnection())
+                {
+                    connection.Open();
+                    string queryString = "DELETE FROM genre WHERE name = @genreName;";
+
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@genreName", genreName);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.DeleteCommand = command;
