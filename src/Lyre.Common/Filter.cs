@@ -45,6 +45,26 @@ namespace Lyre.Common
             return ret;
         }
 
+        private string GetColumnName(PropertyInfo property, string prefix = "")
+        {
+            StringBuilder stringBuilder = new StringBuilder(prefix, 16);
+
+            if (property.PropertyType == typeof(int))    //if the property is an int, cast the column as int
+            {
+                stringBuilder.Append(" CAST(");
+                stringBuilder.Append(prefix);
+                stringBuilder.Append(property.Name.ToLower());
+                stringBuilder.Append(" AS VARCHAR(32))");
+            }
+            else
+            {
+                stringBuilder.Append(prefix);
+                stringBuilder.Append(property.Name.ToLower());
+            }
+
+            return stringBuilder.ToString();
+        }
+
         public string InitializeSql(Type type)
         {
             //no filter
@@ -65,7 +85,7 @@ namespace Lyre.Common
 
                 foreach (var property in typeProperties)
                 {
-                    if (property.PropertyType == typeof(Guid)) //do not filter by IDs
+                    if ((property.PropertyType == typeof(Guid)) || (Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid))) //do not filter by IDs
                         continue;
 
                     if (!firstPassed)
@@ -73,16 +93,7 @@ namespace Lyre.Common
                     else
                         stringBuilder.Append(" OR ");
 
-                    if (property.PropertyType == typeof(int))    //if the property is an int, cast the column as int
-                    {
-                        stringBuilder.Append(" CAST(");
-                        stringBuilder.Append(property.Name.ToLower());
-                        stringBuilder.Append(" AS VARCHAR(32))");
-                    }
-                    else
-                    {
-                        stringBuilder.Append(property.Name.ToLower());
-                    }
+                    stringBuilder.Append(GetColumnName(property));
 
                     stringBuilder.Append(" LIKE ");
                     stringBuilder.Append(param);
@@ -96,7 +107,7 @@ namespace Lyre.Common
                 PropertyInfo property = typeProperties.Find(x => (x.Name.ToLower() == colValPair.Key));
                 if (property == null) continue;
 
-                if (property.PropertyType == typeof(Guid))  //do not filter by IDs
+                if ((property.PropertyType == typeof(Guid)) || (Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid)))  //do not filter by IDs
                     continue;
 
                 if (!firstPassed)
@@ -108,27 +119,22 @@ namespace Lyre.Common
                     stringBuilder.Append(" OR ");
                 }
 
-                if (property.PropertyType == typeof(int))    //if the property is an int, cast the column as int
-                {
-                    stringBuilder.Append(" CAST(");
-                    stringBuilder.Append(property.Name.ToLower());
-                    stringBuilder.Append(" AS VARCHAR(32))");
-                }
-                else
-                {
-                    stringBuilder.Append(property.Name.ToLower());
-                }
+                stringBuilder.Append(GetColumnName(property));
 
                 stringBuilder.Append(" LIKE ");
                 stringBuilder.Append(NewParam(colValPair.Value));
-                //stringBuilder.Append(" ");
             }
 
-            _sqlString = stringBuilder.ToString();
+            //check if the data initialization ended up being empty
+            if(stringBuilder.ToString() == "WHERE ")
+            {
+                return _sqlString = "";
+            }
 
-            return _sqlString;
+            return _sqlString = stringBuilder.ToString();
         }
 
+        
         public string GetSql()
         {
             if (_sqlString == null)
@@ -139,7 +145,7 @@ namespace Lyre.Common
         }
         public void AddParameters(SqlCommand command)
         {
-            foreach(var kvPair in _parameters)
+            foreach (var kvPair in _parameters)
             {
                 command.Parameters.AddWithValue(kvPair.Key, '%' + kvPair.Value + '%');
             }
