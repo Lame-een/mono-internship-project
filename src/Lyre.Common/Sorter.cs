@@ -15,8 +15,8 @@ namespace Lyre.Common
         public string Sort { get; set; }
 
         ///<summary>
-        ///Checks if the <strong>Sort</strong> property is contained in a column of 
-        ///the <strong>type</strong> model class.
+        ///Checks if the stored <strong>Sort</strong> property is contained in a 
+        ///column of the <strong>type</strong> model class.
         ///</summary>
         ///<example>Example usage:
         ///<code>
