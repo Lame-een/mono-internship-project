@@ -18,6 +18,7 @@ namespace Lyre.WebApi.Controllers
     {
         private IGenreService Service { get; set; }
         private IMapper Mapper { get; set; }
+        private Authenticator Authenticator { get; set; }
 
         public GenreController() { }
         public GenreController(IGenreService service, IMapper mapper)
@@ -66,6 +67,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Genre")]
         public async Task<HttpResponseMessage> PostGenresAsync([FromBody] string newGenreName)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //post isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (newGenreName.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -74,7 +81,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.PostGenreAsync(newGenreName);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
@@ -83,6 +90,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Genre/list")]
         public async Task<HttpResponseMessage> PostGenreAsync([FromBody] List<string> newGenreNames)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //post isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (newGenreNames.Count == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -91,18 +104,22 @@ namespace Lyre.WebApi.Controllers
             int status = 0;
             foreach(string genreName in newGenreNames)
             {
+                if (genreName.Length == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+                }
                 try
                 {
                     status += await Service.PostGenreAsync(genreName);
                 }
                 catch
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
                 }
             }
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
@@ -111,6 +128,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Genre")]
         public async Task<HttpResponseMessage> PutGenreAsync([FromBody] Genre genre)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //delete isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (genre == null || genre.ID == Guid.Empty || genre.Name.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -119,7 +142,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.PutGenreAsync(genre);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Updated " + status + " row(s).");
         }
@@ -128,6 +151,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Genre/{id}")]
         public async Task<HttpResponseMessage> DeleteGenreByIDAsync(Guid id)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //delete isn't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (id == Guid.Empty)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "No entries found.");
@@ -136,7 +165,7 @@ namespace Lyre.WebApi.Controllers
             int status = await Service.DeleteGenreByIDAsync(id);
             if (status == -1)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted " + status.ToString() + " row(s).");
         }
@@ -145,6 +174,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Genre")]
         public async Task<HttpResponseMessage> DeleteGenreByNameAsync([FromBody] string genreName)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //updates aren't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (genreName.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");

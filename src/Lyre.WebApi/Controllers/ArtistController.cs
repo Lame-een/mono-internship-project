@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Lyre.Model;
 using Lyre.Model.Common;
+using Lyre.Service;
 using Lyre.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Lyre.WebApi.Controllers
     {
         private IArtistService Service { get; set; }
         private IMapper Mapper { get; set; }
+        private Authenticator Authenticator { get; set; }
 
         public ArtistController() { }
         public ArtistController(IArtistService service, IMapper mapper)
@@ -75,6 +77,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Artist/list")]
         public async Task<HttpResponseMessage> PostArtistsAsync([FromBody] List<string> newArtistNames)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //updates aren't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if (newArtistNames.Count == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -83,18 +91,22 @@ namespace Lyre.WebApi.Controllers
             int status = 0;
             foreach (string artistName in newArtistNames)
             {
+                if (artistName.Length == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
+                }
                 try
                 {
                     status += await Service.PostArtistAsync(artistName);
                 }
                 catch
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
                 }
             }
             if (status < 0)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occured.");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error occured.");
             }
             return Request.CreateResponse(HttpStatusCode.Created, "Inserted " + status.ToString() + " row(s).");
         }
@@ -103,6 +115,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Artist")]
         public async Task<HttpResponseMessage> PutArtistAsync([FromBody] Artist artist)
         {
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //updates aren't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
             if(artist == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -120,7 +138,13 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Artist/{id}")]
         public async Task<HttpResponseMessage> DeleteArtistByIDAsync(Guid id)
         {
-            if(id == Guid.Empty)
+            IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
+            if (user.Role == UserRole.USER)    //updates aren't allowed unless you're an admin or editor
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
+            }
+
+            if (id == Guid.Empty)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "No entries found.");
             }

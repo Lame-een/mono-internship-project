@@ -17,18 +17,13 @@ namespace Lyre.Model
         public UserRole Role { get; set; }
         public DateTime? CreationTime { get; set; }
 
-        public User(Guid id, string username)
-        {
-            UserID = id;
-            Username = username;
-            Role = UserRole.USER;
-            CreationTime = DateTime.Now;
-        }
-        public User(string username)
+        public User(string username, string hash, string salt, UserRole role = UserRole.USER)
         {
             UserID = Guid.NewGuid();
             Username = username;
-            Role = UserRole.USER;
+            Hash = hash;
+            Salt = salt;
+            Role = role;
             CreationTime = DateTime.Now;
         }
 

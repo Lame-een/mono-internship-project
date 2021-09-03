@@ -11,8 +11,6 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using Lyre.Common;
-using Lyre.Model;
-using Lyre.WebApi.Controllers;
 
 namespace Lyre.WebApi
 {
@@ -32,15 +30,10 @@ namespace Lyre.WebApi
         }
         private static IMapper GenerateMapper()
         {
-            //this is temporary! - use profiles
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserController.UserREST>();
-                //cfg.CreateMap<src, dest>();
-                cfg.CreateMap<Genre, GenreController.GenreREST>();
-                cfg.CreateMap<Artist, ArtistController.ArtistREST>();
-            }
-            );
+                cfg.AddProfile(new MappingProfile());
+            });
 
             config.AssertConfigurationIsValid();
 
