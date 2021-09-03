@@ -32,6 +32,10 @@ namespace Lyre.Service
         {
             return await GenreRepo.GetGenreByIDAsync(id);
         }
+        public async Task<IGenre> GetGenreByNameAsync(string genreName)
+        {
+            return await GenreRepo.GetGenreByNameAsync(genreName);
+        }
         public async Task<int> PutGenreAsync(IGenre genre)
         {
             return await GenreRepo.PutGenreAsync(genre);
@@ -39,6 +43,10 @@ namespace Lyre.Service
         public async Task<int> DeleteGenreByIDAsync(Guid id)
         {
             return await GenreRepo.DeleteGenreByIDAsync(id);
+        }
+        public async Task<int> DeleteGenreByNameAsync(string genreName)
+        {
+            return await GenreRepo.DeleteGenreByNameAsync(genreName);
         }
     }
 }
