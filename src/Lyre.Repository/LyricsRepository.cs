@@ -30,7 +30,7 @@ namespace Lyre.Repository
                     string queryString = "INSERT INTO lyrics VALUES (@lyricsID, @text, @userID, @songID, @creationTime);";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.AddWithValue("@lyricsID", newLyrics.ID);
+                    command.Parameters.AddWithValue("@lyricsID", newLyrics.LyricsID);
                     command.Parameters.AddWithValue("@text", newLyrics.Text);
                     command.Parameters.AddWithValue("@userID", newLyrics.UserID);
                     command.Parameters.AddWithValue("@songID", newLyrics.SongID);
@@ -51,7 +51,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM lyrics WHERE lyrics_id = @lyricsID;";
+                string queryString = "SELECT * FROM lyrics WHERE lyricsID = @lyricsID;";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@lyricsID", id);
 
@@ -60,6 +60,7 @@ namespace Lyre.Repository
                 if (reader.HasRows)
                 {
                     reader.Read();
+                    //FIX use object constructor - see other classes
                     ILyrics lyricsData = new Lyrics(reader.GetGuid(0), reader.GetString(1), reader.GetGuid(2), reader.GetGuid(3), 
                                                     reader.GetDateTime(4), Convert.ToChar(reader.GetString(5)));
                     reader.Close();
@@ -73,17 +74,18 @@ namespace Lyre.Repository
         }
         public async Task<int> PutLyricsAsync(ILyrics lyrics)
         {
+            //FIX song should also be updated?
             try
             {
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE lyrics SET text = @text, verified = @verified WHERE lyrics_id = @lyricsID;";
+                    string queryString = "UPDATE lyrics SET text = @text, verified = @verified WHERE lyricsID = @lyricsID;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@text", lyrics.Text);
                     command.Parameters.AddWithValue("@verified", lyrics.Verified);
-                    command.Parameters.AddWithValue("@lyricsID", lyrics.ID);
+                    command.Parameters.AddWithValue("@lyricsID", lyrics.LyricsID);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.UpdateCommand = command;
@@ -102,7 +104,7 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "DELETE FROM lyrics WHERE lyrics_id = @id;";
+                    string queryString = "DELETE FROM lyrics WHERE lyricsID = @id;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@id", id);

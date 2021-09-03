@@ -8,7 +8,7 @@ namespace Lyre.Model.Common
 {
     public interface IGenre
     {
-        Guid ID { get; set; }
+        Guid GenreID { get; set; }
         string Name { get; set; }
     }
 }

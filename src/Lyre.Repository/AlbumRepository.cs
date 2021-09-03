@@ -61,7 +61,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM ALBUM WHERE ALBUM_ID = @AlbumID;";
+                string queryString = "SELECT * FROM ALBUM WHERE albumID = @AlbumID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
@@ -93,19 +93,19 @@ namespace Lyre.Repository
                 SqlDataAdapter adapter = new SqlDataAdapter();
 
                 string queryString =
-                    "INSERT INTO ALBUM(album_id, name, number_of_tracks, year, cover, artist_id, creation_time) " +
+                    "INSERT INTO ALBUM(albumID, name, NumberOfTracks, year, cover, artistID, CreationTime) " +
                     "VALUES(@AlbumID, @Name, @NumberOfTracks, @Year, @Cover, @ArtistID, @CreationTime);";
 
 
                 adapter.InsertCommand = new SqlCommand(queryString, connection);
 
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@AlbumID", A.album_id);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Name", A.name);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@NumberOfTracks", A.number_of_tracks);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Year", A.year);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Cover", A.cover);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@ArtistID", A.artist_id);
-                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@CreationTime", A.creation_time);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@AlbumID", A.AlbumID);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Name", A.Name);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@NumberOfTracks", A.NumberOfTracks);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Year", A.Year);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@Cover", A.Cover);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@ArtistID", A.ArtistID);
+                SqlUtilities.AddParameterWithNullableValue(adapter.InsertCommand, "@CreationTime", A.CreationTime);
 
                 try
                 {
@@ -124,17 +124,17 @@ namespace Lyre.Repository
             {
                 connection.Open();
 
-                string queryString = "UPDATE ALBUM SET name = @name, number_of_tracks = @number_of_tracks, year = @year, cover = @cover, artist_id = @artist_id "
-                + "WHERE album_id = @ID;";
+                string queryString = "UPDATE ALBUM SET name = @name, NumberOfTracks = @number_of_tracks, year = @year, cover = @cover, artistID = @artistID "
+                + "WHERE albumID = @ID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
                 SqlUtilities.AddParameterWithNullableValue(command, "@ID", albumGuid);
-                SqlUtilities.AddParameterWithNullableValue(command, "@name", album.name);
-                SqlUtilities.AddParameterWithNullableValue(command, "@number_of_tracks", album.number_of_tracks);
-                SqlUtilities.AddParameterWithNullableValue(command, "@year", album.year);
-                SqlUtilities.AddParameterWithNullableValue(command, "@cover", album.cover);
-                SqlUtilities.AddParameterWithNullableValue(command, "@artist_id", album.artist_id);
+                SqlUtilities.AddParameterWithNullableValue(command, "@name", album.Name);
+                SqlUtilities.AddParameterWithNullableValue(command, "@number_of_tracks", album.NumberOfTracks);
+                SqlUtilities.AddParameterWithNullableValue(command, "@year", album.Year);
+                SqlUtilities.AddParameterWithNullableValue(command, "@cover", album.Cover);
+                SqlUtilities.AddParameterWithNullableValue(command, "@artistID", album.ArtistID);
 
 
                 try
@@ -155,7 +155,7 @@ namespace Lyre.Repository
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
 
-                string queryString = "DELETE ALBUM WHERE album_id = @AlbumID;";
+                string queryString = "DELETE ALBUM WHERE albumID = @AlbumID;";
 
                 adapter.DeleteCommand = connection.CreateCommand();
                 adapter.DeleteCommand.CommandText = queryString;
@@ -176,7 +176,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT COUNT(song_id) FROM SONG WHERE ALBUM_ID = @AlbumID;";
+                string queryString = "SELECT COUNT(songID) FROM SONG WHERE AlbumID = @AlbumID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 

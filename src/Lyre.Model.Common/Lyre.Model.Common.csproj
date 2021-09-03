@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAlbum.cs" />
-    <Compile Include="ICompositeSongObject.cs" />
+    <Compile Include="ISongComposite.cs" />
     <Compile Include="ISong.cs" />
     <Compile Include="IArtist.cs" />
     <Compile Include="IGenre.cs" />

@@ -134,8 +134,9 @@ namespace Lyre.Common
         }
 
 
-        //only use with rest objects, expects TablenameREST types
-        //example: qsManager.Filter.InitializeSql(new Type[]{ typeof(SongREST), typeof(AlbumREST)});
+        //only use with domain interfaces, expects ITablename types
+        //example: qsManager.Filter.InitializeSql(new Type[]{ typeof(ISong), typeof(IAlbum)});
+        //TODO testing
         public string InitializeSql(Type[] types)
         {
             //no filter
@@ -150,7 +151,7 @@ namespace Lyre.Common
 
             foreach (var type in types)
             {
-                string prefix = type.Name.Substring(0, type.Name.Length - 4) + '.';
+                string prefix = type.Name.Substring(1, type.Name.Length - 1) + '.';
                 List<PropertyInfo> typeProperties = type.GetProperties().ToList();
 
 

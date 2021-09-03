@@ -126,7 +126,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPut]
         [Route("api/Genre")]
-        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] Genre genre)
+        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] Genre genre)    //FIX use GenreREST
         {
             IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
             if (user.Role == UserRole.USER)    //delete isn't allowed unless you're an admin or editor
@@ -134,7 +134,7 @@ namespace Lyre.WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
             }
 
-            if (genre == null || genre.ID == Guid.Empty || genre.Name.Length == 0)
+            if (genre == null || genre.GenreID == Guid.Empty || genre.Name.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
@@ -195,13 +195,13 @@ namespace Lyre.WebApi.Controllers
 
         public class GenreREST
         {
-            public Guid ID { get; set; }
+            public Guid GenreID { get; set; }
             public string Name { get; set; }
 
             public GenreREST() { }
             public GenreREST(Guid id, string name)
             {
-                ID = id;
+                GenreID = id;
                 Name = name;
             }
         }

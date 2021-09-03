@@ -27,11 +27,11 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "INSERT INTO genre VALUES (@genreId, @genreName);";
+                    string queryString = "INSERT INTO genre VALUES (@genreID, @genreName);";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.Add("@genreId", SqlDbType.UniqueIdentifier).Value = newGenre.ID;
-                    command.Parameters.Add("@genreName", SqlDbType.VarChar, 128).Value = newGenre.Name;
+                    command.Parameters.AddWithValue("@genreID", newGenre.GenreID);
+                    command.Parameters.AddWithValue("@genreName", newGenre.Name);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.InsertCommand = command;
@@ -76,7 +76,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM genre WHERE genre_id = @genreID;";
+                string queryString = "SELECT * FROM genre WHERE genreID = @genreID;";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@genreID", id);
 
@@ -126,11 +126,11 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE genre SET name = @genreName WHERE genre_id = @genreID;";
+                    string queryString = "UPDATE genre SET name = @genreName WHERE genreID = @genreID;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.Add("@genreID", SqlDbType.UniqueIdentifier).Value = genre.ID;
-                    command.Parameters.Add("@genreName", SqlDbType.VarChar, 128).Value = genre.Name;
+                    command.Parameters.AddWithValue("@genreID", genre.GenreID);
+                    command.Parameters.AddWithValue("@genreName", genre.Name);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.UpdateCommand = command;
@@ -149,7 +149,7 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "DELETE FROM genre WHERE genre_id = @id;";
+                    string queryString = "DELETE FROM genre WHERE genreID = @id;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@id", id);

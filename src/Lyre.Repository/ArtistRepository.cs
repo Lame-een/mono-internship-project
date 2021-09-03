@@ -30,7 +30,7 @@ namespace Lyre.Repository
                     string queryString = "INSERT INTO artist VALUES (@artistId, @artistName, @artistCreationTime);";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.AddWithValue("@artistID", newArtist.ID);
+                    command.Parameters.AddWithValue("@artistID", newArtist.ArtistID);
                     command.Parameters.AddWithValue("@artistName", newArtist.Name);
                     command.Parameters.AddWithValue("@artistCreationTime", newArtist.CreationTime);
 
@@ -77,7 +77,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM artist WHERE artist_id = @artistID;";
+                string queryString = "SELECT * FROM artist WHERE artistID = @artistID;";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@artistID", id);
 
@@ -103,11 +103,11 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE artist SET name = @artistName WHERE artist_id = @artistID;";
+                    string queryString = "UPDATE artist SET name = @artistName WHERE artistID = @artistID;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@artistName", artist.Name);
-                    command.Parameters.AddWithValue("@artistID", artist.ID);
+                    command.Parameters.AddWithValue("@artistID", artist.ArtistID);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.UpdateCommand = command;
@@ -126,7 +126,7 @@ namespace Lyre.Repository
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "DELETE FROM artist WHERE artist_id = @artistID;";
+                    string queryString = "DELETE FROM artist WHERE artistID = @artistID;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@artistID", id);

@@ -159,14 +159,14 @@ namespace Lyre.WebApi.Controllers
 
         public class ArtistREST
         {
-            public Guid ID { get; set; }
+            public Guid ArtistID { get; set; }
             public string Name { get; set; }
             public DateTime CreationTime { get; set; }
 
             public ArtistREST() { }
             public ArtistREST(Guid id, string name, DateTime creationTime)
             {
-                ID = id;
+                ArtistID = id;
                 Name = name;
                 CreationTime = creationTime;
             }

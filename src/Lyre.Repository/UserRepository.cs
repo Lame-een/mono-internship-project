@@ -57,7 +57,7 @@ namespace Lyre.Repository
 
         public async Task<IUser> SelectUserAsync(Guid id)
         {
-            const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE User_ID = @UserID";
+            const string sqlSelect = "SELECT TOP(1) * FROM serveruser WHERE UserID = @UserID";
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {
@@ -126,8 +126,8 @@ namespace Lyre.Repository
         public async Task<int> UpdateAsync(IUser value)
         {
             const string sqlUpdate = "UPDATE serveruser SET " +
-                "username = @Username, hash = @Hash, salt = @Salt, role = @Role, creation_time = @CreationTime " +
-                "WHERE user_id = @UserID";
+                "username = @Username, hash = @Hash, salt = @Salt, role = @Role, CreationTime = @CreationTime " +
+                "WHERE userID = @UserID";
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {
@@ -157,7 +157,7 @@ namespace Lyre.Repository
         public async Task<int> InsertAsync(IUser value)
         {
 
-            const string sqlInsert = "INSERT INTO serveruser(user_id, username, hash, salt, role, creation_time) VALUES (@UserID, @Username, @Hash, @Salt, @Role, @CreationTime)";
+            const string sqlInsert = "INSERT INTO serveruser(userID, username, hash, salt, role, creationTime) VALUES (@UserID, @Username, @Hash, @Salt, @Role, @CreationTime)";
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 try
@@ -185,7 +185,7 @@ namespace Lyre.Repository
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            const string sqlDelete = "DELETE FROM serveruser WHERE user_id = @UserID";
+            const string sqlDelete = "DELETE FROM serveruser WHERE userID = @UserID";
 
 
             using (SqlConnection connection = DBHandler.NewConnection())

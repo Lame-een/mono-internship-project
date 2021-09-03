@@ -24,6 +24,6 @@ namespace Lyre.Service.Common
 
         IAlbum NewAlbum();
 
-        IAlbum NewAlbum(Guid album_id, string name, int? number_of_tracks, int? year, string cover, Guid artist_id);
+        IAlbum NewAlbum(Guid albumID, string name, int? number_of_tracks, int? year, string cover, Guid artistID);
     }
 }

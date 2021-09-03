@@ -9,7 +9,7 @@ namespace Lyre.Model
 {
     public class Lyrics : ILyrics
     {
-        public Guid ID { get; set; }
+        public Guid LyricsID { get; set; }
         public string Text { get; set; }
         public Guid UserID { get; set; }
         public Guid SongID { get; set; }
@@ -26,7 +26,7 @@ namespace Lyre.Model
         }
         public Lyrics(Guid id, string text, Guid userID, Guid songID, DateTime creationTime, char verified = 'n')
         {
-            ID = id;
+            LyricsID = id;
             Text = text;
             UserID = userID;
             SongID = songID;

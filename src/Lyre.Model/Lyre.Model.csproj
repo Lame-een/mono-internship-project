@@ -86,7 +86,7 @@
   <ItemGroup>
     <Compile Include="Album.cs" />
     <Compile Include="Artist.cs" />
-    <Compile Include="CompositeSongObject.cs" />
+    <Compile Include="SongComposite.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="Lyrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

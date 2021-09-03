@@ -9,13 +9,13 @@ namespace Lyre.Model
 {
     public class Genre: IGenre
     {
-        public Guid ID { get; set; }
+        public Guid GenreID { get; set; }
         public string Name { get; set; }
 
         public Genre() { }
         public Genre(Guid id, string name)
         {
-            ID = id;
+            GenreID = id;
             Name = name;
         }
     }
