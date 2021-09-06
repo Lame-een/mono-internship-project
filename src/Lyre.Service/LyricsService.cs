@@ -18,6 +18,11 @@ namespace Lyre.Service
             LyricsRepo = lyricsRepo;
         }
 
+        public async Task<List<ILyrics>> GetLyricsBySongIDAsync(Guid id)
+        {
+            return await LyricsRepo.GetLyricsBySongIDAsync(id);
+        }
+
         public async Task<int> PostLyricsAsync(ILyrics newLyrics)
         {
             newLyrics.LyricsID = Guid.NewGuid();

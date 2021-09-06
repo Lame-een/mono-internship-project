@@ -10,6 +10,7 @@ namespace Lyre.Repository.Common
     public interface ILyricsRepository
     {
         Task<int> PostLyricsAsync(ILyrics newLyrics);
+        Task<List<ILyrics>> GetLyricsBySongIDAsync(Guid id);
         Task<ILyrics> GetLyricsByIDAsync(Guid id);
         Task<int> PutLyricsAsync(ILyrics lyrics);
         Task<int> DeleteLyricsByIDAsync(Guid id);

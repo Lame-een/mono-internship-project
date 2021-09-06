@@ -44,6 +44,23 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, lyrics);
         }
 
+        [HttpGet]
+        [Route("api/Lyrics/song/{id}")]
+        public async Task<HttpResponseMessage> GetLyricsBySongIDAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "No entries found.");
+            }
+
+            List<LyricsREST> lyrics = Mapper.Map<List<LyricsREST>>(await Service.GetLyricsBySongIDAsync(id));
+            if (lyrics == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No rows found.");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, lyrics);
+        }
+
         [HttpPost]
         [Route("api/Lyrics")]
         public async Task<HttpResponseMessage> PostLyricsAsync([FromBody] LyricsREST newLyrics)
@@ -82,8 +99,8 @@ namespace Lyre.WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
 
-            int status = await Service.PutLyricsAsync(new Lyrics(lyrics.ID, lyrics.Text, lyrics.UserID,
-                                                        lyrics.SongID, lyrics.CreationTime, lyrics.Verified));
+            int status = await Service.PutLyricsAsync(new Lyrics(lyrics.LyricsID, lyrics.Text, lyrics.UserID,
+                                                        lyrics.SongID, lyrics.Verified));
             if (status == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
@@ -116,28 +133,27 @@ namespace Lyre.WebApi.Controllers
 
         public class LyricsREST
         {
-            public Guid ID { get; set; }
+            public Guid LyricsID { get; set; }
             public string Text { get; set; }
             public Guid UserID { get; set; }
             public Guid SongID { get; set; }
-            public DateTime CreationTime { get; set; }
+            //public DateTime CreationTime { get; set; }
             public char Verified { get; set; }
 
             public LyricsREST() { }
-            public LyricsREST(string text, Guid userID, Guid songID, char verified = 'n')
+            public LyricsREST(string text, Guid userID, Guid songID, char verified = 'N')
             {
                 Text = text;
                 UserID = userID;
                 SongID = songID;
                 Verified = verified;
             }
-            public LyricsREST(Guid id, string text, Guid userID, Guid songID, DateTime creationTime, char verified = 'n')
+            public LyricsREST(Guid id, string text, Guid userID, Guid songID, char verified = 'N')
             {
-                ID = id;
+                LyricsID = id;
                 Text = text;
                 UserID = userID;
                 SongID = songID;
-                CreationTime = creationTime;
                 Verified = verified;
             }
         }

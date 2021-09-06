@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Lyre.Repository
 {
-    public class LyricsRepository: ILyricsRepository
+    public class LyricsRepository : ILyricsRepository
     {
         public IDatabaseHandler DBHandler { get; set; }
         public LyricsRepository(IDatabaseHandler dbHandler)
@@ -59,12 +59,17 @@ namespace Lyre.Repository
 
                 if (reader.HasRows)
                 {
-                    reader.Read();
-                    //FIX use object constructor - see other classes
-                    ILyrics lyricsData = new Lyrics(reader.GetGuid(0), reader.GetString(1), reader.GetGuid(2), reader.GetGuid(3), 
-                                                    reader.GetDateTime(4), Convert.ToChar(reader.GetString(5)));
-                    reader.Close();
-                    return lyricsData;
+                    ILyrics ret = null;
+                    object[] objectBuffer = new object[Lyrics.FieldNumber];
+
+                    if (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        ret = new Lyrics(objectBuffer);
+                        reader.Close();
+                    }
+                    reader.Close(); //unsure if reader needs to be closed .Dispose() should take care of it
+                    return ret;
                 }
                 else
                 {
@@ -72,19 +77,46 @@ namespace Lyre.Repository
                 }
             }
         }
+
+        public async Task<List<ILyrics>> GetLyricsBySongIDAsync(Guid id)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                string queryString = "SELECT * FROM lyrics WHERE songID = @songID;";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@songID", id);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<ILyrics> lyricsList = new List<ILyrics>();
+
+                object[] objectBuffer = new object[Lyrics.FieldNumber];
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        lyricsList.Add(new Lyrics(objectBuffer));
+                    }
+                    reader.NextResult();
+                }
+                return lyricsList;
+            }
+        }
         public async Task<int> PutLyricsAsync(ILyrics lyrics)
         {
-            //FIX song should also be updated?
             try
             {
                 using (SqlConnection connection = DBHandler.NewConnection())
                 {
                     connection.Open();
-                    string queryString = "UPDATE lyrics SET text = @text, verified = @verified WHERE lyricsID = @lyricsID;";
+                    string queryString = "UPDATE lyrics SET text = @text, verified = @verified, songID = @songID WHERE lyricsID = @lyricsID;";
 
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("@text", lyrics.Text);
                     command.Parameters.AddWithValue("@verified", lyrics.Verified);
+                    command.Parameters.AddWithValue("@songID", lyrics.SongID);
                     command.Parameters.AddWithValue("@lyricsID", lyrics.LyricsID);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();

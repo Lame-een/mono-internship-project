@@ -55,13 +55,13 @@ CREATE TABLE lyrics(
 	lyricsID UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_pk PRIMARY KEY DEFAULT NEWID(),
 	text VARCHAR(MAX) NOT NULL,
-	verified CHAR(1) NOT NULL DEFAULT 'N'
-	CONSTRAINT verified_check CHECK (verified in ('Y', 'N')),
 	userID UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_fk_userID REFERENCES serveruser(userID),
 	songID UNIQUEIDENTIFIER NOT NULL
 	CONSTRAINT lyrics_fk_songID REFERENCES song(songID),
 	creationTime DATETIME
+	verified CHAR(1) NOT NULL DEFAULT 'N'
+	CONSTRAINT verified_check CHECK (verified in ('Y', 'N')),
 );
 
 INSERT INTO serveruser(userID, username, hash, salt, role) VALUES

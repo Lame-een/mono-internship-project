@@ -11,8 +11,8 @@ namespace Lyre.Model.Common
         Guid LyricsID { get; set; }
         string Text { get; set; }
         Guid UserID { get; set; }
-        Guid SongID { get; set; }
-        DateTime CreationTime { get; set; }
+        Guid? SongID { get; set; }
+        DateTime? CreationTime { get; set; }
         char Verified { get; set; }  // Y or N
     }
 }

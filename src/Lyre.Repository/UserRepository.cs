@@ -36,11 +36,6 @@ namespace Lyre.Repository
 
                 List<IUser> userList = new List<IUser>();
 
-                if (!reader.HasRows)
-                {
-                    return userList;
-                }
-
                 object[] objectBuffer = new object[User.FieldNumber];
                 while (reader.HasRows)
                 {

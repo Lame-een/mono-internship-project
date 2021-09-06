@@ -102,7 +102,7 @@ namespace Lyre.WebApi.Controllers
             }
 
             int status = 0;
-            foreach(string genreName in newGenreNames)
+            foreach (string genreName in newGenreNames)
             {
                 if (genreName.Length == 0)
                 {
@@ -126,7 +126,7 @@ namespace Lyre.WebApi.Controllers
 
         [HttpPut]
         [Route("api/Genre")]
-        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] Genre genre)    //FIX use GenreREST
+        public async Task<HttpResponseMessage> PutGenreAsync([FromBody] GenreREST genre)
         {
             IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
             if (user.Role == UserRole.USER)    //delete isn't allowed unless you're an admin or editor
@@ -134,12 +134,25 @@ namespace Lyre.WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
             }
 
-            if (genre == null || genre.GenreID == Guid.Empty || genre.Name.Length == 0)
+            if (genre == null || genre.Name.Length == 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
             }
 
-            int status = await Service.PutGenreAsync(genre);
+            int status;
+
+            IGenre selectedGenre = null;
+            if (genre.GenreID != Guid.Empty)
+            {
+                selectedGenre = await Service.GetGenreByIDAsync(genre.GenreID);
+                selectedGenre.Name = genre.Name;
+            }
+            else
+            {
+                selectedGenre = new Genre() { Name = genre.Name };
+            }
+
+            status = await Service.PutGenreAsync(selectedGenre);
             if (status == -1)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Body has invalid data.");
