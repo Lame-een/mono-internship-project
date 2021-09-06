@@ -13,7 +13,7 @@ namespace Lyre.Service.Common
     {
         Task<ISong> GetSong(Guid songGuid);
 
-        Task<ICompositeSongObject> GetSongComposite(Guid songGuid);
+        Task<ISongComposite> GetSongComposite(Guid songGuid);
 
         Task<List<ISong>> GetAllSongs(QueryStringManager qsManager);
 
@@ -25,6 +25,6 @@ namespace Lyre.Service.Common
 
         ISong NewSong();
 
-        ISong NewSong(Guid Song_id, string Name, Guid Album_id, Guid? Genre_id = null);
+        ISong NewSong(Guid SongID, string Name, Guid AlbumID, Guid? GenreID = null);
     }
 }

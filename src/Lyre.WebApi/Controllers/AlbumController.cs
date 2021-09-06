@@ -62,16 +62,16 @@ namespace Lyre.WebApi.Controllers
             }
 
             int changeCount;
-            if (album.album_id != null)
+            if (album.albumID != null)
             {
                 changeCount = await Service.PostAlbum
-                    (Service.NewAlbum((Guid)album.album_id, album.name, album.number_of_tracks, album.year, album.cover, album.artist_id));
+                    (Service.NewAlbum((Guid)album.albumID, album.name, album.number_of_tracks, album.year, album.cover, album.artistID));
             }
             else
             {
                 
                 changeCount = await Service.PostAlbum
-                    (Service.NewAlbum(Guid.NewGuid(), album.name, album.number_of_tracks, album.year, album.cover, album.artist_id));
+                    (Service.NewAlbum(Guid.NewGuid(), album.name, album.number_of_tracks, album.year, album.cover, album.artistID));
             }
 
             if (changeCount == -1)
@@ -101,18 +101,18 @@ namespace Lyre.WebApi.Controllers
 
             string action;
             int changeCount;
-            if (album.album_id != null)
+            if (album.albumID != null)
             {
-                IAlbum temp = Service.NewAlbum((Guid)album.album_id, album.name, album.number_of_tracks, album.year, album.cover, album.artist_id);
+                IAlbum temp = Service.NewAlbum((Guid)album.albumID, album.name, album.number_of_tracks, album.year, album.cover, album.artistID);
 
                 action = "Updated";
-                changeCount = await Service.PutAlbum(temp.album_id, temp);
+                changeCount = await Service.PutAlbum(temp.AlbumID, temp);
             }
             else
             {
                 action = "Inserted";
                 changeCount = await Service.PostAlbum
-                                    (Service.NewAlbum(Guid.NewGuid(), album.name, album.number_of_tracks, album.year, album.cover, album.artist_id));
+                                    (Service.NewAlbum(Guid.NewGuid(), album.name, album.number_of_tracks, album.year, album.cover, album.artistID));
             }
 
             if (changeCount == -1)
@@ -145,7 +145,7 @@ namespace Lyre.WebApi.Controllers
 
         public class AlbumREST
         {
-            public Guid? album_id { get; set; }
+            public Guid? albumID { get; set; }
 
             public string name { get; set; }
 
@@ -155,20 +155,20 @@ namespace Lyre.WebApi.Controllers
 
             public string cover { get; set; }
 
-            public Guid artist_id { get; set; }
+            public Guid artistID { get; set; }
 
             //public DateTime creation_time { get; set; }
 
 
             public AlbumREST() { }
-            public AlbumREST(string Name, string Cover, Guid Artist_id, Guid? albumGUID, int? trackNum = null, int? Year = null)
+            public AlbumREST(string Name, string Cover, Guid ArtistID, Guid? albumGUID, int? trackNum = null, int? Year = null)
             {
-                album_id = albumGUID;
+                albumID = albumGUID;
                 name = Name;
                 number_of_tracks = trackNum;
                 cover = Cover;
                 year = Year;
-                artist_id = Artist_id;
+                artistID = ArtistID;
             }
         }
 

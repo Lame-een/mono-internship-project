@@ -29,7 +29,7 @@ namespace Lyre.Model
 
         public User(object[] obj)
         {
-            if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
+            if (obj.Length != FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
 
             UserID = (Guid)obj[0];
             Username = (string)obj[1];

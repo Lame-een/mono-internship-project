@@ -10,55 +10,55 @@ namespace Lyre.Model
     public class Album: IAlbum
     {
         public const int FieldNumber = 7;
-        public Guid album_id { get; set; }
+        public Guid AlbumID { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public int? number_of_tracks { get; set; }
+        public int? NumberOfTracks { get; set; }
 
-        public int? year { get; set; }
+        public int? Year { get; set; }
 
-        public string cover { get; set; }
+        public string Cover { get; set; }
 
-        public Guid artist_id { get; set; }
+        public Guid ArtistID { get; set; }
 
-        public DateTime? creation_time { get; set; }
+        public DateTime? CreationTime { get; set; }
 
-        public Album(Guid Album_id, string Name, string Cover, Guid Artist_id, int? Number_of_tracks = null, int? Year = null)
+        public Album(Guid albumID, string name, string cover, Guid artistID, int? numberOfTracks = null, int? year = null)
         {
-            album_id = Album_id;
-            name = Name;
-            number_of_tracks = Number_of_tracks;
-            year = Year;
-            cover = Cover;
-            artist_id = Artist_id;
-            creation_time = DateTime.Now;
+            AlbumID = albumID;
+            Name = name;
+            NumberOfTracks = numberOfTracks;
+            Year = year;
+            Cover = cover;
+            ArtistID = artistID;
+            CreationTime = DateTime.Now;
         }
 
         public Album() 
         {
-            album_id = Guid.NewGuid();
-            creation_time = DateTime.Now;
+            AlbumID = Guid.NewGuid();
+            CreationTime = DateTime.Now;
         }
 
         public Album(object[] obj)
         {
-            if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
+            if (obj.Length != FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
 
-            album_id = (Guid)obj[0];
-            name = (string)obj[1];
-            number_of_tracks = (int?)obj[2];
-            year = (int?)obj[3];
+            AlbumID = (Guid)obj[0];
+            Name = (string)obj[1];
+            NumberOfTracks = (int?)obj[2];
+            Year = (int?)obj[3];
             if (obj[4].GetType() == typeof(DBNull))
             {
-                cover = null;
+                Cover = null;
             }
             else
             { 
-                cover = (string)obj[4];
+                Cover = (string)obj[4];
             }
-            artist_id = (Guid)obj[5];
-            creation_time = (DateTime?)(obj[6] == DBNull.Value ? null : obj[6]);
+            ArtistID = (Guid)obj[5];
+            CreationTime = (DateTime?)(obj[6] == DBNull.Value ? null : obj[6]);
         }
     }
 }

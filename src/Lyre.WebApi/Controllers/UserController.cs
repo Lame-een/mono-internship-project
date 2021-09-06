@@ -31,8 +31,8 @@ namespace Lyre.WebApi.Controllers
         {
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            qsManager.Filter.InitializeSql(typeof(UserREST));
-            qsManager.Sorter.InitializeSql(typeof(UserREST));
+            qsManager.Filter.InitializeSql(typeof(IUser));
+            qsManager.Sorter.InitializeSql(typeof(IUser));
 
             List<IUser> users = await Service.SelectUsersAsync(qsManager);
 

@@ -19,7 +19,7 @@ namespace Lyre.Service
         }
         protected ISongRepository Repository { get; private set; }
 
-        public async Task<ICompositeSongObject> GetSongComposite(Guid songGuid)
+        public async Task<ISongComposite> GetSongComposite(Guid songGuid)
         {
             return await Repository.GetSongComposite(songGuid);
         }
@@ -51,9 +51,9 @@ namespace Lyre.Service
             return new Song();
         }
 
-        public ISong NewSong(Guid song_id, string name, Guid album_id, Guid? genre_id = null)
+        public ISong NewSong(Guid songID, string name, Guid albumID, Guid? genreID = null)
         {
-            return new Song(song_id, name, album_id, genre_id);
+            return new Song(songID, name, albumID, genreID);
         }
     }
 }

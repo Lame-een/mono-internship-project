@@ -32,7 +32,7 @@ namespace Lyre.WebApi.Controllers
         [Route("api/song/all/{id}")]
         public async Task<HttpResponseMessage> GetSongCompositeAsync(Guid id)
         {
-            CompositeSongObjectREST Song = Mapper.Map<CompositeSongObjectREST>(await Service.GetSongComposite(id));
+            SongCompositeREST Song = Mapper.Map<SongCompositeREST>(await Service.GetSongComposite(id));
 
             if (Song == null)
             {
@@ -48,7 +48,8 @@ namespace Lyre.WebApi.Controllers
         {
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            qsManager.Filter.InitializeSql(typeof(SongREST));
+            qsManager.Filter.InitializeSql(typeof(ISong));
+            qsManager.Sorter.InitializeSql(typeof(ISong));
 
             return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllSongs(qsManager));
         }
@@ -75,16 +76,16 @@ namespace Lyre.WebApi.Controllers
             }
 
             int changeCount;
-            if (song.song_id != null)
+            if (song.songID != null)
             {
                 changeCount = await Service.PostSong
-                                    (Service.NewSong((Guid)song.song_id, song.name, song.album_id, song.genre_id));
+                                    (Service.NewSong((Guid)song.songID, song.name, song.albumID, song.genreID));
             }
             else
             {
 
                 changeCount = await Service.PostSong
-                                     (Service.NewSong(Guid.NewGuid(), song.name, song.album_id, song.genre_id));
+                                     (Service.NewSong(Guid.NewGuid(), song.name, song.albumID, song.genreID));
             }
 
             if (changeCount == -1)
@@ -114,18 +115,18 @@ namespace Lyre.WebApi.Controllers
 
             string action;
             int changeCount;
-            if (song.song_id != null)
+            if (song.songID != null)
             {
-                ISong temp = Service.NewSong((Guid)song.song_id, song.name, song.album_id, song.genre_id);
+                ISong temp = Service.NewSong((Guid)song.songID, song.name, song.albumID, song.genreID);
 
                 action = "Updated";
-                changeCount = await Service.PutSong(temp.song_id, temp);
+                changeCount = await Service.PutSong(temp.SongID, temp);
             }
             else
             {
                 action = "Inserted";
                 changeCount = await Service.PostSong
-                                    (Service.NewSong(Guid.NewGuid(), song.name, song.album_id, song.genre_id));
+                                    (Service.NewSong(Guid.NewGuid(), song.name, song.albumID, song.genreID));
             }
 
             if (changeCount == -1)
@@ -157,15 +158,22 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, $"Deleted {changeCount} row(s).");
         }
 
+        public SongController(ISongService service, IMapper mapper, IAuthenticator authenticator)
+        {
+            Service = service;
+            Mapper = mapper;
+            Authenticator = authenticator;
+        }
+
         public class SongREST
         {
-            public Guid? song_id { get; set; }
+            public Guid? songID { get; set; }
 
             public string name { get; set; }
 
-            public Guid album_id { get; set; }
+            public Guid albumID { get; set; }
 
-            public Guid? genre_id { get; set; }
+            public Guid? genreID { get; set; }
 
             //public DateTime creation_time { get; set; }
 
@@ -173,13 +181,14 @@ namespace Lyre.WebApi.Controllers
             public SongREST() { }
             public SongREST(string Name, Guid AlbumGUID, Guid? SongGUID, Guid? GenreGUID = null)
             {
-                song_id = SongGUID;
+                songID = SongGUID;
                 name = Name;
-                album_id = AlbumGUID;
-                genre_id = GenreGUID;
+                albumID = AlbumGUID;
+                genreID = GenreGUID;
             }
         }
-        public class CompositeSongObjectREST
+
+        public class SongCompositeREST
         {
             public string song_name { get; set; }
 
@@ -189,20 +198,13 @@ namespace Lyre.WebApi.Controllers
 
             public string genre_name { get; set; }
 
-            public CompositeSongObjectREST(string Song_name, string Album_name, string Artist_name, string Genre_name)
+            public SongCompositeREST(string Song_name, string Album_name, string Artist_name, string Genre_name)
             {
                 song_name = Song_name;
                 album_name = Album_name;
                 artist_name = Artist_name;
                 genre_name = Genre_name;
             }
-        }
-
-        public SongController(ISongService service, IMapper mapper, IAuthenticator authenticator)
-        {
-            Service = service;
-            Mapper = mapper;
-            Authenticator = authenticator;
         }
 
         private ISongService Service { get; }

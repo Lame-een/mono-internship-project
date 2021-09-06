@@ -8,7 +8,7 @@ namespace Lyre.Model.Common
 {
     public interface IArtist
     {
-        Guid ID { get; set; }
+        Guid ArtistID { get; set; }
         string Name { get; set; }
         DateTime CreationTime { get; set; }
     }

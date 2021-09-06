@@ -8,14 +8,11 @@ namespace Lyre.Model.Common
 {
     public interface ISong
     {
-        Guid song_id { get; set; }
+        Guid SongID { get; set; }
+        string Name { get; set; }
+        Guid AlbumID { get; set; }
+        Guid? GenreID { get; set; }
 
-        string name { get; set; }
-
-        Guid album_id { get; set; }
-
-        Guid? genre_id { get; set; }
-
-        DateTime? creation_time { get; set; }
+        DateTime? CreationTime { get; set; }
     }
 }

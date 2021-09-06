@@ -20,7 +20,7 @@ namespace Lyre.Service
 
         public async Task<int> PostLyricsAsync(ILyrics newLyrics)
         {
-            newLyrics.ID = Guid.NewGuid();
+            newLyrics.LyricsID = Guid.NewGuid();
             newLyrics.CreationTime = DateTime.Now;
             return await LyricsRepo.PostLyricsAsync(newLyrics);
         }

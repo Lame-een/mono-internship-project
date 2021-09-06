@@ -8,18 +8,18 @@ namespace Lyre.Model.Common
 {
     public interface IAlbum
     {
-        Guid album_id { get; set; }
+        Guid AlbumID { get; set; }
 
-        string name { get; set; }
+        string Name { get; set; }
 
-        int? number_of_tracks { get; set; }
+        int? NumberOfTracks { get; set; }
 
-        int? year { get; set; }
+        int? Year { get; set; }
 
-        string cover { get; set; }
+        string Cover { get; set; }
 
-        Guid artist_id { get; set; }
+        Guid ArtistID { get; set; }
 
-        DateTime? creation_time { get; set; }
+        DateTime? CreationTime { get; set; }
     }
 }
