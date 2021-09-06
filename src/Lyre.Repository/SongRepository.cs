@@ -64,10 +64,10 @@ namespace Lyre.Repository
             {
                 connection.Open();
                 string queryString = "SELECT song.name, album.name, genre.name, artist.name FROM SONG " +
-                                "INNER JOIN ALBUM USING (album_id) " +
-                                "INNER JOIN ARTIST USING (artist_id) " +
-                                "INNER JOIN GENRE USING (genre_id) " +
-                                "WHERE Song.song_id = @Song_id;";
+                                     "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
+                                     "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
+                                     "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
+                                     "WHERE SONG.songID = @SongID;";
 
 
                 SqlCommand command = new SqlCommand(queryString, connection);
