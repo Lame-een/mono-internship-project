@@ -137,7 +137,6 @@ namespace Lyre.WebApi.Controllers
             public string Text { get; set; }
             public Guid UserID { get; set; }
             public Guid SongID { get; set; }
-            //public DateTime CreationTime { get; set; }
             public char Verified { get; set; }
 
             public LyricsREST() { }
