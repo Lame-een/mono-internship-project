@@ -111,6 +111,10 @@
       <Project>{199fc71a-465d-4433-9fc0-960bf3e6b65e}</Project>
       <Name>Lyre.Repository.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lyre.Service.Common\Lyre.Service.Common.csproj">
+      <Project>{4c4aab7c-a0dc-4e1f-9e99-2cf55065dccd}</Project>
+      <Name>Lyre.Service.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

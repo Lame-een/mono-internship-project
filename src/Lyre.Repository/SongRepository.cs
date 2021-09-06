@@ -19,11 +19,12 @@ namespace Lyre.Repository
         protected IDatabaseHandler DBHandler;
         protected ILyricsService Service;
 
-        public SongRepository(IDatabaseHandler dbHandler)
+        public SongRepository(IDatabaseHandler dbHandler, ILyricsService service)
         {
             DBHandler = dbHandler;
-
+            Service = service;
         }
+
 
         public async Task<List<ISong>> GetAllSongs(QueryStringManager qsManager)
         {
@@ -70,7 +71,7 @@ namespace Lyre.Repository
             {
                 connection.Open();
 
-                List<ILyrics> lyricsList = Service.GetLyricsBySongIDAsync(songGuid);
+                List<ILyrics> lyricsList = await Service.GetLyricsBySongIDAsync(songGuid);
 
                 Guid? lyricsGuid = null;
 

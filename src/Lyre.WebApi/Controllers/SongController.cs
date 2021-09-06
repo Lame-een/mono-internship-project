@@ -190,20 +190,25 @@ namespace Lyre.WebApi.Controllers
 
         public class SongCompositeREST
         {
-            public string song_name { get; set; }
+            public Guid SongID { get; set; }
+            public string SongName { get; set; }
 
-            public string album_name { get; set; }
+            public string AlbumName { get; set; }
 
-            public string artist_name { get; set; }
+            public string ArtistName { get; set; }
 
-            public string genre_name { get; set; }
+            public string GenreName { get; set; }
 
-            public SongCompositeREST(string Song_name, string Album_name, string Artist_name, string Genre_name)
+            public Guid? LyricsID { get; set; }
+
+            public SongCompositeREST(Guid songID, string songName, string albumName, string artistName, string genreName, Guid? lyricsID)
             {
-                song_name = Song_name;
-                album_name = Album_name;
-                artist_name = Artist_name;
-                genre_name = Genre_name;
+                SongID = songID;
+                SongName = songName;
+                AlbumName = albumName;
+                ArtistName = artistName;
+                GenreName = genreName;
+                LyricsID = lyricsID;
             }
         }
 

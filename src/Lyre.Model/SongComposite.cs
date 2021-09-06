@@ -38,8 +38,8 @@ namespace Lyre.Model
             SongID = (Guid)obj[0];
             SongName = (string)obj[1];
             AlbumName = (string)obj[2];
-            ArtistName = (string)obj[3];
-            GenreName = (string)obj[4];
+            GenreName = (string)obj[3];
+            ArtistName = (string)obj[4];
             LyricsID = (Guid?)obj[5];
         }
     }
