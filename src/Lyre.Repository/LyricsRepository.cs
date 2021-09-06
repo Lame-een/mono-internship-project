@@ -68,7 +68,7 @@ namespace Lyre.Repository
                         ret = new Lyrics(objectBuffer);
                         reader.Close();
                     }
-                    reader.Close(); //unsure if reader needs to be closed .Dispose() should take care of it
+                    reader.Dispose();
                     return ret;
                 }
                 else
