@@ -61,7 +61,7 @@ namespace Lyre.Repository
                         IGenre genre = new Genre(reader.GetGuid(0), reader.GetString(1));
                         genreList.Add(genre);
                     }
-                    reader.Close();
+                    reader.Dispose();
 
                     return genreList;
                 }
@@ -86,7 +86,7 @@ namespace Lyre.Repository
                 {
                     reader.Read();
                     IGenre genre = new Genre(reader.GetGuid(0), reader.GetString(1));
-                    reader.Close();
+                    reader.Dispose();
                     return genre;
                 }
                 else
@@ -110,7 +110,7 @@ namespace Lyre.Repository
                 {
                     reader.Read();
                     IGenre genre = new Genre(reader.GetGuid(0), reader.GetString(1));
-                    reader.Close();
+                    reader.Dispose();
                     return genre;
                 }
                 else
