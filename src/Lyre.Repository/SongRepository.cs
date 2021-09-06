@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lyre.Common;
+using Lyre.Service.Common;
 
 namespace Lyre.Repository
 {
@@ -16,6 +17,7 @@ namespace Lyre.Repository
     {
 
         protected IDatabaseHandler DBHandler;
+        protected ILyricsService Service;
 
         public SongRepository(IDatabaseHandler dbHandler)
         {
@@ -43,18 +45,22 @@ namespace Lyre.Repository
                 {
                     return songList;
                 }
-
-                object[] objectBuffer = new object[Song.FieldNumber];
-                while (reader.HasRows)
+                else
                 {
-                    while (reader.Read())
+
+                    object[] objectBuffer = new object[Song.FieldNumber];
+
+                    while (reader.HasRows)
                     {
-                        reader.GetValues(objectBuffer);
-                        songList.Add(new Song(objectBuffer));
+                        while (reader.Read())
+                        {
+                            reader.GetValues(objectBuffer);
+                            songList.Add(new Song(objectBuffer));
+                        }
+                        reader.NextResult();
                     }
-                    reader.NextResult();
+                    return songList;
                 }
-                return songList;
             }
         }
 
@@ -63,9 +69,25 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
+
+                List<ILyrics> lyricsList = Service.GetLyricsBySongIDAsync(songGuid);
+
+                Guid? lyricsGuid = null;
+
+                foreach (ILyrics L in lyricsList)
+                {
+                    if (L.Verified == 'Y')
+                    {
+                        lyricsGuid = L.LyricsID;
+                        break;
+                    }
+
+                }
+
+
                 //FIX select song.songID and lyrics.lyricsID as well
                 //lyrics.lyricsID should only be selected if it's verified
-                string queryString = "SELECT song.name, album.name, genre.name, artist.name FROM SONG " +
+                string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
                                      "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
@@ -78,27 +100,23 @@ namespace Lyre.Repository
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
+                SongComposite S;
 
-                if (reader.HasRows)
+                if (!reader.HasRows)
                 {
-                    reader.Read();
-
-                    //FIX use SongComposite(object[]) constructor
-                    SongComposite S = new SongComposite
-                    {
-                        SongName = Convert.ToString(reader.GetString(0)),
-                        AlbumName = Convert.ToString(reader.GetString(1)),
-                        GenreName = Convert.ToString(reader.GetString(2)),
-                        ArtistName = Convert.ToString(reader.GetString(3))
-                    };
-
-                    connection.Close();
-
-                    return S;
+                    return null;
                 }
                 else
                 {
-                    return null;
+
+                    object[] objectBuffer = new object[SongComposite.FieldNumber];
+
+                    reader.Read();
+                    reader.GetValues(objectBuffer);
+                    S = new SongComposite(objectBuffer);
+                    S.LyricsID = lyricsGuid;
+
+                    return S;
                 }
             }
             
@@ -109,7 +127,7 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT * FROM SONG WHERE SONG_ID = @SongID;";
+                string queryString = "SELECT * FROM SONG WHERE songID = @SongID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
@@ -117,27 +135,20 @@ namespace Lyre.Repository
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                if(reader.HasRows)
-                {
-                    reader.Read();
+                Song S;
 
-                    //FIX use Song(object[]) constructor
-                    Song S = new Song
-                    {
-                        SongID = reader.GetGuid(0),
-                        Name = Convert.ToString(reader.GetString(1)),
-                        AlbumID = reader.GetGuid(2),
-                        GenreID = reader.GetGuid(3),
-                        CreationTime = Convert.ToDateTime(reader.GetDateTime(4))
-                    };
-
-                    connection.Close();
-
-                    return S;
-                }
-                else
+                if (!reader.HasRows)
                 {
                     return null;
+                }
+                else 
+                { 
+                    object[] objectBuffer = new object[Song.FieldNumber];
+                    reader.Read();
+                    reader.GetValues(objectBuffer);
+                    S = new Song(objectBuffer);
+
+                    return S;
                 }
             }
         }
