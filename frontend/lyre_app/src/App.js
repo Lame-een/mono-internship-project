@@ -1,13 +1,9 @@
 import './App.css';
+import SearchBar from './search';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-      </header>
-    </div>
-  );
+      <SearchBar />    );
 }
 
 export default App;
