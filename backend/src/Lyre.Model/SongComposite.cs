@@ -40,7 +40,15 @@ namespace Lyre.Model
             AlbumName = (string)obj[2];
             GenreName = (string)obj[3];
             ArtistName = (string)obj[4];
-            LyricsID = (Guid?)obj[5];
+            if (obj[5].GetType() == typeof(DBNull))
+            {
+                LyricsID = null;
+            }
+            else
+            {
+                LyricsID = (Guid?)obj[5];
+            }
+
         }
     }
 }

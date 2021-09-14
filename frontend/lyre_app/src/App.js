@@ -1,12 +1,13 @@
 import './App.css';
+import MainPage from './MainPage';
+import React, { Component } from 'react';
+import { Button, ButtonGroup, Form, Label, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-      </header>
-    </div>
+    <div>
+      <MainPage />
+    </div>    
   );
 }
 
