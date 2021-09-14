@@ -69,7 +69,7 @@ export default function CategoryLayout(props) {
                 </InputGroup>
             </Form>
 
-            <QueryList query={query} table={table} path="api/song/all"/>
+            <QueryList query={query} table={table} path="song/all"/>
         </div>
     );
 

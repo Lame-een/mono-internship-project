@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import QueryPaginator from '../Components/QueryPaginator';
 import { ListGroup, ListGroupItem, Media } from 'reactstrap'
 import axios from 'axios'
-import {databaseUrl} from '../Common/ServerProvider'
 
 export default function QueryList(props) {
 
@@ -48,7 +47,7 @@ export default function QueryList(props) {
     function getQuery() {
         if(query == null) return;
         let res = null;
-        axios.get(databaseUrl + path + formatQuery()).then((response) => {setResults(response.data)});
+        axios.get(path + formatQuery()).then((response) => {setResults(response.data)});
     }
 
     return (
