@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, useParams, useLocation } from 'react-router';
+import { useParams } from 'react-router';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 
@@ -9,8 +9,8 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 export default function Paginator(props) {
 
     let page = parseInt(useParams("page").page);
-    let maxPage = props.maxPage ?? 10;
-    let baseUrl = props.baseUrl;
+    let maxPage = props.maxPage ?? 3;
+    let baseUrl = props.baseUrl ?? ".";
 
     let pageList = [];
     let pageRangeStart = Math.max(1, page - 2);
@@ -18,7 +18,7 @@ export default function Paginator(props) {
     pageRangeStart = Math.max(1, pageRangeEnd - 4);
 
     for(let i = pageRangeStart; i <= pageRangeEnd; i++){
-        pageList.push(<PaginationItem active={i == page}>
+        pageList.push(<PaginationItem active={i == page} key={"id"+i}>
                         <PaginationLink href={getLink(i)}>
                             {i}
                         </PaginationLink>
