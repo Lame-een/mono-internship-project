@@ -18,7 +18,7 @@ import {
   Route
 } from "react-router-dom";
 
-import logo from './logo.png';
+import logo from './128x128_Lyre_icon.png';
 
 const MainPage = (props) => {
   const [ searchString, setSearchString ] = useState('');

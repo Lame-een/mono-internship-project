@@ -1,0 +1,1 @@
+export var databaseUrl ='https://localhost:44378/';
