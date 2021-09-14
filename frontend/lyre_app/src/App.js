@@ -9,6 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 import CategoryLayout from './Layouts/CategoryLayout';
+import SongLayout from './Layouts/SongLayout'
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
       <MainPage /> 
 
       <Switch>
-        <Route path="/song/:page">
+        <Route path="/songs">
           <h1>SONG</h1>
           <CategoryLayout baseUrl="./song" table="song" />
         </Route>
@@ -29,6 +30,10 @@ const App = () => {
         <Route path="/artist/:page">
           <h1>ARTIST</h1>
           <CategoryLayout baseUrl="./album" table="album" />
+        </Route>
+        <Route path="/song/:id">
+          <h1>Single song</h1>
+          <SongLayout />
         </Route>
       </Switch>
     </div>
