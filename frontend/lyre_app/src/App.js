@@ -8,7 +8,6 @@ import {
   useHistory,
   Redirect
 } from "react-router-dom";
-import Paginator from "./Components/Paginator"
 import CategoryLayout from './Layouts/CategoryLayout';
 
 const App = () => {

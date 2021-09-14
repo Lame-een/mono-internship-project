@@ -14,11 +14,12 @@ import getModelColumns from '../Common/ModelColumns';
 
 //takes in category to determine which selection to return
 export default function CategoryLayout(props) {
+    const table = props.table;
     const [radioSelection, setRadioSelection] = useState("ASC");
     const [query, setQuery] = useState(null);
 
     function genSelectionOptions() {
-        let columns = getModelColumns(props.category);
+        let columns = getModelColumns(table);
         let list = [<option key="nullkey" value=""></option>]
         for (const col of columns) {
             for (const [colkey, colval] of Object.entries(col)) {
@@ -68,7 +69,7 @@ export default function CategoryLayout(props) {
                 </InputGroup>
             </Form>
 
-            <QueryList {...props} />
+            <QueryList query={query} table={table} path="api/song/all"/>
         </div>
     );
 
