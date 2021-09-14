@@ -10,6 +10,6 @@ namespace Lyre.Model.Common
     {
         Guid ArtistID { get; set; }
         string Name { get; set; }
-        DateTime CreationTime { get; set; }
+        DateTime? CreationTime { get; set; }
     }
 }

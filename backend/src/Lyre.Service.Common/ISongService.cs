@@ -16,6 +16,7 @@ namespace Lyre.Service.Common
         Task<ISongComposite> GetSongComposite(Guid songGuid);
 
         Task<List<ISong>> GetAllSongs(QueryStringManager qsManager);
+        Task<List<ISongComposite>> GetAllCompositeSongs(QueryStringManager qsManager);
 
         Task<int> PostSong(ISong song);
 

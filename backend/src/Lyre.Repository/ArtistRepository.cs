@@ -72,6 +72,42 @@ namespace Lyre.Repository
                 }
             }
         }
+
+        public async Task<List<IArtist>> GetAllArtistsAsync(QueryStringManager qsManager)
+        {
+            string sqlSelect = "SELECT * FROM artist " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql() + qsManager.Pager.GetSql() + ';';
+
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlSelect, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<IArtist> artistList = new List<IArtist>();
+
+                if (!reader.HasRows)
+                {
+                    return artistList;
+                }
+
+                object[] objectBuffer = new object[Artist.FieldNumber];
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        reader.GetValues(objectBuffer);
+                        artistList.Add(new Artist(objectBuffer));
+                    }
+                    reader.NextResult();
+                }
+                return artistList;
+            }
+        }
+
         public async Task<IArtist> GetArtistByIDAsync(Guid id) 
         {
             using (SqlConnection connection = DBHandler.NewConnection())

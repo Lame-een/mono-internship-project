@@ -48,6 +48,32 @@ namespace Lyre.Common
                 return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
             }
         }
+        public string InitializeSql(Type[] types)
+        {
+            if (Sort == null)
+                return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
+
+            var names = new List<string>();
+
+            foreach(var tableType in types)
+            {
+                string tableName = tableType.Name.ToLower().Substring(1);
+                var colNames = from name in tableType.GetProperties() select name.Name.ToLower();
+                foreach(var col in colNames)
+                {
+                    names.Add(tableName + '.' + col);
+                }
+            }
+
+            if (names.Contains(Sort.ToLower()))
+            {
+                return _sqlString = String.Format(" ORDER BY {0} {1} ", Sort, Order.ToString());
+            }
+            else
+            {
+                return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
+            }
+        }
         public string GetSql()
         {
             if (_sqlString == null)

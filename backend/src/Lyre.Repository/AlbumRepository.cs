@@ -23,7 +23,7 @@ namespace Lyre.Repository
 
         public async Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager)
         {
-            string sqlSelect = "SELECT * FROM album " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql(typeof(IAlbum)) + qsManager.Pager.GetSql() + ';';
+            string sqlSelect = "SELECT * FROM album " + qsManager.Filter.GetSql() + qsManager.Sorter.GetSql() + qsManager.Pager.GetSql() + ';';
 
             using (SqlConnection connection = DBHandler.NewConnection())
             {

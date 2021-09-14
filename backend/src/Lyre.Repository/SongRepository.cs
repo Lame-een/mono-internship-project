@@ -13,7 +13,7 @@ using Lyre.Service.Common;
 
 namespace Lyre.Repository
 {
-    public class SongRepository: ISongRepository
+    public class SongRepository : ISongRepository
     {
 
         protected IDatabaseHandler DBHandler;
@@ -65,6 +65,54 @@ namespace Lyre.Repository
             }
         }
 
+        public async Task<List<ISongComposite>> GetAllCompositeSongs(QueryStringManager qsManager)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+
+                string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name, NULL AS [lyrics.lyricsID] FROM SONG " +
+                                     "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
+                                     "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
+                                     "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
+                                     qsManager.Filter.GetSql() +
+                                     qsManager.Sorter.GetSql() +
+                                     qsManager.Pager.GetSql() + ';';
+
+
+
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<ISongComposite> songList = new List<ISongComposite>();
+
+                if (!reader.HasRows)
+                {
+                    return songList;
+                }
+                else
+                {
+
+                    object[] objectBuffer = new object[SongComposite.FieldNumber];
+
+                    while (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            reader.GetValues(objectBuffer);
+                            songList.Add(new SongComposite(objectBuffer));
+                        }
+                        reader.NextResult();
+                    }
+                    return songList;
+                }
+            }
+        }
+
         public async Task<ISongComposite> GetSongComposite(Guid songGuid)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
@@ -83,7 +131,7 @@ namespace Lyre.Repository
                         break;
                     }
                 }
-               
+
                 string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name, @LyricsID AS [lyrics.lyricsID] FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
@@ -112,12 +160,10 @@ namespace Lyre.Repository
                     reader.Read();
                     reader.GetValues(objectBuffer);
                     S = new SongComposite(objectBuffer);
-                    S.LyricsID = lyricsGuid;
-
                     return S;
                 }
             }
-            
+
         }
 
         public async Task<ISong> GetSong(Guid songGuid)
@@ -139,8 +185,8 @@ namespace Lyre.Repository
                 {
                     return null;
                 }
-                else 
-                { 
+                else
+                {
                     object[] objectBuffer = new object[Song.FieldNumber];
                     reader.Read();
                     reader.GetValues(objectBuffer);
@@ -151,15 +197,15 @@ namespace Lyre.Repository
             }
         }
 
-      
+
         public async Task<int> PostSong(ISong S)
         {
-            using(SqlConnection connection = DBHandler.NewConnection())
+            using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
 
-                string queryString = 
+                string queryString =
                     "INSERT INTO SONG(songID, name, albumID, genreID, creation_time) " +
                     "VALUES(@SongID, @SongName, @AlbumID, @GenreID, @CreationTime);";
 

@@ -33,6 +33,11 @@ namespace Lyre.Service
             return await Repository.GetAllSongs(qsManager);
         }
 
+        public async Task<List<ISongComposite>> GetAllCompositeSongs(QueryStringManager qsManager)
+        {
+            return await Repository.GetAllCompositeSongs(qsManager);
+        }
+
         public async Task<int> PostSong(ISong song)
         {
             return await Repository.PostSong(song);

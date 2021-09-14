@@ -43,6 +43,18 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/song/all")]
+        public async Task<HttpResponseMessage> GetSongCompositeAsync()
+        {
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
+
+            qsManager.Filter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
+            qsManager.Sorter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
+
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllCompositeSongs(qsManager));
+        }
+
+        [HttpGet]
         [Route("api/song")]
         public async Task<HttpResponseMessage> QuerySongsAsync()
         {
@@ -146,7 +158,7 @@ namespace Lyre.WebApi.Controllers
             IUser user = await Authenticator.AuthenticateAsync(Request.Headers.Authorization);  //get the current user making changes
 
             if (user == null || user.Role == UserRole.USER)    //updates aren't allowed unless you're the user being changed or you're an admin
-                {
+            {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized for this action.");
             }
 

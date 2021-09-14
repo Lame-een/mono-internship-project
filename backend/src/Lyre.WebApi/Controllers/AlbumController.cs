@@ -35,7 +35,8 @@ namespace Lyre.WebApi.Controllers
         {
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            qsManager.Filter.InitializeSql(typeof(AlbumREST));
+            qsManager.Filter.InitializeSql(typeof(IAlbum));
+            qsManager.Sorter.InitializeSql(typeof(IAlbum));
 
             return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllAlbums(qsManager));
         }

@@ -3,6 +3,7 @@ using Lyre.Model;
 using Lyre.Model.Common;
 using Lyre.Service;
 using Lyre.Service.Common;
+using Lyre.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,12 @@ namespace Lyre.WebApi.Controllers
         [Route("api/Artist")]
         public async Task<HttpResponseMessage> GetAllArtistsAsync()
         {
-            List<ArtistREST> artistList = Mapper.Map<List<ArtistREST>>(await Service.GetAllArtistsAsync());
-            if (artistList.Count == 0)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No rows found.");
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, artistList);
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
+
+            qsManager.Filter.InitializeSql(typeof(IArtist));
+            qsManager.Sorter.InitializeSql(typeof(IArtist));
+
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllArtistsAsync(qsManager));
         }
 
         [HttpGet]

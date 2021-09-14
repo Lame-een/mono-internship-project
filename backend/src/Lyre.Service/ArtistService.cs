@@ -2,6 +2,7 @@
 using Lyre.Model.Common;
 using Lyre.Repository.Common;
 using Lyre.Service.Common;
+using Lyre.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,11 @@ namespace Lyre.Service
         {
             IArtist newArtist = new Artist(Guid.NewGuid(), newArtistName, DateTime.Now);
             return await ArtistRepo.PostArtistAsync(newArtist);
+        }
+
+        public async Task<List<IArtist>> GetAllArtistsAsync(QueryStringManager qsManager)
+        {
+            return await ArtistRepo.GetAllArtistsAsync(qsManager);
         }
         public async Task<List<IArtist>> GetAllArtistsAsync()
         {
