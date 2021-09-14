@@ -82,13 +82,9 @@ namespace Lyre.Repository
                         lyricsGuid = L.LyricsID;
                         break;
                     }
-
                 }
-
-
-                //FIX select song.songID and lyrics.lyricsID as well
-                //lyrics.lyricsID should only be selected if it's verified
-                string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name FROM SONG " +
+               
+                string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name, @LyricsID AS [lyrics.lyricsID] FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
                                      "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
@@ -98,6 +94,7 @@ namespace Lyre.Repository
                 SqlCommand command = new SqlCommand(queryString, connection);
 
                 SqlUtilities.AddParameterWithNullableValue(command, "@SongID", songGuid);
+                SqlUtilities.AddParameterWithNullableValue(command, "@LyricsID", lyricsGuid);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
