@@ -171,28 +171,47 @@ namespace Lyre.Repository
             }
         }
 
-        public async Task<int> CountSongsInAlbum(Guid albumGuid)
+        public async Task<List<IAlbumComposite>> GetSongsInAlbum(QueryStringManager qsManager)
         {
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT COUNT(songID) FROM SONG WHERE AlbumID = @AlbumID;";
+
+                string queryString = "SELECT Album.name, Song.songID, Song.name FROM SONG " +
+                                     "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
+                                     qsManager.Filter.GetSql() +
+                                     qsManager.Sorter.GetSql() +
+                                     qsManager.Pager.GetSql() + ';';
+
 
                 SqlCommand command = new SqlCommand(queryString, connection);
 
-                SqlUtilities.AddParameterWithNullableValue(command, "@AlbumID", albumGuid);
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                if (reader.HasRows)
-                {
-                    reader.Read();
+                List<IAlbumComposite> songList = new List<IAlbumComposite>();
 
-                    return reader.GetInt32(0);
+                if (!reader.HasRows)
+                {
+                    return songList;
                 }
                 else
                 {
-                    return -1;
+
+                    object[] objectBuffer = new object[AlbumComposite.FieldNumber];
+
+                    while (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            reader.GetValues(objectBuffer);
+                            songList.Add(new AlbumComposite(objectBuffer));
+                        }
+                        reader.NextResult();
+                    }
+                    return songList;
                 }
             }
         }

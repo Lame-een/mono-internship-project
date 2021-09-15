@@ -57,6 +57,20 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, artist);
         }
 
+        [HttpGet]
+        [Route("api/Artist/all/{id}")]
+        public async Task<HttpResponseMessage> GetSongsInAlbum(Guid id)
+        {
+            List<ArtistCompositeREST> compositeList = Mapper.Map<List<ArtistCompositeREST>>(await Service.GetArtistComposite(id));
+
+            if (compositeList == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No entries found.");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, compositeList);
+        }
+
         [HttpPost]
         [Route("api/Artist")]
         public async Task<HttpResponseMessage> PostArtistAsync([FromBody] string newArtistName)
@@ -170,6 +184,26 @@ namespace Lyre.WebApi.Controllers
                 ArtistID = id;
                 Name = name;
                 CreationTime = creationTime;
+            }
+        }
+
+        public class ArtistCompositeREST
+        {
+            public string ArtistName { get; set; }
+            public string SongName { get; set; }
+            public Guid SongID { get; set; }
+            public string AlbumName { get; set; }
+            public Guid AlbumID { get; set; }
+
+            public ArtistCompositeREST() { }
+
+            public ArtistCompositeREST(string artistName, string songName, Guid songID, string albumName, Guid albumID)
+            {
+                ArtistName = artistName;
+                SongName = songName;
+                SongID = songID;
+                AlbumName = albumName;
+                AlbumID = albumID;
             }
         }
     }
