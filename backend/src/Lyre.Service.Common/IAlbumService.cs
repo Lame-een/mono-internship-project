@@ -16,6 +16,8 @@ namespace Lyre.Service.Common
 
         Task<List<IAlbumComposite>> GetSongsInAlbum(QueryStringManager qsManager);
 
+        Task<List<IAlbumArtistComposite>> GetAlbumArtistComposite(QueryStringManager qsManager);
+
         Task<int> PostAlbum(IAlbum song);
 
         Task<int> PutAlbum(Guid albumGuid, IAlbum value);

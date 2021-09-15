@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAlbumArtistComposite.cs" />
     <Compile Include="IAlbumComposite.cs" />
     <Compile Include="IAlbum.cs" />
     <Compile Include="IArtistComposite.cs" />

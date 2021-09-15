@@ -215,5 +215,50 @@ namespace Lyre.Repository
                 }
             }
         }
+
+        public async Task<List<IAlbumArtistComposite>> GetAlbumArtistComposite(QueryStringManager qsManager)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+
+                string queryString = "SELECT Album.albumID, Album.name, Artist.artistID, Artist.name FROM ALBUM " +
+                                     "INNER JOIN ARTIST ON (album.artistID = artist.artistID) " +
+                                     qsManager.Filter.GetSql() +
+                                     qsManager.Sorter.GetSql() +
+                                     qsManager.Pager.GetSql() + ';';
+
+
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                qsManager.Pager.AddParameters(command);
+                qsManager.Filter.AddParameters(command);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<IAlbumArtistComposite> compositeList = new List<IAlbumArtistComposite>();
+
+                if (!reader.HasRows)
+                {
+                    return compositeList;
+                }
+                else
+                {
+
+                    object[] objectBuffer = new object[AlbumArtistComposite.FieldNumber];
+
+                    while (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            reader.GetValues(objectBuffer);
+                            compositeList.Add(new AlbumArtistComposite(objectBuffer));
+                        }
+                        reader.NextResult();
+                    }
+                    return compositeList;
+                }
+            }
+        }
     }
 }

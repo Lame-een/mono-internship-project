@@ -22,6 +22,7 @@ namespace Lyre.WebApi
             CreateMap<SongComposite, SongController.SongCompositeREST>();
             CreateMap<AlbumComposite, AlbumController.AlbumCompositeREST>();
             CreateMap<ArtistComposite, ArtistController.ArtistCompositeREST>();
+            CreateMap<AlbumArtistComposite, AlbumController.AlbumArtistCompositeREST>();
         }
     }
 }

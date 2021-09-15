@@ -47,10 +47,23 @@ namespace Lyre.WebApi.Controllers
         {
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
 
-            qsManager.Filter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
-            qsManager.Sorter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
+            qsManager.Filter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist) });
+            qsManager.Sorter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist) });
 
             return Request.CreateResponse(HttpStatusCode.OK, await Service.GetSongsInAlbum(qsManager));
+        }
+
+        [HttpGet]
+        [Route("api/album/artist/all")]
+        public async Task<HttpResponseMessage> GetAlbumArtistComposite()
+        {
+
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
+
+            qsManager.Filter.InitializeSql(new Type[] { typeof(IAlbum), typeof(IArtist) });
+            qsManager.Sorter.InitializeSql(new Type[] { typeof(IAlbum), typeof(IArtist) });
+
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAlbumArtistComposite(qsManager));
         }
 
 
@@ -198,6 +211,24 @@ namespace Lyre.WebApi.Controllers
                 AlbumName = albumName;
                 SongID = songID;
                 SongName = songName;
+            }
+        }
+
+        public class AlbumArtistCompositeREST
+        {
+            public Guid AlbumID { get; set; }
+            public string AlbumName { get; set; }
+            public Guid ArtistID { get; set; }
+            public string ArtistName { get; set; }
+
+            public AlbumArtistCompositeREST() { }
+
+            public AlbumArtistCompositeREST(Guid albumID, string albumName, Guid artistID, string artistName)
+            {
+                AlbumID = albumID;
+                AlbumName = albumName;
+                ArtistID = artistID;
+                ArtistName = artistName;
             }
         }
 

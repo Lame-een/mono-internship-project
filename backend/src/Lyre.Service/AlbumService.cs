@@ -29,6 +29,11 @@ namespace Lyre.Service
             return await Repository.GetSongsInAlbum(qsManager);
         }
 
+        public async Task<List<IAlbumArtistComposite>> GetAlbumArtistComposite(QueryStringManager qsManager)
+        {
+            return await Repository.GetAlbumArtistComposite(qsManager);
+        }
+
         public async Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager)
         {
             return await Repository.GetAllAlbums(qsManager);
