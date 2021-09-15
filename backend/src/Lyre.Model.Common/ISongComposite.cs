@@ -8,12 +8,14 @@ namespace Lyre.Model.Common
 {
     public interface ISongComposite
     {
-        Guid SongID { get; set; }
         string SongName { get; set; }
+        Guid SongID { get; set; }
 
         string AlbumName { get; set; }
+        Guid AlbumID { get; set; }
 
         string ArtistName { get; set; }
+        Guid ArtistID { get; set; }
 
         string GenreName { get; set; }
         Guid? LyricsID { get; set; }

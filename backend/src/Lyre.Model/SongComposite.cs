@@ -9,17 +9,19 @@ namespace Lyre.Model
 {
     public class SongComposite : ISongComposite
     {
-        public Guid SongID { get; set; }
         public string SongName { get; set; }
+        public Guid SongID { get; set; }
 
         public string AlbumName { get; set; }
+        public Guid AlbumID { get; set; }
 
         public string ArtistName { get; set; }
+        public Guid ArtistID { get; set; }
 
         public string GenreName { get; set; }
         public Guid? LyricsID { get; set; }
 
-        public const int FieldNumber = 6;
+        public const int FieldNumber = 8;
 
         public SongComposite(Guid songID, string songName, string albumName, string artistName, string genreName, Guid? lyricsID)
         {
@@ -35,18 +37,20 @@ namespace Lyre.Model
         {
             if (obj.Length < FieldNumber) throw new ArgumentException("Passed object array is not of valid length");
 
-            SongID = (Guid)obj[0];
-            SongName = (string)obj[1];
+            SongName = (string)obj[0];
+            SongID = (Guid)obj[1];
             AlbumName = (string)obj[2];
-            GenreName = (string)obj[3];
+            AlbumID = (Guid)obj[3];
             ArtistName = (string)obj[4];
-            if (obj[5].GetType() == typeof(DBNull))
+            ArtistID = (Guid)obj[5];
+            GenreName = (string)obj[6];
+            if (obj[7].GetType() == typeof(DBNull))
             {
                 LyricsID = null;
             }
             else
             {
-                LyricsID = (Guid?)obj[5];
+                LyricsID = (Guid?)obj[7];
             }
 
         }
