@@ -1,43 +1,34 @@
 import './App.css';
-import MainPage from './MainPage';
-import React, { Component } from 'react';
-import { Button, ButtonGroup, Form, Label, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import MainPage from './Pages/MainPage';
+import LoginPage from './Pages/LoginPage';
+import React from 'react';
 import {
+  BrowserRouter as Router,
   Switch,
   Route,
-  useHistory,
-  Redirect
 } from "react-router-dom";
-import CategoryLayout from './Layouts/CategoryLayout';
-import SongLayout from './Layouts/SongLayout'
+import setupAxios from "./Common/setupAxios";
 
-const App = () => {
+// Setup default axios config
+setupAxios()
+
+export default function App(){
   return (
     <div className="App">
-      <MainPage /> 
+      <Router>
+        <Switch>
+          <Route exact path='/login'>
+            <LoginPage />
+          </Route>
+          <Route exact path='/register'>
+            <LoginPage />
+          </Route>
 
-      <Switch>
-        <Route path="/songs">
-          <h1>SONG</h1>
-          <CategoryLayout baseUrl="./song" table="song" />
-        </Route>
-
-        <Route path="/album/:page">
-          <h1>ALBUM</h1>
-          <CategoryLayout baseUrl="./album" table="album" />
-        </Route>
-
-        <Route path="/artist/:page">
-          <h1>ARTIST</h1>
-          <CategoryLayout baseUrl="./album" table="album" />
-        </Route>
-        <Route path="/song/:id">
-          <h1>Single song</h1>
-          <SongLayout />
-        </Route>
-      </Switch>
+          <Route path='*'>
+            <MainPage />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
-
-export default App;
