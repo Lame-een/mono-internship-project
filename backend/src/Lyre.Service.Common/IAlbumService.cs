@@ -14,13 +14,13 @@ namespace Lyre.Service.Common
 
         Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager);
 
+        Task<List<IAlbumComposite>> GetSongsInAlbum(QueryStringManager qsManager);
+
         Task<int> PostAlbum(IAlbum song);
 
         Task<int> PutAlbum(Guid albumGuid, IAlbum value);
 
         Task<int> DeleteAlbumByID(Guid albumGuid);
-
-        Task<int> CountSongsInAlbum(Guid albumGuid);
 
         IAlbum NewAlbum();
 

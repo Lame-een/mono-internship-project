@@ -29,6 +29,12 @@ namespace Lyre.Service
         {
             return await ArtistRepo.GetAllArtistsAsync(qsManager);
         }
+
+        public async Task<List<IArtistComposite>> GetArtistComposite(Guid artistGuid)
+        {
+            return await ArtistRepo.GetArtistComposite(artistGuid);
+        }
+
         public async Task<List<IArtist>> GetAllArtistsAsync()
         {
             return await ArtistRepo.GetAllArtistsAsync();

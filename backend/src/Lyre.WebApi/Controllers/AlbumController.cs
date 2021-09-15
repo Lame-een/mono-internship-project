@@ -41,6 +41,18 @@ namespace Lyre.WebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, await Service.GetAllAlbums(qsManager));
         }
 
+        [HttpGet]
+        [Route("api/album/all")]
+        public async Task<HttpResponseMessage> GetSongsInAlbum()
+        {
+            QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
+
+            qsManager.Filter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
+            qsManager.Sorter.InitializeSql(new Type[] { typeof(ISong), typeof(IAlbum), typeof(IArtist), typeof(IGenre) });
+
+            return Request.CreateResponse(HttpStatusCode.OK, await Service.GetSongsInAlbum(qsManager));
+        }
+
 
         [HttpPost]
         [Route("api/album")]
@@ -170,6 +182,22 @@ namespace Lyre.WebApi.Controllers
                 cover = Cover;
                 year = Year;
                 artistID = ArtistID;
+            }
+        }
+
+        public class AlbumCompositeREST
+        {
+            public string AlbumName { get; set; }
+            public Guid SongID { get; set; }
+            public string SongName { get; set; }
+
+            public AlbumCompositeREST() { }
+
+            public AlbumCompositeREST(string albumName, Guid songID, string songName)
+            {
+                AlbumName = albumName;
+                SongID = songID;
+                SongName = songName;
             }
         }
 

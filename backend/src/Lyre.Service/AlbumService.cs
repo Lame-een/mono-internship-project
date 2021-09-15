@@ -24,6 +24,11 @@ namespace Lyre.Service
             return await Repository.GetAlbum(albumGuid);
         }
 
+        public async Task<List<IAlbumComposite>> GetSongsInAlbum(QueryStringManager qsManager)
+        {
+            return await Repository.GetSongsInAlbum(qsManager);
+        }
+
         public async Task<List<IAlbum>> GetAllAlbums(QueryStringManager qsManager)
         {
             return await Repository.GetAllAlbums(qsManager);
@@ -40,11 +45,6 @@ namespace Lyre.Service
         public async Task<int> DeleteAlbumByID(Guid albumGuid)
         {
             return await Repository.DeleteAlbumByID(albumGuid);
-        }
-
-        public async Task<int> CountSongsInAlbum(Guid albumGuid)
-        {
-            return await Repository.CountSongsInAlbum(albumGuid);
         }
 
         public IAlbum NewAlbum()
