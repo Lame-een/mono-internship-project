@@ -54,14 +54,23 @@ namespace Lyre.Common
                 return _sqlString = String.Format(" ORDER BY (SELECT NULL) {0} ", Order.ToString());
 
             var names = new List<string>();
+            string tableName = "";
 
             foreach(var tableType in types)
             {
-                string tableName = tableType.Name.ToLower().Substring(1);
-                var colNames = from name in tableType.GetProperties() select name.Name.ToLower();
-                foreach(var col in colNames)
+                string tableNameAux = tableType.Name.ToLower().Substring(1);
+
+                if (Sort.StartsWith(tableNameAux))
                 {
-                    names.Add(tableName + '.' + col);
+                    tableName = tableNameAux;
+                    Sort = (tableName + '.' + Sort.Substring(tableName.Length)).ToLower();
+
+                    var colNames = from name in tableType.GetProperties() select name.Name.ToLower();
+                    foreach (var col in colNames)
+                    {
+                        names.Add((tableName + '.' + col).ToLower());
+                    }
+                    break;
                 }
             }
 
@@ -79,14 +88,6 @@ namespace Lyre.Common
             if (_sqlString == null)
             {
                 throw new AccessViolationException("SqlString has not been initialized.");
-            }
-            else return _sqlString;
-        }
-        public string GetSql(Type type)
-        {
-            if (_sqlString == null)
-            {
-                return InitializeSql(type);
             }
             else return _sqlString;
         }

@@ -151,6 +151,7 @@ namespace Lyre.Common
 
             foreach (var type in types)
             {
+                string className = type.Name.Substring(1);
                 string prefix = type.Name.Substring(1, type.Name.Length - 1) + '.';
                 List<PropertyInfo> typeProperties = type.GetProperties().ToList();
 
@@ -179,7 +180,7 @@ namespace Lyre.Common
 
                 foreach (var colValPair in _columnQueries)
                 {
-                    PropertyInfo property = typeProperties.Find(x => (x.Name.ToLower() == colValPair.Key));
+                    PropertyInfo property = typeProperties.Find(x => ((className + x.Name).ToLower() == colValPair.Key));
                     if (property == null) continue;
 
                     if ((property.PropertyType == typeof(Guid)) || (Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid)))  //do not filter by IDs
