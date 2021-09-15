@@ -1,88 +1,174 @@
 import React, { useEffect, useState } from 'react';
 import QueryPaginator from '../Components/QueryPaginator';
-import { ListGroup, ListGroupItem, Media } from 'reactstrap'
+import { Container, Row, Col, Media } from 'reactstrap'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 export default function QueryList(props) {
 
     const query = props.query;
-    const path = props.path;
     const table = props.table;
+    const [currentPage, setPage] = useState(1);
 
     const [queryResults, setResults] = useState([]);
+    const [displayList, setDisplayList] = useState([]);
 
-    //TODO - add list component for more seamless integration?
-    //     - fully connect query to results
-    //     - link results to pages
-
-    useEffect(() =>{
+    useEffect(() => {
         getQuery();
-    }
-    , [query]);
+    }, [query, currentPage]);
 
-    function formatQuery(){
-        let str = '?';
-        if(query.filter != ''){
-            str += 'q=' + query.filter;
+    useEffect(() => {
+        genList();
+        console.log(queryResults);
+    }, [queryResults]);
+
+
+    function onPageChange(pageNum) {
+        setPage(pageNum);
+    }
+
+    //disgusting
+    function formatQuery() {
+        let str = '';
+
+        if (table === 'song') {
+            str = 'song/all?';
+        } else if (table === 'album') {
+            str = 'album/artist/all?';
+        } else if (table === 'artist') {
+            str = 'artist/all?';
         }
-        if(query.sortby != ''){
-            if(str != '?'){
-                str += '&';
+
+        if (table === 'song') {
+            if (query.filter !== '') {
+                str += 'q=songname:' + query.filter;
             }
+        }
+        else if (table === 'album') {
+            if (query.filter !== '') {
+                str += 'q=albumname' + query.filter;
+            }
+        }
+        else if (table === 'artist') {
+            if (query.filter !== '') {
+                str += 'q=artistname' + query.filter;
+            }
+        } else {
+            if (query.filter !== '') {
+                str += 'q=' + query.filter;
+            }
+        }
+
+        if (query.sortby !== '') {
+            if (str !== '?') str += '&';
+
             str += 'sort=' + query.sortby;
         }
-        if(query.orderby != ''){
-            if(str != '?'){
-                str += '&';
-            }
+        if (query.orderby !== '') {
+            if (str !== '?') str += '&';
+
             str += 'order=' + query.orderby;
         }
 
-        if(str === '?'){
-            return '';
-        }
+        if (str !== '?') str += '&';
+        str += 'page=' + currentPage + '&pagesize=8';
+
         return str;
     }
 
     function getQuery() {
-        if(query == null) return;
-        let res = null;
-        axios.get(path + formatQuery()).then((response) => {setResults(response.data)});
+        if (query == null) return;
+        axios.get(formatQuery()).then((response) => { setResults(response.data) });
+    }
+
+    function genMedia(queryObj) {
+        let media = "";
+
+        if (table === "song") {
+            media = (
+                <Media>
+                    <Media left href={"/song/" + queryObj.SongID}>
+                        <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Cover" />
+                    </Media>
+                    <Media body>
+                        <Media heading>
+                            <Link to={"/song/" + queryObj.SongID}>Song: {queryObj.SongName}</Link>
+                        </Media>
+                        <Media>
+                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
+                        </Media>
+                        <Media>
+                            <Link to={"/album/" + queryObj.AlbumID}>Album: {queryObj.AlbumName}</Link>
+                        </Media>
+                    </Media>
+                </Media>
+            );
+        }
+
+        if (table === "album") {
+            media = (
+                <Media>
+                    <Media left href={"/song/" + queryObj.AlbumID}>
+                        <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Cover" />
+                    </Media>
+                    <Media body>
+                        <Media heading>
+                            <Link to={"/album/" + queryObj.AlbumID}>Album: {queryObj.AlbumName}</Link>
+                        </Media>
+                        <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
+                    </Media>
+                </Media>
+            );
+        }
+
+        if (table === "artist") {
+            media = (
+                <Media>
+                    <Media body>
+                        <Media heading>
+                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
+                        </Media>
+                    </Media>
+                </Media>
+            );
+        }
+
+        return media;
+    }
+
+    function genList() {
+        let colBuffer = [];
+        let displayListBuffer = [];
+
+        let itemIndex = 0;
+        while (itemIndex < 8) {
+            for (let j = 0; j < 2; j++) {
+                let media;
+                if (itemIndex >= queryResults.length) media = "EMPTY";
+                else media = genMedia(queryResults[itemIndex]);
+                colBuffer.push((<Col className="col-query" key={itemIndex} >{media}</Col>));
+                itemIndex++;
+            }
+
+            let row = (
+                <Row>
+                    {colBuffer[(itemIndex / 2) - 1]}
+                    {colBuffer[(itemIndex / 2)]}
+                </Row>
+            );
+
+            displayListBuffer.push(row);
+        }
+        setDisplayList(displayListBuffer);
     }
 
     return (
         <div>
-            <ListGroup>
-                <ListGroupItem>
-                    <Media>
-                        <Media right>
-                            <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Generic placeholder image" />
-                        </Media>
-                        <Media body href="#">
-                            <Media heading>
-                                SONG NAME HERE
-                            </Media>
-                            LIST OTHER SONG STUFF HERE
-                        </Media>
-                    </Media>
-                </ListGroupItem>
-                <ListGroupItem>
-                    <Media left>
-                        <Media left>
-                            <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Generic placeholder image" />
-                        </Media>
-                        <Media body right href="#">
-                            <Media heading>
-                                SONG NAME HERE
-                            </Media>
-                            LIST OTHER SONG STUFF HERE
-                        </Media>
-                    </Media>
-                </ListGroupItem>
-            </ListGroup>
+            <Container>
+                {displayList}
+            </Container>
 
-
-            <QueryPaginator {...props} />
+            <QueryPaginator page={currentPage} pageChange={onPageChange} pagesExist={true} {...props} />
         </div>
     );
 }

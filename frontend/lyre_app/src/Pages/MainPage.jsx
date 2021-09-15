@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CategoryLayout from '../Layouts/CategoryLayout';
 import logo from '../res/128x128_Lyre_icon.png';
 import {
@@ -14,7 +14,6 @@ import {
 } from 'reactstrap';
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -23,7 +22,7 @@ import {
 const MainPage = (props) => {
   const [searchString, setSearchString] = useState('');
   const [searchStringBuffer, setBuffer] = useState('');
-  var Img = <img src={logo} />
+  var Img = <img src={logo} alt="logo" />
 
   function submitInput(e) {
     e.preventDefault();
@@ -37,7 +36,7 @@ const MainPage = (props) => {
       <Nav style={{ backgroundColor: '#f1f1f1' }}>
 
         <ListGroup horizontal>
-          <NavLink href="http://localhost:3000">
+          <NavLink href="/">
             {Img}
             <h1>Lyre</h1>
           </NavLink>
@@ -45,7 +44,7 @@ const MainPage = (props) => {
           <ListGroupItem href="/album" tag="a" action>Albums</ListGroupItem>
           <ListGroupItem href="/artist" tag="a" action>Artists</ListGroupItem>
           <ListGroup>
-            <ListGroupItem><NavLink href="/singup">Sign Up</NavLink></ListGroupItem>
+            <ListGroupItem><NavLink href="/register">Sign Up</NavLink></ListGroupItem>
             <ListGroupItem><NavLink href="/login">Login</NavLink></ListGroupItem>
           </ListGroup>
         </ListGroup>
