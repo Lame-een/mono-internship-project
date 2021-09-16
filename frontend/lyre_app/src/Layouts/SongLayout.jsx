@@ -74,8 +74,8 @@ class SongLayout extends React.Component {
                    <img src={DemoAlbum} alt="Album cover" className="song__header__cover"/>
                    <div className="song__header__info">
                        <h2 className="song__header__info__title">{this.state.song.SongName}</h2>
-                       <p className="song__header__info__album">{this.state.song.AlbumName}</p>
-                       <p className="song__header__info__author">{this.state.song.ArtistName}</p>
+                       <p className="song__header__info__album"><a href={'/album/'+this.state.song.AlbumID}>{this.state.song.AlbumName}</a></p>
+                       <p className="song__header__info__author"><a href={'/artist/'+this.state.song.AristID}>{this.state.song.ArtistName}</a></p>
                    </div>
                </div>
                <div className="song__lyrics">

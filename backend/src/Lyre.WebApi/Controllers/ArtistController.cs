@@ -29,7 +29,7 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Artist")]
+        [Route("api/artist")]
         public async Task<HttpResponseMessage> GetAllArtistsAsync()
         {
             QueryStringManager qsManager = new QueryStringManager(Request.RequestUri.ParseQueryString());
@@ -41,7 +41,7 @@ namespace Lyre.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Artist/{id}")]
+        [Route("api/artist/{id}")]
         public async Task<HttpResponseMessage> GetArtistByIDAsync(Guid id)
         {
             if(id == Guid.Empty)

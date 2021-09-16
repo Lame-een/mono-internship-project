@@ -32,7 +32,6 @@ export default function QueryList(props) {
         setPage(pageNum);
     }
 
-    //disgusting
     function formatQuery() {
         let str = '';
 
@@ -113,8 +112,8 @@ export default function QueryList(props) {
         if (table === "album") {
             media = (
                 <Media>
-                    <Media left href={"/song/" + queryObj.AlbumID}>
-                        <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Cover" />
+                    <Media left href={"/album/" + queryObj.AlbumID}>
+                        <Cover object src={queryObj.Cover} alt="Cover" />
                     </Media>
                     <Media body>
                         <Media heading>
