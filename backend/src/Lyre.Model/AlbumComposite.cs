@@ -12,13 +12,19 @@ namespace Lyre.Model
         public string AlbumName { get; set; }
         public Guid SongID { get; set; }
         public string SongName { get; set; }
-        public const int FieldNumber = 3;
+        public string ArtistName { get; set; }
 
-        public AlbumComposite(string albumName, Guid songID, string songName)
+        public Guid ArtistID { get; set; }
+
+        public const int FieldNumber = 5;
+
+        public AlbumComposite(string albumName, Guid songID, string songName, string artistName, Guid artistID)
         {
             AlbumName = albumName;
             SongID = songID;
             SongName = songName;
+            ArtistName = artistName;
+            ArtistID = artistID;
         }
         public AlbumComposite() { }
         public AlbumComposite(object[] obj)
@@ -28,6 +34,8 @@ namespace Lyre.Model
             AlbumName = (string)obj[0];
             SongID = (Guid)obj[1];
             SongName = (string)obj[2];
+            ArtistName = (string)obj[3];
+            ArtistID = (Guid)obj[4];
         }
     }
 }

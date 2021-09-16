@@ -216,6 +216,49 @@ namespace Lyre.Repository
             }
         }
 
+        public async Task<List<IAlbumComposite>> GetSongsInAlbumByID(Guid albumGuid)
+        {
+            using (SqlConnection connection = DBHandler.NewConnection())
+            {
+                connection.Open();
+
+                string queryString = "SELECT Album.name, Song.songID, Song.name, Artist.name, Artist.artistID FROM SONG " +
+                                     "INNER JOIN ALBUM ON (album.albumID = song.albumID)" +
+                                     "INNER JOIN ARTIST ON (album.artistID = artist.artistID) " +
+                                     "WHERE Album.AlbumID = @AlbumID";
+
+
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                SqlUtilities.AddParameterWithNullableValue(command, "@AlbumID", albumGuid);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                List<IAlbumComposite> songList = new List<IAlbumComposite>();
+
+                if (!reader.HasRows)
+                {
+                    return songList;
+                }
+                else
+                {
+
+                    object[] objectBuffer = new object[AlbumComposite.FieldNumber];
+
+                    while (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            reader.GetValues(objectBuffer);
+                            songList.Add(new AlbumComposite(objectBuffer));
+                        }
+                        reader.NextResult();
+                    }
+                    return songList;
+                }
+            }
+        }
+
         public async Task<List<IAlbumArtistComposite>> GetAlbumArtistComposite(QueryStringManager qsManager)
         {
             using (SqlConnection connection = DBHandler.NewConnection())

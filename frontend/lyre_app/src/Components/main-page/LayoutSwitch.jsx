@@ -4,6 +4,7 @@ import '../../Assets/CSS/LayoutSwitch.css'
 
 import CategoryLayout from "../../Layouts/CategoryLayout";
 import SongLayout from "../../Layouts/SongLayout";
+import AlbumLayout from "../../Layouts/AlbumLayout";
 import HomepageLayout from "../../Layouts/HomepageLayout";
 
 const LayoutSwitch = () => {
@@ -12,6 +13,9 @@ const LayoutSwitch = () => {
             <Switch className="layout_switch">
                 <Route exact path="/song">
                     <CategoryLayout baseUrl="./song" table="song" />
+                </Route>
+                <Route path="/album/:id">
+                    <AlbumLayout />
                 </Route>
                 <Route path="/song/:id">
                     <SongLayout />
