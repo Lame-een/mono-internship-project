@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { withRouter } from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 
 import '../Assets/CSS/SongLayout.css'
 
@@ -15,48 +15,11 @@ class SongLayout extends React.Component {
                 SongName: null,
                 AlbumName: null,
                 ArtistName: null,
-                GenreName: null
+                GenreName: null,
+                AlbumID: null,
+                ArtistID: null
             },
-            lyrics:
-                '                   To the dark, dark seas\n' +
-                '                   Comes the only whale\n' +
-                '                   Watching ships go by\n' +
-                '                   It\'s the day we try\n' +
-                '\n' +
-                '                   It doesn\'t know\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio on a plastic beach\n' +
-                '                   It\'s a styrofoam deep sea landfill, it\'s a styrofoam deep sea landfill\n' +
-                '                   It\'s automated computer speech, it\'s automated computer speech\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio\n' +
-                '\n' +
-                '                   Did they haul you out\n' +
-                '                   On a really hot day?\n' +
-                '                   When the call got made\n' +
-                '                   You had gone away\n' +
-                '                   From us\n' +
-                '\n' +
-                '                   It doesn\'t know\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio on a plastic beach\n' +
-                '                   It\'s a styrofoam deep sea landfill, it\'s a styrofoam deep sea landfill\n' +
-                '                   It\'s automated computer speech, it\'s automated computer speech\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio\n' +
-                '\n' +
-                '                   Casio, Casio, Casio and green, green glow\n' +
-                '                   Casio, Casio, Casio, green, green glow\n' +
-                '                   Casio, Casio, Casio and green, green glow\n' +
-                '                   Casio, Casio, Casio\n' +
-                '\n' +
-                '                   [Chorus]\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio on a plastic beach\n' +
-                '                   It\'s a styrofoam deep sea landfill, it\'s a styrofoam deep sea landfill\n' +
-                '                   It\'s automated computer speech, it\'s automated computer speech\n' +
-                '                   It\'s a Casio on a plastic beach, it\'s a Casio\n' +
-                '\n' +
-                '                   [Bridge]\n' +
-                '                   Plastico, plastico, plastico where the green, green grows\n' +
-                '                   Plastico, plastico, plastico\n' +
-                '                   Plastico, plastico, plastico where the green, green grows\n' +
-                '                   Plastico, plastico, plastico'
+            lyrics: null
         }
     }
 
@@ -65,7 +28,10 @@ class SongLayout extends React.Component {
 
         const { data: song } = await axios.get(`/song/all/${id}`)
 
-        this.setState({ song })
+        const { data: lyrics } = await axios.get(`/lyrics/song/${id}`)
+        const [lyricsText] = lyrics
+
+        this.setState({ song, lyrics: lyricsText?.Text})
     }
     render() {
        return (
@@ -74,12 +40,20 @@ class SongLayout extends React.Component {
                    <img src={DemoAlbum} alt="Album cover" className="song__header__cover"/>
                    <div className="song__header__info">
                        <h2 className="song__header__info__title">{this.state.song.SongName}</h2>
-                       <p className="song__header__info__album"><a href={'/album/'+this.state.song.AlbumID}>{this.state.song.AlbumName}</a></p>
-                       <p className="song__header__info__author"><a href={'/artist/'+this.state.song.AristID}>{this.state.song.ArtistName}</a></p>
+                       <p className="song__header__info__album">
+                           <Link to={'/album/'+this.state.song.AlbumID}>
+                               {this.state.song.AlbumName}
+                           </Link>
+                       </p>
+                       <p className="song__header__info__author">
+                           <Link to={'/artist/'+this.state.song.AristID}>
+                               {this.state.song.ArtistName}
+                           </Link>
+                       </p>
                    </div>
                </div>
                <div className="song__lyrics">
-                   {this.state.lyrics}
+                   {this.state.lyrics || 'Nema teksta za ovu pjesmu'}
                </div>
            </div>
        )

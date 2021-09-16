@@ -10,15 +10,20 @@
     color: #fff;
 
     display: flex;
-    padding-left: 480px;
+    padding-left: 440px;
 
     position: relative;
+}
+
+.song__header a {
+    color: #fff;
+    text-decoration: none;
 }
 
 .song__header__cover {
     position: absolute;
     top: 50px;
-    left: 200px;
+    left: 165px;
 }
 
 .song__header__info {
@@ -41,7 +46,10 @@
 }
 
 .song__lyrics {
-    max-width: 540px;
-    margin: 20px auto;
-    white-space: pre;
+    max-width: 600px;
+    height: calc(100vh - 272px);
+    margin: 0 auto;
+    padding: 20px 40px;
+    white-space: pre-wrap;
+    background-color: #fff;
 }

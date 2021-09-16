@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import '../Assets/CSS/HomepageLayout.css'
+import Logo from '../Assets/Img/lyre_logo.svg';
 
 const HomepageLayout = () => {
     const history = useHistory();
@@ -9,11 +10,11 @@ const HomepageLayout = () => {
     function submitInput(e) {
         e.preventDefault();
         history.push('/song?q=' + searchString);
-        console.log(searchString);
     }
 
     return (
         <div className="homepage">
+            <img src={Logo} alt="" className="homepage__logo"/>
             <input
                 type="text"
                 className="homepage__search"

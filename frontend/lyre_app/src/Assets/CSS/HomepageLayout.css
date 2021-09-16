@@ -11,6 +11,10 @@
 
 }
 
+.homepage__logo {
+    width: 240px;
+}
+
 .homepage__search {
     max-width: 500px;
     display: block;
@@ -33,6 +37,10 @@
     transition: background-color 300ms;
     color: #fff;
     width: 120px;
+}
+
+.homepage__search_button:hover {
+    background-color: #e1a771;
 }
 
 .song__search__radius-left {

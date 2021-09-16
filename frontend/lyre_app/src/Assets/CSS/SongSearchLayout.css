@@ -40,3 +40,7 @@
     color: #fff;
     width: 120px;
 }
+
+.song__search__button:hover {
+    background-color: #e1a771;
+}
