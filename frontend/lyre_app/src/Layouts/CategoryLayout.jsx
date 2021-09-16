@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router';
 import {
     Input,
     InputGroup,
@@ -10,13 +11,26 @@ import {
 } from 'reactstrap';
 import QueryList from '../Components/QueryList'
 import getModelColumns from '../Common/ModelColumns';
+import { useEffect } from 'react/cjs/react.development';
 
 
 //takes in category to determine which selection to return
 export default function CategoryLayout(props) {
     const table = props.table;
+    const location = useLocation();
+    const inQuery = (new URLSearchParams(location.search)).get('q');
     const [radioSelection, setRadioSelection] = useState("ASC");
     const [query, setQuery] = useState(null);
+
+    useEffect(()=>{
+        if(inQuery != null){
+            setQuery({
+                "filter": inQuery,
+                "sortby": '',
+                "orderby": 'ASC'
+            });
+        }
+    }, []);
 
     function genSelectionOptions() {
         let columns = getModelColumns(table);

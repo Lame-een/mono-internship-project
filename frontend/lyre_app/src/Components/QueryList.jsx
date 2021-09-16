@@ -146,7 +146,7 @@ export default function QueryList(props) {
         let displayListBuffer = [];
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 2; j++) {
-                let media = <Media className="media__empty"/>;
+                let media = <Media className="media__empty" />;
                 colBuffer.push((<Col className="col-query" key={i, j} >{media}</Col>));
             }
 
@@ -170,7 +170,7 @@ export default function QueryList(props) {
         while (itemIndex < 8) {
             for (let j = 0; j < 2; j++) {
                 let media;
-                if (itemIndex >= queryResults.length) media = <Media className="media__empty"/>;
+                if (itemIndex >= queryResults.length) media = <Media className="media__empty" />;
                 else media = genMedia(queryResults[itemIndex]);
                 colBuffer.push((<Col className="col-query" key={itemIndex} >{media}</Col>));
                 itemIndex++;
