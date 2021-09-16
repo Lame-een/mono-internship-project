@@ -24,7 +24,6 @@ export default function QueryList(props) {
 
     useEffect(() => {
         genList();
-        console.log(queryResults);
     }, [queryResults]);
 
 
@@ -158,7 +157,6 @@ export default function QueryList(props) {
 
             displayListBuffer.push(row);
         }
-        console.log('displaz list buffer', displayListBuffer);
         setDisplayList(displayListBuffer);
     }
 

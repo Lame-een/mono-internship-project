@@ -30,7 +30,6 @@ class AlbumLayout extends React.Component {
 
     async componentDidMount() {
         const { id } = this.props.match.params
-        console.log()
 
         const { data: album } = await axios.get(`/album/id/${id}`)
         const { data: songs } = await axios.get(`/album/all/${id}`)
@@ -46,7 +45,7 @@ class AlbumLayout extends React.Component {
             rows.push(
                 <Row>
                     <p><a href={'/song/' + i.SongID}>{i.SongName}</a></p>
-                    <p></p>
+                    <p />
                 </Row>
             );
         }

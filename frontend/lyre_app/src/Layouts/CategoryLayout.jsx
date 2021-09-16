@@ -34,7 +34,7 @@ export default function CategoryLayout(props) {
 
     function genSelectionOptions() {
         let columns = getModelColumns(table);
-        let list = [<option key="nullkey" value=""></option>]
+        let list = [<option key="nullkey" value="" />]
         for (const col of columns) {
             for (const [colkey, colval] of Object.entries(col)) {
                 list.push(
@@ -48,8 +48,6 @@ export default function CategoryLayout(props) {
     function submitInput(e) {
         e.preventDefault();
         let t = e.target;
-
-        console.log(e.target);
 
         let q = {
             "filter": t[0].value,

@@ -1,16 +1,13 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Redirect, useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {
     Input,
     InputGroup,
-    InputGroupAddon,
-    InputGroupText,
     Button,
     Form,
     Modal,
     ModalBody,
-    ModalHeader,
     ModalFooter
 } from 'reactstrap';
 
@@ -22,7 +19,7 @@ export default function LoginLayout() {
     const context = useContext(LoginContext);
 
     const [modal, setModal] = useState(false);
-    function toggleModal() { setModal(!modal) };
+    function toggleModal() { setModal(!modal) }
 
 
     function handleSubmit(event) {
@@ -35,7 +32,6 @@ export default function LoginLayout() {
             password: (event.target[1].value)
         }).then((response) => { respo = response }).then(() => {
 
-            console.log(respo);
             context.setLoggedIn(true);
             let toekn = respo.headers.authorization.split(' ')[1];
             context.setToken(toekn);
@@ -44,8 +40,7 @@ export default function LoginLayout() {
             sessionStorage.setItem('token', toekn);
 
             history.push('/');
-        }).catch((error) => {
-            console.log(error);
+        }).catch(() => {
             setModal(true);
         });
         //context.setLoggedIn(true);
@@ -63,7 +58,7 @@ export default function LoginLayout() {
                     <Input type="password" name="passwordInput" id="passwordInput0" placeholder="Password" />
                 </InputGroup>
 
-                Not a user? <a href='/register'>Sign up here</a>
+                Not a user? <Link to='/register'>Sign up here</Link>
 
                 <InputGroup>
                     <Button type="submit">Sign in</Button>

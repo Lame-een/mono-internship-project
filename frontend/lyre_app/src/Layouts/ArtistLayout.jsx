@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
-import Cover from '../Components/Cover';
 import { Container, Row, Col } from 'reactstrap';
 
 import '../Assets/CSS/SongLayout.css'
@@ -17,7 +16,6 @@ class ArtistLayout extends React.Component {
                     ArtistName: null,
                     SongID: null,
                     SongName: null,
-                    ArtistName: null,
                     ArtistID: null
                 }]
         }
@@ -28,7 +26,7 @@ class ArtistLayout extends React.Component {
 
         const { data: artist } = await axios.get(`/artist/${id}`)
         //const { data: songs } = await axios.get(`/artist/all/${id}`)
-        console.log(artist);
+
         this.setState({ 'artist': artist })
         //this.setState({ 'songs': songs })
     }
@@ -42,7 +40,7 @@ class ArtistLayout extends React.Component {
             rows.push(
                 <Row>
                     <p><a href={'/album/' + i}>{'Album numero ' + i}</a></p>
-                    <p></p>
+                    <p />
                 </Row>
             );
         }
@@ -58,7 +56,7 @@ class ArtistLayout extends React.Component {
             rows.push(
                 <Row>
                     <p><a href={'/song/' + i}>{'Song numero ' + i}</a></p>
-                    <p></p>
+                    <p />
                 </Row>
             );
         }
