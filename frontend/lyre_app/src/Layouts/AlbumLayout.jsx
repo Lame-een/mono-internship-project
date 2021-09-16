@@ -4,8 +4,6 @@ import { withRouter } from 'react-router-dom'
 
 import '../Assets/CSS/SongLayout.css'
 
-import DemoAlbum from '../res/demo_album_cover.png'
-
 class AlbumLayout extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +31,7 @@ class AlbumLayout extends React.Component {
         <div className="song__layout">
             
            
-            <img src={DemoAlbum} alt="Album cover" className="song__header__cover"/>
+            {/*<img src={DemoAlbum} alt="Album cover" className="song__header__cover"/>*/}
             <div className="song__header__info">
                 <h2 className="song__header__info__title">{this.state.album.AlbumName}</h2>
             </div>

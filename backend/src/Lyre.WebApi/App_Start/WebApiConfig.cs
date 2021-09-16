@@ -11,7 +11,7 @@ namespace Lyre.WebApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
+            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*", "*");
             config.EnableCors(cors);
 
             // Web API routes

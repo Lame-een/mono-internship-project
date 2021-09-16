@@ -21,6 +21,7 @@
     height: 100%;
 }
 
+
 .navbar__items {
     display: flex;
     gap: 40px;
@@ -32,21 +33,30 @@
     text-decoration: none;
 }
 
+
 .navbar__buttons {
     display: flex;
     gap: 40px;
 }
 
-.navbar__buttons button {
+.navbar__buttons a {
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.navbar__button{
     outline: none;
     border: none;
-    background-color: #fff;
+    background-color: #b6651a;
     padding: 8px 20px;
     border-radius: 8px;
 
     transition: background-color 300ms;
 }
 
-.navbar__buttons button:hover {
-    background-color: #dcdcdc;
+.navbar__button:hover {
+    background-color: #e1a771;
 }
+

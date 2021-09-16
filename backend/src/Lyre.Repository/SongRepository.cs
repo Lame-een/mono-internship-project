@@ -71,7 +71,7 @@ namespace Lyre.Repository
             {
                 connection.Open();
 
-                string queryString = "SELECT song.name, song.songID, album.name, album.albumID, artist.name, artist.artistID, genre.name, NULL AS [lyrics.lyricsID] FROM SONG " +
+                string queryString = "SELECT song.name, song.songID, album.name, album.albumID, artist.name, artist.artistID, genre.name, NULL AS [lyrics.lyricsID], album.cover FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
                                      "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
@@ -131,7 +131,7 @@ namespace Lyre.Repository
                         break;
                     }
                 }
-                string queryString = "SELECT song.name, song.songID, album.name, album.albumID, artist.name, artist.artistID, genre.name, @LyricsID AS [lyrics.lyricsID] FROM SONG " +
+                string queryString = "SELECT song.name, song.songID, album.name, album.albumID, artist.name, artist.artistID, genre.name, @LyricsID AS [lyrics.lyricsID], album.cover FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
                                      "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +

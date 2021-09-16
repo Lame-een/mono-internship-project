@@ -3,6 +3,7 @@ import QueryPaginator from '../Components/QueryPaginator';
 import { Container, Row, Col, Media } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Cover from './Cover';
 
 export default function QueryList(props) {
 
@@ -12,6 +13,10 @@ export default function QueryList(props) {
 
     const [queryResults, setResults] = useState([]);
     const [displayList, setDisplayList] = useState([]);
+
+    useEffect(() => {
+        genEmptyList();
+    }, [table]);
 
     useEffect(() => {
         getQuery();
@@ -36,7 +41,7 @@ export default function QueryList(props) {
         } else if (table === 'album') {
             str = 'album/artist/all?';
         } else if (table === 'artist') {
-            str = 'artist/all?';
+            str = 'artist?';
         }
 
         if (table === 'song') {
@@ -88,11 +93,11 @@ export default function QueryList(props) {
             media = (
                 <Media>
                     <Media left href={"/song/" + queryObj.SongID}>
-                        <Media object src="https://cdn.discordapp.com/attachments/656219650753036318/887176407099248692/coeD3.gif" alt="Cover" />
+                        <Cover src={queryObj.Cover} alt="Cover" />
                     </Media>
                     <Media body>
                         <Media heading>
-                            <Link to={"/song/" + queryObj.SongID}>Song: {queryObj.SongName}</Link>
+                            <Link to={"/song/" + queryObj.SongID}>{queryObj.SongName}</Link>
                         </Media>
                         <Media>
                             <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
@@ -113,7 +118,7 @@ export default function QueryList(props) {
                     </Media>
                     <Media body>
                         <Media heading>
-                            <Link to={"/album/" + queryObj.AlbumID}>Album: {queryObj.AlbumName}</Link>
+                            <Link to={"/album/" + queryObj.AlbumID}>{queryObj.AlbumName}</Link>
                         </Media>
                         <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
                     </Media>
@@ -126,7 +131,7 @@ export default function QueryList(props) {
                 <Media>
                     <Media body>
                         <Media heading>
-                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
+                            <Link to={"/artist/" + queryObj.ArtistID}>{queryObj.Name}</Link>
                         </Media>
                     </Media>
                 </Media>
@@ -134,6 +139,27 @@ export default function QueryList(props) {
         }
 
         return media;
+    }
+
+    function genEmptyList() {
+        let colBuffer = [];
+        let displayListBuffer = [];
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 2; j++) {
+                let media = <Media className="media__empty"/>;
+                colBuffer.push((<Col className="col-query" key={i, j} >{media}</Col>));
+            }
+
+            let row = (
+                <Row>
+                    {colBuffer[(i * 2)]}
+                    {colBuffer[(i * 2) + 1]}
+                </Row>
+            );
+
+            displayListBuffer.push(row);
+        }
+        setDisplayList(displayListBuffer);
     }
 
     function genList() {
@@ -144,7 +170,7 @@ export default function QueryList(props) {
         while (itemIndex < 8) {
             for (let j = 0; j < 2; j++) {
                 let media;
-                if (itemIndex >= queryResults.length) media = "EMPTY";
+                if (itemIndex >= queryResults.length) media = <Media className="media__empty"/>;
                 else media = genMedia(queryResults[itemIndex]);
                 colBuffer.push((<Col className="col-query" key={itemIndex} >{media}</Col>));
                 itemIndex++;

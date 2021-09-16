@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 
 import '../Assets/CSS/SongLayout.css'
 
-import DemoAlbum from '../res/demo_album_cover.png'
+import DemoAlbum from '../Assets/Img/demo_album_cover.png'
 
 class SongLayout extends React.Component {
     constructor(props) {

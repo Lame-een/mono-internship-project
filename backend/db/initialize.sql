@@ -55,8 +55,8 @@ INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
 ('AFewSides', 12, 2013, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00');
 INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
 ('Gamma', 8, 2018, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('Badboi', 1, 2014, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('Badboi', 1, 2014, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00', 'https://i1.sndcdn.com/artworks-000088442109-7jcbju-t500x500.jpg');
 INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
 ('Nerds by Nature', 6, 2017, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00');
 INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES

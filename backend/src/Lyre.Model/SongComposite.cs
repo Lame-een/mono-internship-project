@@ -20,18 +20,10 @@ namespace Lyre.Model
 
         public string GenreName { get; set; }
         public Guid? LyricsID { get; set; }
+        public string Cover { get; set; }
 
-        public const int FieldNumber = 8;
+        public const int FieldNumber = 9;
 
-        public SongComposite(Guid songID, string songName, string albumName, string artistName, string genreName, Guid? lyricsID)
-        {
-            SongID = songID;
-            SongName = songName;
-            AlbumName = albumName;
-            ArtistName = artistName;
-            GenreName = genreName;
-            LyricsID = lyricsID;
-        }
         public SongComposite() { }
         public SongComposite(object[] obj)
         {
@@ -51,6 +43,14 @@ namespace Lyre.Model
             else
             {
                 LyricsID = (Guid?)obj[7];
+            }
+            if (obj[8].GetType() == typeof(DBNull))
+            {
+                Cover = null;
+            }
+            else
+            {
+                Cover = (string)obj[8];
             }
 
         }

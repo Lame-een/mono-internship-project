@@ -45,6 +45,7 @@ export default function CategoryLayout(props) {
 
     return (
         <div>
+            <h2>Searching {table + 's'}</h2>
             <Form onSubmit={submitInput}>
                 <InputGroup>
                     <Input name="searchQuery" id="inputSearch0" placeholder="search" />
