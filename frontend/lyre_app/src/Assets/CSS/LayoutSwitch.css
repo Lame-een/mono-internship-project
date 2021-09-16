@@ -5,6 +5,6 @@
     background-size: cover;
 }
 
-.layout_switch__component {
-    height: calc(100vh - 72px);
+.layout_switch__component > div {
+    min-height: calc(100vh - 72px);
 }

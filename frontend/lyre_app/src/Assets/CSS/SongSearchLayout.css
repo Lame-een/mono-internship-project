@@ -1,4 +1,4 @@
-.homepage {
+.song__search {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,10 +9,12 @@
 
     height: 100%;
 
+    padding-top: 30px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.homepage__search {
-    max-width: 500px;
+.song__search__input {
     display: block;
     width: 100%;
     border-radius: 120px;
@@ -20,11 +22,15 @@
     padding: 0 20px;
 }
 
-.homepage__search:focus {
+.song__search__input:focus {
     outline: none;
 }
 
-.homepage__search_button {
+.song__search__sort {
+    border-radius: 120px;
+}
+
+.song__search__button {
     outline: none;
     border: none;
     background-color: #b6651a;
@@ -33,11 +39,4 @@
     transition: background-color 300ms;
     color: #fff;
     width: 120px;
-}
-
-.song__search__radius-left {
-    border-radius: 20px 0 0 20px;
-}
-.song__search__radius-right {
-    border-radius: 0 20px 20px 0;
 }

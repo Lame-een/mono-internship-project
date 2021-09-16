@@ -12,7 +12,7 @@ import {
 import QueryList from '../Components/QueryList'
 import getModelColumns from '../Common/ModelColumns';
 import { useEffect } from 'react/cjs/react.development';
-
+import '../Assets/CSS/SongSearchLayout.css'
 
 //takes in category to determine which selection to return
 export default function CategoryLayout(props) {
@@ -49,6 +49,8 @@ export default function CategoryLayout(props) {
         e.preventDefault();
         let t = e.target;
 
+        console.log(e.target);
+
         let q = {
             "filter": t[0].value,
             "sortby": t[1].value,
@@ -59,30 +61,38 @@ export default function CategoryLayout(props) {
 
     return (
         <div>
-            <h2>Searching {table + 's'}</h2>
-            <Form onSubmit={submitInput}>
-                <InputGroup>
-                    <Input name="searchQuery" id="inputSearch0" placeholder="search" />
-                </InputGroup>
+            <Form
+                onSubmit={submitInput}
+                className="song__search"
+            >
+                <input
+                    id="song-search"
+                    type="text"
+                    className="song__search__input"
+                    placeholder={`Search ${table}s`}
+                />
 
-                <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>Sort By:</InputGroupText>
+                <InputGroup  className="song__search__sort">
+                    <InputGroupAddon addonType="prepend" >
+                        <InputGroupText className="song__search__radius-left">Sort By:</InputGroupText>
                     </InputGroupAddon>
-                    <Input type="select" name="sortByColumn" id="inputColumn0">
+                    <Input type="select" name="sortByColumn">
                         {genSelectionOptions()}
                     </Input>
-
                     <ButtonGroup>
                         <Button onClick={() => setRadioSelection("ASC")} active={radioSelection === "ASC"}>Asc</Button>
-                        <Button onClick={() => setRadioSelection("DESC")} active={radioSelection === "DESC"}>Desc</Button>
+                        <Button className="song__search__radius-right" onClick={() => setRadioSelection("DESC")} active={radioSelection === "DESC"}>Desc</Button>
                     </ButtonGroup>
                 </InputGroup>
 
-                <InputGroup>
-                    <Button type="submit">Search</Button>
-                </InputGroup>
+                <button
+                    className="song__search__button"
+                    type="submit"
+                >
+                    Search
+                </button>
             </Form>
+
 
             <QueryList query={query} table={table} />
         </div>

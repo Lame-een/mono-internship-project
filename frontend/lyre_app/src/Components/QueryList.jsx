@@ -146,7 +146,7 @@ export default function QueryList(props) {
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 2; j++) {
                 let media = <Media className="media__empty" />;
-                colBuffer.push((<Col className="col-query" key={i, j} >{media}</Col>));
+                colBuffer.push((<Col className="col-query" key={`${i}-${j}`} >{media}</Col>));
             }
 
             let row = (
@@ -158,6 +158,7 @@ export default function QueryList(props) {
 
             displayListBuffer.push(row);
         }
+        console.log('displaz list buffer', displayListBuffer);
         setDisplayList(displayListBuffer);
     }
 
