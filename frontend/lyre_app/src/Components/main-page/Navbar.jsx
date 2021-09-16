@@ -1,4 +1,4 @@
-import '../../Assets/css/Navbar.css'
+import '../../Assets/CSS/Navbar.css'
 import Logo from '../../res/lyre_logo.svg';
 import { Link } from "react-router-dom";
 

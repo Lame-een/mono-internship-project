@@ -1,6 +1,6 @@
 import {Route, Switch} from "react-router-dom";
 
-import '../../Assets/css/LayoutSwitch.css'
+import '../../Assets/CSS/LayoutSwitch.css'
 
 import CategoryLayout from "../../Layouts/CategoryLayout";
 import SongLayout from "../../Layouts/SongLayout";
