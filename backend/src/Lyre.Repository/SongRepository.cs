@@ -131,8 +131,7 @@ namespace Lyre.Repository
                         break;
                     }
                 }
-
-                string queryString = "SELECT song.songID, song.name, album.name, genre.name, artist.name, @LyricsID AS [lyrics.lyricsID] FROM SONG " +
+                string queryString = "SELECT song.name, song.songID, album.name, album.albumID, artist.name, artist.artistID, genre.name, @LyricsID AS [lyrics.lyricsID] FROM SONG " +
                                      "INNER JOIN ALBUM ON (album.albumID = song.albumID) " +
                                      "INNER JOIN ARTIST ON (artist.artistID = album.artistID) " +
                                      "INNER JOIN GENRE ON (genre.genreID = song.genreID) " +
