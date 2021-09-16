@@ -17,9 +17,10 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import SongLayout from "../Layouts/SongLayout";
 
 
-const MainPage = (props) => {
+const MainPage = () => {
   const [searchString, setSearchString] = useState('');
   const [searchStringBuffer, setBuffer] = useState('');
   var Img = <img src={logo} alt="logo" />
@@ -56,7 +57,7 @@ const MainPage = (props) => {
           <CategoryLayout baseUrl="./song" table="song" />
         </Route>
         <Route path="/song/:id">
-          THIS IS A SONG ROUTE
+          <SongLayout />
         </Route>
 
         <Route exact path="/album">
