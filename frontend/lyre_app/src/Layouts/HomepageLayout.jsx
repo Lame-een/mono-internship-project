@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { useEffect } from 'react/cjs/react.development';
-import { Button, Form, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import '../Assets/CSS/HomepageLayout.css'
 
 const HomepageLayout = () => {
     const history = useHistory();
@@ -14,13 +13,20 @@ const HomepageLayout = () => {
     }
 
     return (
-        <Form onSubmit={submitInput}>
-            <InputGroup>
-                <InputGroupAddon addonType="prepend"><Button onClick={submitInput}>
-                    Search songs</Button></InputGroupAddon>
-                <Input onChange={(e) => { setSearchString(e.target.value) }} />
-            </InputGroup>
-        </Form>
+        <div className="homepage">
+            <input
+                type="text"
+                className="homepage__search"
+                placeholder="Search"
+                onChange={(e) => { setSearchString(e.target.value) }}
+            />
+            <button
+                className="homepage__search_button"
+                onClick={submitInput}
+            >
+                Search
+            </button>
+        </div>
     )
 }
 

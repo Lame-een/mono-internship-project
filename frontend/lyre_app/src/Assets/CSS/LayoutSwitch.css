@@ -1,3 +1,10 @@
 .layout_switch {
     margin-top: 72px;
+
+    background-image: url('../Img/background.jpeg');
+    background-size: cover;
+}
+
+.layout_switch__component {
+    height: calc(100vh - 72px);
 }
