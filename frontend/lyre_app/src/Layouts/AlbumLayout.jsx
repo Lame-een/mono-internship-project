@@ -12,9 +12,9 @@ class AlbumLayout extends React.Component {
         this.state = {
             'album': {
                 artistID: '',
-                cover: null,
                 name: '',
                 number_of_tracks: 0,
+                cover: '',
                 year: 0,
             },
             'songs':
@@ -57,7 +57,6 @@ class AlbumLayout extends React.Component {
 
             <div className="song__layout">
                 <div className="song__header">
-                    {/*why doesn't this work??? Ivane save us with your css magick!*/}
                     <Cover className="song__header__cover" src={this.state.album.cover} alt="Album Cover" />
                     <div className="song__header__info">
                         <h2 className="song__header__info__title">{this.state.album.name}</h2>
@@ -67,7 +66,7 @@ class AlbumLayout extends React.Component {
                     </div>
                 </div>
 
-                <div className="album__body__list">
+                <div className="song__lyrics">
                     {this.state.album.number_of_tracks} songs are on this album.
                     <Container>
                         <Col>

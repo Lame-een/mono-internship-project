@@ -31,6 +31,8 @@ class SongLayout extends React.Component {
         const { data: lyrics } = await axios.get(`/lyrics/song/${id}`)
         const [lyricsText] = lyrics
 
+        console.log(song);
+
         this.setState({ song, lyrics: lyricsText?.Text})
     }
     render() {
@@ -46,7 +48,7 @@ class SongLayout extends React.Component {
                            </Link>
                        </p>
                        <p className="song__header__info__author">
-                           <Link to={'/artist/'+this.state.song.AristID}>
+                           <Link to={'/artist/'+this.state.song.ArtistID}>
                                {this.state.song.ArtistName}
                            </Link>
                        </p>

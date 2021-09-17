@@ -50,9 +50,8 @@ namespace Lyre.Repository
             using (SqlConnection connection = DBHandler.NewConnection())
             {
                 connection.Open();
-                string queryString = "SELECT Artist.name ,Song.name ,Song.songID , Album.name, Album.albumID FROM ARTIST " + 
+                string queryString = "SELECT Album.name, Album.albumID FROM ARTIST " +
                     "INNER JOIN ALBUM ON (Album.ArtistID = Artist.ArtistID) " +
-                    "INNER JOIN SONG ON (Song.AlbumID = Album.AlbumID) " +
                     "WHERE Artist.ArtistID = @ArtistID;";
 
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -77,7 +76,10 @@ namespace Lyre.Repository
                         while (reader.Read())
                         {
                             reader.GetValues(objectBuffer);
-                            compositeList.Add(new ArtistComposite(objectBuffer));
+                            ArtistComposite artistComposite = new ArtistComposite();
+                            artistComposite.AlbumName = (string)objectBuffer[0];
+                            artistComposite.AlbumID = (Guid)objectBuffer[1];
+                            compositeList.Add(artistComposite);
                         }
                         reader.NextResult();
                     }

@@ -11,6 +11,19 @@
 
 }
 
+.homepage__search__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 100px;
+    gap: 30px;
+
+    height: 100%;
+    width: 100%;
+}
+
 .homepage__logo {
     width: 240px;
 }
@@ -31,7 +44,7 @@
 .homepage__search_button {
     outline: none;
     border: none;
-    background-color: #b6651a;
+    background-color: #e6872e;
     padding: 8px 20px;
     border-radius: 20px;
     transition: background-color 300ms;
@@ -40,7 +53,7 @@
 }
 
 .homepage__search_button:hover {
-    background-color: #e1a771;
+    background-color: #f3bd8a;
 }
 
 .song__search__radius-left {

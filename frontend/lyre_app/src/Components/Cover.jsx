@@ -5,14 +5,14 @@ export default function Cover(props) {
 
   let displayImg;
   if (props.src) {
-    displayImg = <img src={props.src} alt={props.alt} />;
+    displayImg = <img className={props.className} src={props.src} alt={props.alt} />;
   } else {
-    displayImg = <img src={DefaultCover} alt={props.alt} />;
+    displayImg = <img className={props.className} src={DefaultCover} alt={props.alt} />;
   }
 
   return (
-    <>
+    <div>
       {displayImg}
-    </>
+    </div>
   );
 }

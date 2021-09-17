@@ -10,13 +10,12 @@ class ArtistLayout extends React.Component {
         super(props);
         this.state = {
             'artist': {
+                Name: ''
             },
-            'songs':
+            'albums':
                 [{
-                    ArtistName: null,
-                    SongID: null,
-                    SongName: null,
-                    ArtistID: null
+                    AlbumName: null,
+                    AlbumID: null,
                 }]
         }
     }
@@ -25,37 +24,22 @@ class ArtistLayout extends React.Component {
         const { id } = this.props.match.params
 
         const { data: artist } = await axios.get(`/artist/${id}`)
-        //const { data: songs } = await axios.get(`/artist/all/${id}`)
+        const { data: albums } = await axios.get(`/artist/all/${id}`)
+
+        console.log(artist);
+        console.log(albums);
 
         this.setState({ 'artist': artist })
-        //this.setState({ 'songs': songs })
+        this.setState({ 'albums': albums })
     }
 
-    genRowsAlbums() {
+    genRows() {
         let rows = []
 
-        //for (let i of this.state.albums) {
-        for (let i = 0; i < 5; i++) {
-
+        for (let i of this.state.albums) {
             rows.push(
                 <Row>
-                    <p><a href={'/album/' + i}>{'Album numero ' + i}</a></p>
-                    <p />
-                </Row>
-            );
-        }
-        return rows;
-    }
-
-    genRowsSongs() {
-        let rows = []
-
-        //for (let i of this.state.songs) {
-        for (let i = 0; i < 5; i++) {
-
-            rows.push(
-                <Row>
-                    <p><a href={'/song/' + i}>{'Song numero ' + i}</a></p>
+                    <p><a href={'/album/' + i.AlbumID}>{i.AlbumName}</a></p>
                     <p />
                 </Row>
             );
@@ -69,22 +53,15 @@ class ArtistLayout extends React.Component {
             <div className="song__layout">
                 <div className="song__header">
                     <div className="song__header__info">
-                        <h2 className="song__header__info__title">{this.state.artist.name}</h2>
+                        <h2 className="song__header__info__title">{this.state.artist.Name}</h2>
                     </div>
                 </div>
 
                 <div className="artist__body__list">
-                    {/*lemme know if you need a proper table with 2 columns or if 2 seperate are okay!*/}
                     <Container>
                         <Col>
                             <Row>Albums:</Row>
-                            {this.genRowsAlbums()}
-                        </Col>
-                    </Container>
-                    <Container>
-                        <Col>
-                            <Row>Songs:</Row>
-                            {this.genRowsSongs()}
+                            {this.genRows()}
                         </Col>
                     </Container>
                 </div>

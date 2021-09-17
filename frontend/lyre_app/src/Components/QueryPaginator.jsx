@@ -13,7 +13,7 @@ export default function QueryPaginator(props) {
 
 
     return (
-        <Pagination aria-label="Select page">
+        <Pagination className={props.className} aria-label="Select page">
             <PaginationItem disabled={page < 2}>
                 <PaginationLink onClick={() => {pageChange(page-1)}}>Previous</PaginationLink>
             </PaginationItem>

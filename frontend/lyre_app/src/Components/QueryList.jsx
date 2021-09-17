@@ -4,6 +4,8 @@ import { Container, Row, Col, Media } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Cover from './Cover';
+import '../Assets/CSS/QueryList.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function QueryList(props) {
 
@@ -89,50 +91,51 @@ export default function QueryList(props) {
 
         if (table === "song") {
             media = (
-                <Media>
-                    <Media left href={"/song/" + queryObj.SongID}>
-                        <Cover src={queryObj.Cover} alt="Cover" />
-                    </Media>
-                    <Media body>
-                        <Media heading>
+                <div className="querylist__listing">
+                    <Cover className="querylist__listing__cover" src={queryObj.Cover} alt="Cover" />
+
+                    <div className="querylist__listing__body">
+                        <h2>
                             <Link to={"/song/" + queryObj.SongID}>{queryObj.SongName}</Link>
-                        </Media>
-                        <Media>
-                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
-                        </Media>
-                        <Media>
-                            <Link to={"/album/" + queryObj.AlbumID}>Album: {queryObj.AlbumName}</Link>
-                        </Media>
-                    </Media>
-                </Media>
+                        </h2>
+                        <p>
+                            <Link to={"/album/" + queryObj.AlbumID}>Album: <em>{queryObj.AlbumName}</em></Link>
+                            <br />
+                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: <em>{queryObj.ArtistName}</em></Link>
+                        </p>
+                    </div>
+                </div>
             );
         }
 
         if (table === "album") {
             media = (
-                <Media>
-                    <Media left href={"/album/" + queryObj.AlbumID}>
-                        <Cover object src={queryObj.Cover} alt="Cover" />
-                    </Media>
-                    <Media body>
-                        <Media heading>
+                <div className="querylist__listing">
+                    <Cover className="querylist__listing__cover" src={queryObj.Cover} alt="Cover" />
+
+                    <div className="querylist__listing__body">
+                        <h2>
                             <Link to={"/album/" + queryObj.AlbumID}>{queryObj.AlbumName}</Link>
-                        </Media>
-                        <Link to={"/artist/" + queryObj.ArtistID}>Artist: {queryObj.ArtistName}</Link>
-                    </Media>
-                </Media>
+                        </h2>
+                        <p>
+                            <Link to={"/artist/" + queryObj.ArtistID}>Artist: <em>{queryObj.ArtistName}</em></Link>
+                        </p>
+                    </div>
+                </div>
             );
         }
 
         if (table === "artist") {
+            console.log(queryObj);
             media = (
-                <Media>
-                    <Media body>
-                        <Media heading>
+                <div className="querylist__listing__artist">
+
+                    <div className="querylist__listing__body">
+                        <h2>
                             <Link to={"/artist/" + queryObj.ArtistID}>{queryObj.Name}</Link>
-                        </Media>
-                    </Media>
-                </Media>
+                        </h2>
+                    </div>
+                </div>
             );
         }
 
@@ -144,12 +147,12 @@ export default function QueryList(props) {
         let displayListBuffer = [];
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 2; j++) {
-                let media = <Media className="media__empty" />;
-                colBuffer.push((<Col className="col-query" key={`${i}-${j}`} >{media}</Col>));
+                let media = <div />;
+                colBuffer.push((<Col className="querylist__col" key={`${i}-${j}`} >{media}</Col>));
             }
 
             let row = (
-                <Row>
+                <Row className="querylist__row">
                     {colBuffer[(i * 2)]}
                     {colBuffer[(i * 2) + 1]}
                 </Row>
@@ -168,14 +171,14 @@ export default function QueryList(props) {
         while (itemIndex < 8) {
             for (let j = 0; j < 2; j++) {
                 let media;
-                if (itemIndex >= queryResults.length) media = <Media className="media__empty" />;
+                if (itemIndex >= queryResults.length) media = <div />;
                 else media = genMedia(queryResults[itemIndex]);
                 colBuffer.push((<Col className="col-query" key={itemIndex} >{media}</Col>));
                 itemIndex++;
             }
 
             let row = (
-                <Row>
+                <Row className="querylist__row">
                     {colBuffer[(itemIndex / 2) - 1]}
                     {colBuffer[(itemIndex / 2)]}
                 </Row>
@@ -188,11 +191,13 @@ export default function QueryList(props) {
 
     return (
         <div>
-            <Container>
+            <QueryPaginator className="querylist__paginator" page={currentPage} pageChange={onPageChange} pagesExist={true} {...props} />
+
+            <Container className="querylist__container">
                 {displayList}
             </Container>
-
-            <QueryPaginator page={currentPage} pageChange={onPageChange} pagesExist={true} {...props} />
+            
+            <QueryPaginator className="querylist__paginator" page={currentPage} pageChange={onPageChange} pagesExist={true} {...props} />
         </div>
     );
 }
