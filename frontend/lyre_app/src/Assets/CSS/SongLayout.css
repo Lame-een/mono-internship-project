@@ -24,6 +24,8 @@
     position: absolute;
     top: 50px;
     left: 165px;
+    max-width: 256px;
+    max-height: 256px;
 }
 
 .song__header__info {

@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom'
 
 import '../Assets/CSS/SongLayout.css'
 
-import DemoAlbum from '../Assets/Img/demo_album_cover.png'
+import Cover from '../Components/Cover'
 
 class SongLayout extends React.Component {
     constructor(props) {
@@ -17,7 +17,8 @@ class SongLayout extends React.Component {
                 ArtistName: null,
                 GenreName: null,
                 AlbumID: null,
-                ArtistID: null
+                ArtistID: null,
+                Cover: null
             },
             lyrics: null
         }
@@ -39,7 +40,7 @@ class SongLayout extends React.Component {
        return (
            <div className="song__layout">
                <div className="song__header">
-                   <img src={DemoAlbum} alt="Album cover" className="song__header__cover"/>
+                   <Cover src={this.state.song.Cover} alt="Album cover" className="song__header__cover"/>
                    <div className="song__header__info">
                        <h2 className="song__header__info__title">{this.state.song.SongName}</h2>
                        <p className="song__header__info__album">

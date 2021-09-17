@@ -19,5 +19,7 @@ namespace Lyre.Model.Common
 
         string GenreName { get; set; }
         Guid? LyricsID { get; set; }
+
+        string Cover { get; set; }
     }
 }
