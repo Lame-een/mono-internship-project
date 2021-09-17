@@ -47,22 +47,22 @@ INSERT INTO artist (name, creationTime) VALUES ('FewJar', '20210902 00:00:00');
 INSERT INTO artist (name, creationTime) VALUES ('EDEN', '20210902 00:00:00');
 INSERT INTO artist (name, creationTime) VALUES ('Pegboard Nerds', '20210902 00:00:00');
 
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('Donda', 27, 2021, (SELECT artistID FROM artist WHERE name = 'Kanye West'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('The Colour and the Shape', 13, 1997, (SELECT artistID FROM artist WHERE name = 'Foo Fighters'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('AFewSides', 12, 2013, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('Gamma', 8, 2018, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('Donda', 27, 2021, (SELECT artistID FROM artist WHERE name = 'Kanye West'), '20210902 00:00:00', 'https://static.highsnobiety.com/thumbor/f6U8VHJqMd7h72Ldu6ATFKNvLYc=/1600x1067/static.highsnobiety.com/wp-content/uploads/2021/08/18122835/kanye-west-donda-album-cover-02.jpg');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('The Colour and the Shape', 13, 1997, (SELECT artistID FROM artist WHERE name = 'Foo Fighters'), '20210902 00:00:00', 'https://images-na.ssl-images-amazon.com/images/I/61kk%2BSr75BL._SL1500_.jpg');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('AFewSides', 12, 2013, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00', 'https://f4.bcbits.com/img/a3016905903_10.jpg');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('Gamma', 8, 2018, (SELECT artistID FROM artist WHERE name = 'FewJar'), '20210902 00:00:00', 'https://images-na.ssl-images-amazon.com/images/I/712tuJS57ML._SL1200_.jpg');
 INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
 ('Badboi', 1, 2014, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00', 'https://i1.sndcdn.com/artworks-000088442109-7jcbju-t500x500.jpg');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('Nerds by Nature', 6, 2017, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('End Credits', 7, 2015, (SELECT artistID FROM artist WHERE name = 'EDEN'), '20210902 00:00:00');
-INSERT INTO album (name, numberOfTracks, year, artistID, creationTime) VALUES
-('i think you think too much of me', 7, 2016, (SELECT artistID FROM artist WHERE name = 'EDEN'), '20210902 00:00:00');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('Nerds by Nature', 6, 2017, (SELECT artistID FROM artist WHERE name = 'Pegboard Nerds'), '20210902 00:00:00', 'https://f4.bcbits.com/img/a2466451685_10.jpg');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('End Credits', 7, 2015, (SELECT artistID FROM artist WHERE name = 'EDEN'), '20210902 00:00:00', 'https://upload.wikimedia.org/wikipedia/en/1/1d/End_Credits_by_EDEN-Official%2CDecember2015.jpg');
+INSERT INTO album (name, numberOfTracks, year, artistID, creationTime, cover) VALUES
+('i think you think too much of me', 7, 2016, (SELECT artistID FROM artist WHERE name = 'EDEN'), '20210902 00:00:00', 'https://img.discogs.com/u-YYIpKHykh9xelJAUN9LGWaiOw=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-8938708-1471863091-1189.jpeg.jpg');
 
 
 INSERT INTO song (name, albumID, genreID, creationTime) VALUES
@@ -472,3 +472,705 @@ Pealed from our lactic callus
 Whhhhhy,
 Paaaaraaaaaliiiiized!!
 Adreeeenaaaaaliiiiized! (source genius.com & musixmatch.com)', 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'S.p.a.m. (feat. Tommy Blackout)'), '20210902 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('See this in 3D, all lights out for me
+All lights out for me, lightning strikes the beach
+Eighty degrees, warm it up for me
+Finally free, found the God in me
+And I want you to see, I can walk on water
+Thousand miles from shore, I can float on the water
+Father, hold me close, don''t let me drown
+I know you won''t
+
+Yeah, walkin'' on the bridge, I threw my sins over the deep end
+Sippin'' ''til my stomach hurt, this month I done lost three friends
+Early mornin'', brainstormin'', normally I can''t sleep in
+Sometimes I just wanna restart it, but it all depends
+If I''ma be that same young, hungry **** from West End
+Wrote my hardest wrongs and the crazy part, I ain''t have no pen
+Maybach interior camе with sheepskin
+Still remember whеn I just had three bands
+Now I''m the one everyone call on ''cause I got deep pants
+Bro told me to wait to beat the game, it''s only defense and
+Never fazed by names that they might call me, but they gon'' respect
+And I feel like you better off tryin'' to call, I might not get the message
+She just tried to run off with my heart, but I blocked off the exit, yeah
+
+Oh-oh, I know You won''t (I know You won''t)
+I know You won''t (Oh, yeah, oh, yeah, yeah, yeah)
+I know You won''t
+I know that You look over us (I know)
+So we silently sleep
+Bring down the rain, yeah, oh
+[Verse 2: Kanye West]
+Mm-mm-mm-mm-mm, I was out for self
+Mm-mm-mm-mm-mm, I was up for sale, but I couldn''t tell
+God made it rain, the devil made it hail
+Dropped out of school, but I''m that one at Yale
+Made the best tracks and still went off the rail
+Had to go down, down, down, this the new town, town, town
+This the new ten, ten, ten, I''m goin'' in, in, in
+Here I go on a new trip, here I go actin'' too lit
+Here I go actin'' too rich, here I go with a new chick
+And I know what the truth is, still playin'' after two kids
+It''s a lot to digest when your life always movin''
+Architectural Digest, but I needed home improvement
+Sixty-million-dollar home, never went home to it
+Genius gone clueless, it''s a whole lot to risk
+Alcohol anonymous, who''s the busiest loser?
+Heated by the rumors, read into it too much
+Fiendin'' for some true love, ask Kim, "What do you love?"
+Hard to find what the truth is, but the truth was that the truth suck
+Always seem to do stuff, but this time it was too much
+Mm-mm-mm-mm-mm, everybody so judgemental
+Everybody so judgemental
+Everybody hurts, but I don''t judge rentals
+Mm-mm-mm-mm-mm, it was all so simple
+
+
+I see you in 3D, the dawn is bright for me
+No more dark for me, I know You''re watchin'' me
+Eighty degrees, burnin'' up the leaves
+Finally, I''m free, finally, I''m free
+As I go out to sea, I can walk on water
+Won''t you shine Your light? Demons stuck on my shoulder
+Father, hold me close, don''t let me drown
+I know You won''t source genius.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Hurricane'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Speed of light (ohhhh- Ohhh- ohhhh-ohh)
+Ohhhh
+Speed of light
+Ohhh
+Speed of light
+Ohhh
+Speed of light
+Ohhh
+Catch me, Catch me
+Catch me, Catch me
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+(Background singing)
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+(Background singing)
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+Speed of light
+I cant slow down, i cant slooow down
+I cant slow down, im at the speed of light
+At the speed of light.
+Im at the speeeed of light
+At the speed of liiight
+Im at the speed of light
+Cant
+Slow
+Down
+Now (source: genius.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Speed of Light'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('I wanted you to be the last thing on my mind
+I wanted you to be the reason I close my eyes
+But I can''t sleep
+And oh God, I wanted to be your high
+But everything I said, went unheard
+And everything you saw
+With eyes straight blurred became our downfall
+''Cause you say I drink
+And I smoke, and I talk too much
+But I know you lied
+When you said you just gotta go and save yourself
+So hear me out
+You know everybody talks girl
+And it means nothing ''til you let it
+But if you keep second guessing
+Then there''s only gonna be one end
+But you can leave, if you really want to
+And you can run, if you feel you have to
+Now I''ll be fine, if you ever ask me
+I know it''s hard, but no one said it''s easy
+Falling''s easy
+But there''s only one way up
+So, I''ve been thinking that I think too much
+And I can''t sleep, but I can dream of us
+And I''ve been seeing shit, like horror cuts
+It''s burning down, I gotta drown this out
+And you said you need me to let this go
+But it''s who I am, or am I just losing it
+''Cause you said jump and I went first
+But falling''s always been my downfall
+And you say I drink
+And I smoke, and I talk too much
+But I know you lied
+When you said that you just had enough and save yourself
+So hear me out
+You know everybody talks girl
+And it means nothing ''til you let it
+And if you keep second guessing
+Then there''s only gonna be one end
+But you can leave, if you really want to
+And you can run, if you feel you have to
+And I can drink, if I feel I have to
+I know it''s hard, but I can''t feel like I used to
+Like I used to
+''Cause I used to, defy gravity
+Defy gravity
+Goodbyes keep dragging me down
+And I''m fighting gravity
+Defying gravity
+I tried, but I keep falling
+''Cause falling''s easy
+But it only brings you down (source: musixmatch.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Gravity'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('And I said, what''s up?
+What you been thinking?
+''Cause you''ve been staring at that roof so long I''d swear it''s come alive
+And she spoke nine words
+And now we''re sinking
+But I can''t find it in myself to want to lie to keep this thing from going down
+''Cause that girl took my heart
+And I ain''t want it back
+No
+I''m laying down my cards
+''Cause you said it meant nothing
+And I should''ve kept my silence
+But I guess I''m too attached to my own pride to let you know
+That all these words meant nothing
+And I''ve always been this heartless
+And we were just having sex no I would never call it love
+But love
+Oh no, I think I''m catching feelings
+And I don''t know if this is empathy I feel
+Just hold on
+Remember why you said this was the last time?
+So I guess it''s...
+Let die to let live
+And what''s good
+When both choices I''ve got have us staring down the barrel to the bullets I can''t stop?
+And so I stand off
+Like indecision''s Kevlar
+''Til this fear of feeling stops and I''m done
+But you
+No, I don''t know how to forget you
+No, I don''t know how to forget you
+No, I don''t know how to forget you
+No, I don''t know how to forget you
+''Cause that girl took my heart
+(No, I don''t know how to forget you)
+And I ain''t want it back, no
+(No, I don''t know how to forget you)
+A bulletproof restart
+Oh no, I think I''m catching feelings and
+I don''t know if this is empathy I feel
+Just hold on
+Remember why you said this was the last time?
+So I guess it''s...
+Let die to let live
+No, I don''t know how to forget you
+No, I don''t know how to forget you
+No, I don''t know how to forget you
+No, I don''t know how to forget you (source: musixmatch.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'sex'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Ooh-ooh-ooh
+Keep my spirit alive
+Keep my spirit alive, alive
+More than enough
+You can take it all, but the Lord on my side
+The spirit won''t die-ie
+Oh, oh, all my life, yeah
+Is in His hands, so I don''t stress, I pray and strategize
+Yo, flushed the work just in time and they raided
+Thank God (thank God)
+Screamin'' through the GT roof like, we done made it (skrrt)
+Thank God (thank God)
+Hundred round drum didn''t jam when my shooter try spray it
+Thank God (thank God) (brrr)
+Dropped a thousand grams, got two thousand grands when we waited
+Thank God (thank God)
+I was facin'' fifteen and I beat it (and I beat it)
+Just spent about twenty up at Neimans (up at Neimans)
+Did two-hundred in a Demon (in a Demon, skrrt)
+I''m the illest n-, and I mean it (and I mean it)
+My homie droppin'' bodies for no reason (boom, boom, boom)
+Now his kids see him on the weekends (argh)
+Got the baking soda for the remix (remix)
+Millionaires on, I can see it
+More than enough
+You can take it all, but the Lord on my side
+The spirit won''t die-ie
+Oh, oh, all my life, yeah
+Is in His hands, so I don''t stress, I pray and strategize
+Yeah, don''t hate me ''cause my heart is full of love
+No weapon formed against me ''cause I''m covered in the blood
+Layin'' in the hospital when I got shot, fam
+Mama prayed for me, said she left it in God''s hands, yeah
+So I''ma leave it in God''s hands
+Everything I''m doin'' now is God''s plan
+Doctor said I wouldn''t walk no more, now I stand
+Then I ran, here I am, Machine
+Keep my spirit alive
+More than enough
+You can take it all, but the Lord on my side
+Well, between a mix of bad schools with the fast-food
+Bad had tools and a bad mood
+If you don''t turn to a lil'' Gotti they gon'' drain all the strength in your lil'' body
+They turned me into a lil'' Gotti, uh, yeah
+Not Wakanda but Wakanda is kinda like what we ''bout to make
+And who gon'' make it? Kan'', duh
+Who the squad? Donda
+Who the mom? Donda
+Who can see? Don, duh, get Don C
+Who needs practice? I don''t do rehearsals
+And I don''t do commercials ''cause they too commercial
+Give it all to God and let Jesus reimburse you
+She said "You in the studio with who? I''ma hurt you"
+How I''m forty-two and you got a curfew?
+How nerves dictate how they gon'' curve you?
+Quiet all the cordialness
+We walk in God''s spiritual ordinance
+We know the blacks, the orphans, refused to be runaways
+Rebel, renegade, must stay paid
+More than enough
+You can take it all, but the Lord on my side
+The spirit won''t die-ie
+Oh, oh, all my life, yeah
+Is in His hands, so I don''t stress, I pray and strategize (source: lyricfind.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Keep My Spirit Alive'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('I wanna go to the moon, don''t leave so soon (Don''t leave so soon)
+How could I get through? (How could I get through?)
+I wanna go to the moon, don''t leave so soon (Don''t leave so soon)
+How could I get through? (How could I get through?)
+I wanna go to the moon, don''t leave so soon (Don''t leave so soon)
+How could I get through? (How could I get through?)
+
+Mhm, here we go strappin'', we up
+Never forget all the memories
+Sittin'', I sip out my cup
+Thinkin'' I should be a better me
+Truly I''m blessed from the start
+So much to say in these melodies, oh
+Stare at the sky, the moon singin'' sweet
+Oh, my God, such a sweet moment
+Angels, they say I''m not ever weak, such a lonely moment
+Heaven knows I might never sleep, trouble in my soul
+Hey, I''ve been prayin'', life can be drainin'', oh
+Hey, we were late, tryna keep haulin'' on
+I''m ashamed and yet, what I will see, ain''t nobody knows, so I go
+
+How can I get through? (Don''t leave so soon)
+How can I get through? (To the moon)
+How can I get through? (To the moon)
+Early afternoon, I wanna go to the moon (Take you to the moon)
+Don''t leave so soon (Woah)
+Don''t leave so soon
+How could I get through? (Yeah)
+How can I get through? (Ooh)
+Early afternoon, I wanna go to the moon (Ooh, take you to the moon)
+Don''t leave so soon (Ooh)
+Don''t leave so soon (Don''t leave so soon)
+How could I get through? (How could I get through?)
+[Outro: Kid Cudi, Don Toliver]
+Yeah-yeah
+Woah-oh, oh-oh, oh-oh
+Woah-oh, oh-oh, oh-oh (source: genius.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Moon'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Melodymania
+Don''t break that spell
+Don''t take me out
+Losing self-control again
+He calls my name
+He calls my name
+Do Do Do Do
+Melody
+Do Do Do Do
+Mania
+Do Do Do Do
+Melody
+Do Do Do Do
+Mania
+Melody will set you free
+Let you take control of me
+Mania
+Melody will set you free
+Let you take control of me
+Melody will set you free
+Oh - breathe - oh - oh
+Melodymania
+Don''t break that spell
+Don''t take me out
+Losing self-control again
+He calls my name
+He calls my name
+Do Do Do Do
+Melody
+Do Do Do Do
+Mania
+Do Do Do Do
+Melody
+Do Do Do Do
+Mania
+Melody will set you free
+Let you take control of me
+Oh
+Mania
+Mania
+Melody will set you free
+Let you take control of me
+Melody will set you free
+Oh - breathe - oh - oh (source: musixmatch.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Melodymania'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Staring back in trance
+Barely moaning
+Eyes creep over her face
+Holes are lonely
+Can I hand you a ladder
+Before I''m million miles above?
+Oh let me shine through you
+Seeing clearly ain''t enough
+
+Tear me into the big black hole again
+It''s the only place for gamma rays
+
+I''ve been calling out your name
+Don''t hesitate
+I''ve been sending you the ray
+At a tearing pace
+
+I''ve been calling out
+Don''t hesitate
+I''ve been sending you
+At a tearing pace
+
+Fading is part of the game
+Oh I told ya
+A fake view through the pane
+That''s what I sold ya
+Hey! We got stuck!
+We chose the villain and how he''ll end it
+Don''t tell me that I need ya
+Watch the big black hole expanding
+Load the gamma rays
+
+I''ve been calling out your name
+Don''t hesitate
+I''ve been sending you the ray
+At a tearing pace
+
+Let me go through ya
+Let me conclude us
+A fortunate failure
+Many unexpected flavors
+
+Pressures begin to rise. This is mission control Houston. 
+We are taking over commentary at this point as we come up on 
+the first two critical Orion program milestones – the service module 
+fairing panel jettison and the Launch Abort System jettison. 
+Standing by for those first two critical events
+
+I''ve been calling out your name
+Don''t hesitate
+I''ve been sending you the ray
+At a tearing pace
+
+Let me go through ya
+Let me conclude us
+Don''t hesitate
+A fortunate failure
+Many unexpected flavors
+At a tearing pace
+
+Gamma, gamma rays
+Gamma
+Gamma, gamma rays
+Gamma
+Gamma, gamma rays
+Gamma
+Gamma, gamma rays
+Gamma
+Gamma, gamma rays
+Gamma
+Gamma, gamma rays
+Gamma (source: genius.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Gamma'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Since you feel the skull behind my cheek
+You''re scared that I''m not well anymore
+No matter who you tell
+They say I gave my smile for black rings
+Then it becomes night when I blink
+No matter who you tell
+
+Since you feel the skull behind my cheek
+You''re scared that I''m not well anymore
+No matter who you tell
+No reason to live healthy, ''cause
+Sky ain''t the limit, sky ain''t the limit
+Death is
+
+So hold on to me
+Although our way won''t be
+A safe terrain
+Oh hollow me
+Tell me would you hold on
+To a skeleton
+
+You''re scared that I''m not well anymore
+No matter who you tell
+They say I gave my smile for dark rings
+Then it becomes night when I blink
+Hold on to me
+Although our way won''t be
+A safe terrain
+Oh hollow me
+Tell me would you hold on
+To a skeleton
+
+Hold on to me
+Although our way won''t be
+A safe terrain
+Oh hollow me
+Tell me would you hold on
+To a skeleton
+
+Hold on to me
+Tell me would you hold on
+
+Hold on to me
+
+Then I lost my mind
+In the prairie of time
+But a bird was kind
+And sang a song
+
+Brother wind led the tones
+The way I had to go
+Would you sing for me now
+As I lie on the ground
+And the only direction
+Is heaven? (source: genius.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Skeleton'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('Take what you want
+Take everything
+Take what you want
+Take what you want
+Better that I change my number so you can''t explain
+Violence in the night, violence in the night
+Priors, priors, do you have any priors?
+Well, that one time, I''ll be honest
+I''ll be honest, we all liars
+Let it go
+I''ll be honest, we all liars
+I''ll be honest, we all liars
+I''m pulled over and I got priors
+Guess we goin'' down, guess who''s goin'' to jail?
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+God gon'' post my bail tonight
+Don''t you curse at me on text, why you try to hit the flex?
+I hold up, like, "What?" I scroll, I scroll up like, "Next"
+Guess who''s gettin'' exed? Like, next
+Guess who''s gettin'' exed?
+You made a choice, that''s your bad
+Single life ain''t so bad, but we ain''t finna go there
+Something''s off, I''ll tell you why
+Guess who''s goin'' to jail tonight?
+What a grand plan to sell you out
+I could scream and shout, let it out
+I''ll be honest, we all liars
+I''ll be honest, we all liars
+I''m pulled over and I got priors
+Guess we goin'' down, guess who''s goin'' to jail?
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+God gon'' post my bail tonight
+God in my cells, that''s my celly
+Made in the image of God, that''s a selfie
+Pray five times a day, so many felonies
+Who gon'' post my bail? Lord, help me
+Hol'' up, Donda, I''m with your baby when I touch back road
+Told him, "Stop all of that red cap, we goin'' home"
+Not me with all of these sins, casting stones
+This might be the return of The Throne, Throne
+Hova and Yeezus, like Moses and Jesus
+You are not in control of my thesis
+You already know what I think ''bout thinkpieces
+''Fore you ask, he already told you who he think he is
+Don''t try to jail my thoughts and think precincts
+I can''t be controlled with program and presets
+Reset
+On my cell, in my cell tonight
+Don''t have to see you to touch you
+This is what braille look like, it''s on sight, huh, huh, huh
+If they take me to jail, call my girl, tell her send my mail
+We know what Hell look like, still, it''s a hell of a life, yikes
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+Guess who''s goin'' to jail tonight?
+God gon'' post my bail tonigh (souce: musixmatch.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'Jail'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('''Cause I had the best of the worst sides
+And I had these lungs, oh
+And I had too many flash fires
+That I just let them burn
+''Til my chest is on fire
+And my head just won''t die
+I guess I''m lying ''cause I wanna
+I guess I''m lying ''cause I don''t
+''Cause I just feel so tired
+Like it''s move or slowly die
+You say, you ain''t you when you''re like this
+This ain''t you and you know it
+But ain''t that just the point?
+You don''t know
+How to let go, who said this must be all or nothing?
+But I''m still caught below
+And I''ll never let you know
+No, I can''t tell you nothing
+''Cause I''m a fucking mess sometimes
+But still I could always be
+Whatever you wanted but not what you needed
+Especially when you been needing me
+''Cause I''m a fucking mess sometimes
+And I''ll say what I don''t mean
+Just ''cause I wanted or maybe I need it
+Swear lying''s the only rush I need, yeah
+''Cause all I needed was some words to say
+That all these feelings don''t mean shit to me
+''Cause it''s all just chemicals anyway, anyway, yeah
+And I got way too many routes to take to make this all just go away
+And find another heart to break, so heartless with these words I say
+Just saying what I''m supposed to say ''cause I had nothing for you
+I can''t love when I can''t even love myself
+Things I would rather be, thoughts at the back of my head but I''m addicted to hurting
+And I got these lungs, yeah
+And I spent too many late nights
+Just thinking a hole in the earth
+''Til the sky is on fire
+And my head still won''t die
+I guess I''m lying ''cause I want to
+I guess I''m lying ''cause I don''t
+''Cause I just feel so tired
+Like I need something to come alive
+She said, "you ain''t you when you''re like this
+This ain''t you, what you done?"
+And I said, "That''s the point"
+And you don''t know how to let go
+Who said this must be all or nothing?
+But I''m still caught below
+And I''ll never let you know
+No I can''t tell you nothing
+''Cause I''m a fucking mess sometimes
+But still, I could always be
+Whatever you wanted but not what you needed
+Especially when you been needing me
+''Cause I''m a fucking mess inside
+And I''ll say what I don''t mean
+Just ''cause I wanted or maybe I need it
+Swear lying''s the only rush I need, yeah, yeah, yeah, yeah
+Yeah I need it, I need it, yeah, yeah, yeah (souce: lyricfind.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'drugs'), '20210917 00:00:00');
+
+INSERT INTO lyrics (text, verified, userID, songID, creationTime) VALUES
+('So tell me this is who you are
+They tell me, I''ve got something more
+And oh, you could be loved
+But I don''t want the lights to
+Find me when I''m dark and lost, but never on my own
+''Cause I just wanna swing like Sinatra
+Singing like I can''t stop
+''Cause I can never rock like a Rolling Stone
+I just wanna live like the ones before, yeah
+And maybe I could play guitar like Hendrix
+Or save the world or end it
+And maybe they''ll remember me when I''m gone
+That''s all I could ever want
+That''s all I want
+So I got ten minutes to be all or nothing to
+Whoever wants to hear
+And I got ten weeks of talking bullshit on repeat
+''Til I''m burnt out and disappear
+But I owe you nothing
+And I own my luck
+Oh, they say you''ll never be alone again
+But I don''t think you understand me or what I fear
+But you could be loved
+But I don''t wanna lie to
+Tell myself I''m more than all the mistakes I''ve outrun
+But I''m only here for a minute
+And I don''t care what you say
+''Cause I know you''re only here ''cause I''m winning
+But I can be my own kind of rock and roll, like
+I don''t really care if you say, you don''t fuck with me
+And I can say what the fuck I want ''cause it''s down to me
+And I got love for you even if you were doubting me
+Like, oh my God, I just can''t stop
+''Cause I just wanna sing like Sinatra
+With ethanol my soundtrack
+''Cause I could never rock like a Rolling Stone
+And wonder how it feels to burnout young
+''Cause I just wanna die before my heart fails
+From heartbreak or cocktails
+And maybe you''ll cry once you know I''m gone
+That''s all I could ever want
+Oh, that''s all I want, yeah
+''Cause I ain''t scared of livin''
+No, I ain''t scared of livin''
+(Yes, It gets easier)
+(Oh yeah? Lo
+No I ain''t scared of livin''
+''Cause it''s all we''ve got
+What are we breathin'' for if we ain''t livin''?
+And I don''t want your love
+I just wanna feel like I''m still livin''
+And if there is no God
+I''ll know the day I die I lived through heaven
+And that I gave it hell
+And if it hurt, oh well
+At least that''s living
+That''s all I want
+(The less you let things upset you)
+That''s all I want
+(I just don''t know what I''m supposed to be)
+(Ya know?)
+(I tried being a writer, but umf
+I hate what I write and ahh
+I tried taking pictures, but
+They''re so mediocre, you know?
+And every girl goes through a photography phase
+You know, like horses?
+And take uh, dumb pictures of your feet)
+(You''ll figure that out
+I''m not worried about you) (source: musixmatch.com)'
+, 'Y', '00000000-0000-0000-0000-000000000000', (SELECT songID FROM song WHERE name = 'rock + roll'), '20210917 00:00:00');
