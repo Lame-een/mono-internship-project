@@ -1,4 +1,4 @@
-# Praksa2021-g03-02
+# Internship project for Mono Software Ltd.
 
 ## Lyre - a site for song lyrics lookups
 
