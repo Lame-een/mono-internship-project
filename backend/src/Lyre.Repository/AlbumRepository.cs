@@ -265,7 +265,7 @@ namespace Lyre.Repository
             {
                 connection.Open();
 
-                string queryString = "SELECT Album.albumID, Album.name, Artist.artistID, Artist.name FROM ALBUM " +
+                string queryString = "SELECT Album.albumID, Album.name, Artist.artistID, Artist.name, Album.Cover FROM ALBUM " +
                                      "INNER JOIN ARTIST ON (album.artistID = artist.artistID) " +
                                      qsManager.Filter.GetSql() +
                                      qsManager.Sorter.GetSql() +

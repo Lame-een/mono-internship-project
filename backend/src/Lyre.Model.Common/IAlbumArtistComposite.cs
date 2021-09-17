@@ -12,5 +12,6 @@ namespace Lyre.Model.Common
         string AlbumName { get; set; }
         Guid ArtistID { get; set; }
         string ArtistName { get; set; }
+        string Cover { get; set; }
     }
 }

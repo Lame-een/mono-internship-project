@@ -13,8 +13,9 @@ namespace Lyre.Model
         public string AlbumName { get; set; }
         public Guid ArtistID { get; set; }
         public string ArtistName { get; set; }
+        public string Cover { get; set; }
 
-        public const int FieldNumber = 4;
+        public const int FieldNumber = 5;
 
         public AlbumArtistComposite() { }
 
@@ -34,6 +35,14 @@ namespace Lyre.Model
             AlbumName = (string)obj[1];
             ArtistID = (Guid)obj[2];
             ArtistName = (string)obj[3];
+            if (obj[4].GetType() == typeof(DBNull))
+            {
+                Cover = null;
+            }
+            else
+            {
+                Cover = (string)obj[4];
+            }
         }
     }
 }

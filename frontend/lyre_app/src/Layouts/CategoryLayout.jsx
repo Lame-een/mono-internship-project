@@ -18,18 +18,22 @@ import '../Assets/CSS/SongSearchLayout.css'
 export default function CategoryLayout(props) {
     const table = props.table;
     const location = useLocation();
-    const inQuery = (new URLSearchParams(location.search)).get('q');
+    const [inQuery, setInQuery] = useState((new URLSearchParams(location.search)).get('q'));
     const [radioSelection, setRadioSelection] = useState("ASC");
     const [query, setQuery] = useState(null);
 
-    useEffect(()=>{
-        if(inQuery != null){
+    useEffect(() => {
+        if (inQuery != null) {
             setQuery({
                 "filter": inQuery,
                 "sortby": '',
                 "orderby": 'ASC'
             });
         }
+
+        return function cleanup() {
+            setInQuery(null);
+        };
     }, []);
 
     function genSelectionOptions() {
@@ -70,7 +74,7 @@ export default function CategoryLayout(props) {
                     placeholder={`Search ${table}s`}
                 />
 
-                <InputGroup  className="song__search__sort">
+                <InputGroup className="song__search__sort">
                     <InputGroupAddon addonType="prepend" >
                         <InputGroupText className="song__search__radius-left">Sort By:</InputGroupText>
                     </InputGroupAddon>

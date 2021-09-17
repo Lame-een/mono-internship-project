@@ -51,12 +51,12 @@ export default function QueryList(props) {
         }
         else if (table === 'album') {
             if (query.filter !== '') {
-                str += 'q=albumname' + query.filter;
+                str += 'q=albumname:' + query.filter;
             }
         }
         else if (table === 'artist') {
             if (query.filter !== '') {
-                str += 'q=artistname' + query.filter;
+                str += 'q=artistname:' + query.filter;
             }
         } else {
             if (query.filter !== '') {
@@ -83,7 +83,7 @@ export default function QueryList(props) {
 
     function getQuery() {
         if (query == null) return;
-        axios.get(formatQuery()).then((response) => { setResults(response.data) });
+        axios.get(formatQuery()).then((response) => { setResults(response.data);});
     }
 
     function genMedia(queryObj) {
@@ -170,17 +170,20 @@ export default function QueryList(props) {
         let itemIndex = 0;
         while (itemIndex < 8) {
             for (let j = 0; j < 2; j++) {
-                let media;
-                if (itemIndex >= queryResults.length) media = <div />;
-                else media = genMedia(queryResults[itemIndex]);
-                colBuffer.push((<Col className="col-query" key={itemIndex} >{media}</Col>));
+                if (itemIndex >= queryResults.length){
+                    colBuffer.push((<Col className="col-query" key={itemIndex} >{<div/>}</Col>));
+                }
+                else{
+                    colBuffer.push((<Col className="col-query" key={itemIndex} >{genMedia(queryResults[itemIndex])}</Col>));
+                }
+                
                 itemIndex++;
             }
 
             let row = (
                 <Row className="querylist__row">
-                    {colBuffer[(itemIndex / 2) - 1]}
-                    {colBuffer[(itemIndex / 2)]}
+                    {colBuffer[itemIndex - 2]}
+                    {colBuffer[itemIndex - 1]}
                 </Row>
             );
 

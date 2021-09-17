@@ -1,10 +1,6 @@
 import React from 'react'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-
-//USAGE EXAMPLE:
-//<Paginator baseUrl="./song" maxPage="6"/>
-//MUST be used with a router with a :page parameter
 export default function QueryPaginator(props) {
 
     const page = parseInt(props.page);

@@ -57,10 +57,11 @@ class ArtistLayout extends React.Component {
                     </div>
                 </div>
 
-                <div className="artist__body__list">
+                <div className="song__lyrics">
                     <Container>
                         <Col>
                             <Row>Albums:</Row>
+                            <Row>&nbsp;</Row>
                             {this.genRows()}
                         </Col>
                     </Container>

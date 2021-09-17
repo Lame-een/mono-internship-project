@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
     Input,
     InputGroup,
@@ -40,10 +40,14 @@ export default function LoginLayout() {
             sessionStorage.setItem('token', toekn);
 
             history.push('/');
-        }).catch(() => {
-            setModal(true);
+        }).catch((error) => {
+            switch (error.response.status) {
+                case 400:
+                    setModal(true);
+                    break;
+                default: console.log(error.response)
+            }
         });
-        //context.setLoggedIn(true);
 
     }
 
@@ -65,8 +69,7 @@ export default function LoginLayout() {
                 </InputGroup>
 
             </Form>
-            {/*<Modal isOpen={modal} toggle={toggleModal} className="login__modal__error">*/}
-            <Modal isOpen={modal} toggle={toggleModal}>
+            <Modal isOpen={modal} toggle={toggleModal} className="login__modal__error">
                 <ModalBody>
                     Wrong username or password.
                 </ModalBody>
